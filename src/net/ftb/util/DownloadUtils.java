@@ -1,9 +1,11 @@
 package net.ftb.util;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -13,11 +15,16 @@ import java.nio.channels.ReadableByteChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
+import java.util.HashMap;
 import java.util.Scanner;
 
+import net.ftb.data.Settings;
+import net.ftb.gui.LaunchFrame;
 import net.ftb.log.Logger;
 
-public class DownloadUtils {
+public class DownloadUtils extends Thread {
+	public static boolean serversLoaded = false; 
+	public static HashMap<String, String> downloadServers = new HashMap<String, String>();
 	private static String currentmd5 = "";
 
 	/**
@@ -29,32 +36,18 @@ public class DownloadUtils {
 		if(currentmd5.isEmpty()) {
 			currentmd5 = md5("mcepoch1" + getTime());
 		}
-		String resolved = "http://repo.creeperhost.net/direct/FTB2/" + currentmd5 + "/" + file;
+		String resolved = (downloadServers.containsKey(Settings.getSettings().getDownloadServer())) ? "http://" + downloadServers.get(Settings.getSettings().getDownloadServer()) : "http://www.creeperrepo.net";
+		resolved += "/direct/FTB2/" + currentmd5 + "/" + file;
 		HttpURLConnection connection = null;
 		try {
 			connection = (HttpURLConnection) new URL(resolved).openConnection();
-		} catch (MalformedURLException e1) {
-			Logger.logError(e1.getMessage(), e1);
-		} catch (IOException e1) { 
-			Logger.logError(e1.getMessage(), e1);
-		}
-		try {
-			int retries = 1;
-			while(connection.getResponseCode() != 200 && retries <= 3) {
-				connection.disconnect();
-				resolved = "http://repo" + retries + ".creeperhost.net/direct/FTB2/" + currentmd5 + "/" + file;
-				retries++;
-				try {
+			for(String server : downloadServers.values()) {
+				if(connection.getResponseCode() != 200 && !server.equalsIgnoreCase("www.creeperrepo.net")) {
+					resolved = "http://" + server + "/direct/FTB2/" + currentmd5 + "/" + file;
 					connection = (HttpURLConnection) new URL(resolved).openConnection();
-				} catch (MalformedURLException e) {
-					Logger.logError(e.getMessage(), e);
-				} catch (IOException e) {
-					Logger.logError(e.getMessage(), e);
 				}
 			}
-		} catch (IOException e) {
-			Logger.logError(e.getMessage(), e);
-		}
+		} catch (IOException e) { }
 		connection.disconnect();
 		Logger.logInfo(resolved);
 		return resolved; 
@@ -65,35 +58,42 @@ public class DownloadUtils {
 	 * @return - the direct link
 	 */
 	public static String getStaticCreeperhostLink(String file) {
-		String resolved = "http://repo.creeperhost.net/static/FTB2/" + file;
+		String resolved = (downloadServers.containsKey(Settings.getSettings().getDownloadServer())) ? "http://" + downloadServers.get(Settings.getSettings().getDownloadServer()) : "http://www.creeperrepo.net";
+		resolved += "/static/FTB2/" + file;
 		HttpURLConnection connection = null;
 		try {
 			connection = (HttpURLConnection) new URL(resolved).openConnection();
-		} catch (MalformedURLException e1) {
-			Logger.logError(e1.getMessage(), e1);
-		} catch (IOException e1) {
-			Logger.logError(e1.getMessage(), e1);
-		}
-		try {
-			int retries = 1;
-			while(connection.getResponseCode() != 200 && retries <= 3) {
-				connection.disconnect();
-				resolved = "http://repo" + retries + ".creeperhost.net/static/FTB2/" + file;
-				retries++;
-				try {
-					connection = (HttpURLConnection) new URL(resolved).openConnection();
-				} catch (MalformedURLException e) {
-					Logger.logError(e.getMessage(), e);
-				} catch (IOException e) {
-					Logger.logError(e.getMessage(), e);
+			if(connection.getResponseCode() != 200) {
+				for(String server : downloadServers.values()) {
+					if(connection.getResponseCode() != 200 && !server.equalsIgnoreCase("www.creeperrepo.net")) {
+						resolved = "http://" + server + "/static/FTB2/" + file;
+						connection = (HttpURLConnection) new URL(resolved).openConnection();
+					} else if(connection.getResponseCode() == 200) {
+						break;
+					}
 				}
 			}
-		} catch (IOException e) {
-			Logger.logError(e.getMessage(), e);
-		}
+		} catch (IOException e) { }
 		connection.disconnect();
 		Logger.logInfo(resolved);
 		return resolved; 
+	}
+	
+	/**
+	 * @param file - file on the repo in static
+	 * @return true if the file exists
+	 */
+	public static boolean staticFileExists(String file) {
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(getStaticCreeperhostLink(file)).openStream()));
+			if(!reader.readLine().toLowerCase().contains("not found")) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	/**
@@ -122,27 +122,32 @@ public class DownloadUtils {
 	public static String getTime() {
 		String content = null;
 		Scanner scanner = null;
-		int retries = 1;
+		String resolved = (downloadServers.containsKey(Settings.getSettings().getDownloadServer())) ? "http://" + downloadServers.get(Settings.getSettings().getDownloadServer()) : "http://www.creeperrepo.net";
+		resolved += "/getdate";
+		HttpURLConnection connection = null;
 		try {
-			HttpURLConnection connection = (HttpURLConnection) new URL("http://repo.creeperhost.net/getdate").openConnection();
-			while(connection.getResponseCode() != 200 && retries <= 3) {
-				connection.disconnect();
-				connection = (HttpURLConnection) new URL("http://repo" + retries + ".creeperhost.net/getdate").openConnection();
-				retries++;
+			connection = (HttpURLConnection) new URL(resolved).openConnection();
+			if(connection.getResponseCode() != 200) {
+				for(String server : downloadServers.values()) {
+					if(connection.getResponseCode() != 200 && !server.equalsIgnoreCase("www.creeperrepo.net")) {
+						resolved = "http://" + server + "/getdate";
+						connection = (HttpURLConnection) new URL(resolved).openConnection();
+					} else if(connection.getResponseCode() == 200) {
+						break;
+					}
+				}
 			}
 			scanner = new Scanner(connection.getInputStream());
 			scanner.useDelimiter( "\\Z" );
 			content = scanner.next();
-			connection.disconnect();
-		} catch (java.net.UnknownHostException uhe) {
-			Logger.logError(uhe.getMessage(), uhe);
-		} catch (Exception ex) {
-			Logger.logError(ex.getMessage(), ex);
+		} catch (IOException e) { 
 		} finally {
+			connection.disconnect();
 			if (scanner != null) {
 				scanner.close();
 			}
 		}
+		Logger.logInfo(resolved);
 		return content;
 	}
 
@@ -169,35 +174,40 @@ public class DownloadUtils {
 	/**
 	 * Checks the file for corruption.
 	 * @param file - File to check
-	 * @return - boolean representing if it is valid
+	 * @return boolean representing if it is valid
 	 * @throws IOException 
 	 */
-	public static boolean isValid(File file) throws IOException {
+	public static boolean isValid(File file, String url) throws IOException {
 		String content = null;
 		Scanner scanner = null;
-		int retries = 1;
+		String resolved = (downloadServers.containsKey(Settings.getSettings().getDownloadServer())) ? "http://" + downloadServers.get(Settings.getSettings().getDownloadServer()) : "http://www.creeperrepo.net";
+		resolved += "/md5/FTB2/" + url;
+		HttpURLConnection connection = null;
 		try {
-			HttpURLConnection connection = (HttpURLConnection) new URL("http://repo.creeperhost.net/md5/FTB2/" + file.getName()).openConnection();
-			while(connection.getResponseCode() != 200 && retries <= 3) {
-				connection.disconnect();
-				connection = (HttpURLConnection) new URL("http://repo" + retries + ".creeperhost.net/md5/FTB2/" + file.getName()).openConnection();
-				retries++;
+			connection = (HttpURLConnection) new URL(resolved).openConnection();
+			if(connection.getResponseCode() != 200) {
+				for(String server : downloadServers.values()) {
+					if(connection.getResponseCode() != 200 && !server.equalsIgnoreCase("www.creeperrepo.net")) {
+						resolved = "http://" + server + "/md5/FTB2/" + url;
+						connection = (HttpURLConnection) new URL(resolved).openConnection();
+					} else if(connection.getResponseCode() == 200) {
+						break;
+					}
+				}
 			}
 			scanner = new Scanner(connection.getInputStream());
 			scanner.useDelimiter( "\\Z" );
 			content = scanner.next();
-			connection.disconnect();
-		} catch (java.net.UnknownHostException uhe) {
-			Logger.logError(uhe.getMessage(), uhe);
-		} catch (Exception ex) {
-			Logger.logError(ex.getMessage(), ex);
+		} catch (IOException e) { 
 		} finally {
+			connection.disconnect();
 			if (scanner != null) {
 				scanner.close();
 			}
 		}
 		String result = fileMD5(file);
-		Logger.logInfo(result);
+		Logger.logInfo("Local: " + result.toUpperCase());
+		Logger.logInfo("Remote: " + content.toUpperCase());
 		return content.equalsIgnoreCase(result);
 	}
 
@@ -208,25 +218,57 @@ public class DownloadUtils {
 	 * @throws IOException 
 	 */
 	private static String fileMD5(File file) throws IOException {
+		if(!file.exists()) {
+			return "";
+		}
 		URL fileUrl = file.toURI().toURL();
 		MessageDigest dgest = null;
 		try {
 			dgest = MessageDigest.getInstance("md5");
-		} catch (NoSuchAlgorithmException e) {
-			Logger.logError(e.getMessage(), e);
-		}
-
+		} catch (NoSuchAlgorithmException e) { }
 		InputStream str = fileUrl.openStream();
 		byte[] buffer = new byte[65536];
 		int readLen;
-		while ((readLen = str.read(buffer, 0, buffer.length)) != -1) {
+		while((readLen = str.read(buffer, 0, buffer.length)) != -1) {
 			dgest.update(buffer, 0, readLen);
 		}
 		str.close();
 		Formatter fmt = new Formatter();    
-		for (byte b : dgest.digest()) { 
+		for(byte b : dgest.digest()) { 
 			fmt.format("%02X", b);    
 		}
 		return fmt.toString();
+	}
+
+	/**
+	 * Used to load all available download servers in a thread to prevent wait.
+	 */
+	@Override
+	public void run() {
+		downloadServers.put("Automatic", "www.creeperrepo.net");
+		BufferedReader in = null;
+		try {
+			in = new BufferedReader(new InputStreamReader(new URL("http://www.creeperrepo.net/mirrors").openStream()));
+			String line;
+			while((line = in.readLine()) != null) {
+				String[] splitString = line.split(",");
+				if(splitString.length == 2) {
+					downloadServers.put(splitString[0], splitString[1]);
+				}
+			}
+			in.close();
+		} catch (IOException e) {
+			Logger.logError(e.getMessage(), e);
+		} finally {
+			if(in != null) {
+				try {
+					in.close();
+				} catch (IOException e) { }
+			}
+		}
+		serversLoaded = true;
+		if(LaunchFrame.getInstance() != null && LaunchFrame.getInstance().optionsPane != null) {
+			LaunchFrame.getInstance().optionsPane.setDownloadServers();
+		}
 	}
 }

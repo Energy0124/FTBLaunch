@@ -1,47 +1,59 @@
 package net.ftb.data;
 
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Point;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Properties;
 
+import net.ftb.gui.LaunchFrame;
+import net.ftb.log.Logger;
 import net.ftb.util.OSUtils;
 
 public class Settings extends Properties {
-	private static final long serialVersionUID = 1L;
 	private static Settings settings;
-	private File configPath;
+	private File configFile;
 	private boolean forceUpdate = false;
 
-	public static void initSettings() throws IOException {
-		File cfgFile = new File(OSUtils.getDynamicStorageLocation(), "ftblaunch.cfg");
-		if (cfgFile.exists()) {
-			loadSettings(cfgFile);
-			return;
+	static {
+		try {
+			settings = new Settings(new File(OSUtils.getDynamicStorageLocation(), "ftblaunch.cfg"));
+		} catch (IOException e) {
+			Logger.logError("Failed to load settings", e);
 		}
-		settings = new Settings();
-		settings.setConfigFile(cfgFile);
-	}
-
-	public static void loadSettings(File file) throws FileNotFoundException, IOException {
-		settings = new Settings(file);
 	}
 
 	public static Settings getSettings() {
 		return settings;
 	}
 
-	public Settings() { }
-
 	public Settings(File file) throws IOException {
-		configPath = file;
-		load(new FileInputStream(file));
+		configFile = file;
+		if(file.exists()) {
+			load(new FileInputStream(file));
+		} else {
+			LaunchFrame.noConfig = true;
+		}
 	}
 
-	public void save() throws IOException {
-		store(new FileOutputStream(configPath), "FTBLaunch Config File");
+	public void save() {
+		try {
+			store(new FileOutputStream(configFile), "FTBLaunch Config File");
+		} catch (IOException e) {
+			Logger.logError("Failed to save settings", e);
+		}
 	}
 
 	public String getRamMax() {
@@ -77,7 +89,7 @@ public class Settings extends Properties {
 	}
 
 	public void setConfigFile(File path) {
-		configPath = path;
+		configFile = path;
 	}
 
 	public String getLocale() {
@@ -89,7 +101,7 @@ public class Settings extends Properties {
 	}
 
 	public File getConfigFile() {
-		return configPath;
+		return configFile;
 	}
 
 	public void setLastPack(String name) {
@@ -100,75 +112,180 @@ public class Settings extends Properties {
 		return getProperty("lastPack", ModPack.getPack(0).getDir());
 	}
 
-	public void setMinecraftX(String x) {
-		setProperty("minecraftX", x);
-	}
-
-	public String getMinecraftX() {
-		return getProperty("minecraftX", "854");
-	}
-
-	public void setMinecraftY(String y) {
-		setProperty("minecraftY", y);
-	}
-
-	public String getMinecraftY() {
-		return getProperty("minecraftY", "480");
-	}
-
-	public void setMinecraftXPos(String x) {
-		setProperty("minecraftXPos", x);
-	}
-
-	public String getMinecraftXPos() {
-		return getProperty("minecraftXPos", "300");
-	}
-
-	public void setMinecraftYPos(String y) {
-		setProperty("minecraftYPos", y);
-	}
-
-	public String getMinecraftYPos() {
-		return getProperty("minecraftYPos", "300");
-	}
-
-	public void setDownlaodServer(String server) {
+	public void setDownloadServer(String server) {
 		setProperty("downloadServer", server);
 	}
 
 	public String getDownloadServer() {
-		return getProperty("downloadServer", "0");
+		return getProperty("downloadServer", "Automatic");
 	}
-	
+
 	public void setConsoleActive(String console) {
 		setProperty("consoleActive", console);
 	}
-	
+
 	public String getConsoleActive() {
 		return getProperty("consoleActive", "true");
 	}
-	
-	public void setAutoMaximize(String autoMax) {
-		setProperty("autoMaximize", autoMax);
-	}
-	
-	public String getAutoMaximize() {
-		return getProperty("autoMaximize", "true");
-	}
 
-	public void setCenterWindow(String string) {
-		setProperty("centerWindow", string);
-	}
-
-	public String getCenterWindow() {
-		return getProperty("centerWindow", "false");
-	}
-	
 	public void setPackVer(String string) {
 		setProperty(ModPack.getSelectedPack().getDir(), string);
 	}
-	
+
 	public String getPackVer() {
-		return getProperty(ModPack.getSelectedPack().getDir(), "Newest Version");
+		return getProperty(ModPack.getSelectedPack().getDir(), "Recommended Version");
+	}
+
+	public String getLastAddPath() {
+		return getProperty("lastAddPath", "");
+	}
+
+	public void setLastAddPath(String string) {
+		setProperty("lastAddPath", string);
+	}
+
+	public void addPrivatePack(String code) {
+		if(code == null || code.isEmpty()) {
+			return;
+		}
+		if(getProperty("privatePacks") != null) {
+			ArrayList<String> packList = getPrivatePacks();
+			if(!packList.contains(code.toLowerCase())) {
+				packList.add(code);
+				setPrivatePacks(packList);
+			}
+		} else {
+			setProperty("privatePacks", code);
+		}
+	}
+
+	public void removePrivatePack(String code) {
+		ArrayList<String> codes = getPrivatePacks();
+		if(codes.contains(code)) {
+			codes.remove(code);
+		}
+		setPrivatePacks(codes);
+	}
+
+	public void setPrivatePacks(List<String> codes) {
+		String out = "";
+		String sep = "";
+		for(String s : codes) {
+			out += sep + s;
+			sep = ",";
+		}
+		setProperty("privatePacks", out);
+	}
+
+	public ArrayList<String> getPrivatePacks() {
+		String[] temp = getProperty("privatePacks", "").split(",");
+		if(temp.length > 0) {
+			ArrayList<String> packs = new ArrayList<String>();
+			for(String line : temp) {
+				packs.add(line);
+			}
+			return packs;
+		}
+		return null;
+	}
+
+	public void setNewsDate() {
+		setProperty("newsDate", Long.toString(Calendar.getInstance().getTime().getTime()));
+	}
+
+	public String getNewsDate() {
+		return getProperty("newsDate", Long.toString(new Date(0).getTime()));
+	}
+
+	public void setLastExtendedState(int lastExtendedState) {
+		setProperty("lastExtendedState", String.valueOf(lastExtendedState));
+	}
+
+	public int getLastExtendedState() {
+		return Integer.valueOf(getProperty("lastExtendedState", String.valueOf(Frame.MAXIMIZED_BOTH)));
+	}
+
+	public void setSnooper(String state) {
+		setProperty("snooperDisable", state);
+	}
+
+	public boolean getSnooper() {
+		return Boolean.parseBoolean(getProperty("snooperDisable", "false"));
+	}
+
+	public void setLastPosition(Point lastPosition) {
+		int x = lastPosition.x;
+		int y = lastPosition.y;
+		if(x < 0) {
+			x = 0;
+		}
+		if(y < 0) {
+			y = 0;
+		}
+		Point p = new Point(x, y);
+		setObjectProperty("lastPosition", p);
+	}
+
+	public Point getLastPosition() {
+		Point lastPosition = (Point) getObjectProperty("lastPosition");
+		if (lastPosition == null) {
+			lastPosition = new Point(300, 300);
+		}
+		return lastPosition;
+	}
+
+	public void setLastDimension(Dimension lastDimension) {
+		setObjectProperty("lastDimension", lastDimension);
+	}
+
+	public Dimension getLastDimension() {
+		Dimension lastDimension = (Dimension) getObjectProperty("lastDimension");
+		if (lastDimension == null) {
+			lastDimension = new Dimension(854, 480);
+		}
+		return lastDimension;
+	}
+
+	public void setObjectProperty(String propertyName, Serializable value) {
+		setProperty(propertyName, objectToString(value));
+	}
+
+	public Object getObjectProperty(String propertyName) {
+		return objectFromString(getProperty(propertyName, ""));
+	}
+
+	public static Object objectFromString(String s) {
+		if (s == null || s.isEmpty()) {
+			return null;
+		}
+		byte[] data = javax.xml.bind.DatatypeConverter.parseBase64Binary(s);
+		try {
+			ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
+			try {
+				return ois.readObject();
+			} finally {
+				ois.close();
+			}
+		} catch (Exception e) {
+			Logger.logError("Failed to read object from string: " + s, e);
+			return null;
+		}
+	}
+
+	private static String objectToString(Serializable o) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(baos);
+			try {
+				oos.writeObject(o);
+				return javax.xml.bind.DatatypeConverter.printBase64Binary(baos.toByteArray());
+			} finally {
+				baos.close();
+				oos.close();
+			}
+		} catch (Exception e) {
+			Logger.logError("Failed to write object to string" + o, e);
+			return null;
+		}
 	}
 }

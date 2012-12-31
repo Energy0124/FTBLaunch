@@ -29,6 +29,7 @@ import net.ftb.data.events.ModPackListener;
 import net.ftb.gui.LaunchFrame;
 import net.ftb.gui.dialogs.EditModPackDialog;
 import net.ftb.gui.dialogs.FilterDialogPacks;
+import net.ftb.gui.dialogs.SearchDialog;
 import net.ftb.locale.I18N;
 import net.ftb.locale.I18N.Locale;
 import net.ftb.log.Logger;
@@ -51,20 +52,19 @@ public class ModpacksPane extends JPanel implements ILauncherPane, ModPackListen
 	private static JEditorPane packInfo;
 
 	//	private JLabel loadingImage;
-	public static String type = "Client", origin = "All", mcVersion = "All";
+	public static String type = "Client", origin = "All", mcVersion = "All", avaliability = "All";
 	public static boolean loaded = false;
-	public static boolean searched;
 
 	private static JScrollPane infoScroll;
 
 	public ModpacksPane () {
 		super();
-		this.setBorder(new EmptyBorder(5, 5, 5, 5));
-		this.setLayout(null);
+		setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLayout(null);
 
 		splash = new JLabel();
 		splash.setBounds(420, 0, 410, 200);
-		this.add(splash);
+		add(splash);
 
 		packPanels = new ArrayList<JPanel>();
 
@@ -133,6 +133,7 @@ public class ModpacksPane extends JPanel implements ILauncherPane, ModPackListen
 		packsScroll.setWheelScrollingEnabled(true);
 		packsScroll.setOpaque(false);
 		packsScroll.setViewportView(packs);
+		packsScroll.getVerticalScrollBar().setUnitIncrement(19);
 		add(packsScroll);
 
 		packInfo = new JEditorPane();
@@ -171,9 +172,7 @@ public class ModpacksPane extends JPanel implements ILauncherPane, ModPackListen
 			modPacksAdded = true;
 			packs.removeAll();
 		}
-
 		final int packIndex = packPanels.size();
-		Logger.logInfo("Adding pack " + getModNum());
 		final JPanel p = new JPanel();
 		p.setBounds(0, (packIndex * 55), 420, 55);
 		p.setLayout(null);
@@ -207,7 +206,7 @@ public class ModpacksPane extends JPanel implements ILauncherPane, ModPackListen
 		p.add(logo);
 		packPanels.add(p);
 		packs.add(p);
-		if(origin.equals("All")) {
+		if(currentPacks.isEmpty()) {
 			packs.setMinimumSize(new Dimension(420, (ModPack.getPackArray().size() * 55)));
 			packs.setPreferredSize(new Dimension(420, (ModPack.getPackArray().size() * 55)));
 		} else {
@@ -223,136 +222,33 @@ public class ModpacksPane extends JPanel implements ILauncherPane, ModPackListen
 	@Override
 	public void onModPackAdded(ModPack pack) {
 		addPack(pack);
+		Logger.logInfo("Adding pack " + packPanels.size());
 		updatePacks();
 	}
 
-	private static void sortPacks() {
+	public static void sortPacks() {
 		packPanels.clear();
 		packs.removeAll();
 		currentPacks.clear();
 		int counter = 0;
 		selectedPack = 0;
 		packInfo.setText("");
-		LaunchFrame.getInstance().modPacksPane.repaint();
-		if(origin.equalsIgnoreCase("all")) {
-			for(ModPack pack : ModPack.getPackArray()) {
-				if(type.equalsIgnoreCase("client")) {
-					if(mcVersion.equalsIgnoreCase("all")) {
-						addPack(pack);
-						currentPacks.put(counter, pack);
-						counter++;
-					} else if(mcVersion.equalsIgnoreCase(pack.getMcVersion())) {
-						addPack(pack);
-						currentPacks.put(counter, pack);
-						counter++;
-					}
-				} else if (type.equalsIgnoreCase("server")) {
-					if(!pack.getServerUrl().isEmpty()) {
-						if(mcVersion.equalsIgnoreCase("all")) {
-							addPack(pack);
-							currentPacks.put(counter, pack);
-							counter++;
-						} else if(mcVersion.equalsIgnoreCase(pack.getMcVersion())) {
-							addPack(pack);
-							currentPacks.put(counter, pack);
-							counter++;
-						}
-					}
-				}
-			}
-		} else if(origin.equalsIgnoreCase("ftb")) {
-			for(ModPack pack : ModPack.getPackArray()) {
-				if(pack.getAuthor().equalsIgnoreCase("the ftb team")) {
-					if(type.equalsIgnoreCase("client")) {
-						if(mcVersion.equalsIgnoreCase("all")) {
-							addPack(pack);
-							currentPacks.put(counter, pack);
-							counter++;
-						} else if(mcVersion.equalsIgnoreCase(pack.getMcVersion())) {
-							addPack(pack);
-							currentPacks.put(counter, pack);
-							counter++;
-						}
-					} else if (type.equalsIgnoreCase("server")) {
-						if(!pack.getServerUrl().isEmpty()) {
-							if(mcVersion.equalsIgnoreCase("all")) {
-								addPack(pack);
-								currentPacks.put(counter, pack);
-								counter++;
-							} else if(mcVersion.equalsIgnoreCase(pack.getMcVersion())) {
-								addPack(pack);
-								currentPacks.put(counter, pack);
-								counter++;
-							}
-						}
-					}
-				}
-			}
-		} else {
-			for(ModPack pack : ModPack.getPackArray()) {
-				if(!pack.getAuthor().equalsIgnoreCase("the ftb team")) {
-					if(type.equalsIgnoreCase("client")) {
-						if(mcVersion.equalsIgnoreCase("all")) {
-							addPack(pack);
-							currentPacks.put(counter, pack);
-							counter++;
-						} else if(mcVersion.equalsIgnoreCase(pack.getMcVersion())) {
-							addPack(pack);
-							currentPacks.put(counter, pack);
-							counter++;
-						}
-					} else if (type.equalsIgnoreCase("server")) {
-						if(!pack.getServerUrl().isEmpty()) {
-							if(mcVersion.equalsIgnoreCase("all")) {
-								addPack(pack);
-								currentPacks.put(counter, pack);
-								counter++;
-							} else if(mcVersion.equalsIgnoreCase(pack.getMcVersion())) {
-								addPack(pack);
-								currentPacks.put(counter, pack);
-								counter++;
-							}
-						}
-					}
-				}
-			}
-		}
-		searched = false;
-		updatePacks();
-	}
-
-	public static void searchPacks(String search) {
-		CharSequence seq = search;
-		System.out.println("Searching Packs for : " + search);
-		packPanels.clear();
-		packs.removeAll();
-		currentPacks.clear();
-		packs.setMinimumSize(new Dimension(420, 0));
-		packs.setPreferredSize(new Dimension(420, 0));
-		packs.setLayout(null);
-		packs.setOpaque(false);
-		int counter = 0;
-		selectedPack = 0;
+		packs.repaint();
 		for(ModPack pack : ModPack.getPackArray()) {
-			String name = pack.getName().toLowerCase();
-			String author = pack.getAuthor().toLowerCase();
-			if(pack.getName().contains(seq) || pack.getAuthor().contains(seq) || name.contains(seq) || author.contains(seq)) {
-				addPack(pack);
+			if(originCheck(pack) && typeCheck(pack) && mcVersionCheck(pack) && avaliabilityCheck(pack) && textSearch(pack)) {
 				currentPacks.put(counter, pack);
+				addPack(pack);
 				counter++;
 			}
 		}
-		searched = true;
 		updatePacks();
-		seq = "";
-		packs.repaint();
 	}
 
 	private static void updatePacks() {
-		for (int i = 0; i < packPanels.size(); i++) {
+		for(int i = 0; i < packPanels.size(); i++) {
 			if(selectedPack == i) {
 				String mods = "";
-				if (ModPack.getPack(getIndex()).getMods() != null) {
+				if(ModPack.getPack(getIndex()).getMods() != null) {
 					mods += "<p>This pack contains the following mods by default:</p><ul>";
 					for (String name : ModPack.getPack(getIndex()).getMods()) {
 						mods += "<li>" + name + "</li>";
@@ -382,23 +278,7 @@ public class ModpacksPane extends JPanel implements ILauncherPane, ModPackListen
 	}
 
 	public static int getIndex() {
-		if(currentPacks.size() > 0) {
-			if(currentPacks.size() != ModPack.getPackArray().size()) {
-				if(!origin.equalsIgnoreCase("all") || type.equalsIgnoreCase("server") || searched) {
-					return currentPacks.get(selectedPack).getIndex();
-				}
-			}
-		}
-		return selectedPack;
-	}
-
-	private static int getModNum() {
-		if(currentPacks.size() > 0) {
-			if(!origin.equalsIgnoreCase("all")) {
-				return currentPacks.get((packPanels.size() - 1)).getIndex();
-			}
-		}
-		return packPanels.size();
+		return (!currentPacks.isEmpty()) ? currentPacks.get(selectedPack).getIndex() : selectedPack;
 	}
 
 	public void updateLocale() {
@@ -411,5 +291,26 @@ public class ModpacksPane extends JPanel implements ILauncherPane, ModPackListen
 			editModPack.setBounds(300, 5, 110, 25);
 			typeLbl.setBounds(115, 5, 175, 25);
 		}
+	}
+
+	private static boolean avaliabilityCheck(ModPack pack) {
+		return (avaliability.equalsIgnoreCase("all")) || (avaliability.equalsIgnoreCase("public") && !pack.isPrivatePack()) || (avaliability.equalsIgnoreCase("private") && pack.isPrivatePack());
+	}
+
+	private static boolean mcVersionCheck(ModPack pack) {
+		return (mcVersion.equalsIgnoreCase("all")) || (mcVersion.equalsIgnoreCase(pack.getMcVersion()));
+	}
+
+	private static boolean typeCheck(ModPack pack) {
+		return (type.equalsIgnoreCase("client")) || (type.equalsIgnoreCase("server") && !pack.getServerUrl().isEmpty());
+	}
+
+	private static boolean originCheck(ModPack pack) {
+		return (origin.equalsIgnoreCase("all")) || (origin.equalsIgnoreCase("ftb") && pack.getAuthor().equalsIgnoreCase("the ftb team")) || (origin.equalsIgnoreCase("3rd party") && !pack.getAuthor().equalsIgnoreCase("the ftb team"));
+	}
+
+	private static boolean textSearch(ModPack pack) {
+		String searchString = SearchDialog.lastPackSearch.toLowerCase();
+		return ((searchString.isEmpty()) || pack.getName().toLowerCase().contains(searchString) || pack.getAuthor().toLowerCase().contains(searchString));
 	}
 }

@@ -23,6 +23,7 @@ public class I18N {
 		deDE,
 		enUS,
 		esES,
+		frFR,
 		itIT,
 		nlNL,
 		maHU,
@@ -57,13 +58,19 @@ public class I18N {
 	 * Set available locales and load fallback locale
 	 */
 	public static void setupLocale() {
-		localeFiles.put("enUS", "English"); localeIndices.put(0, "enUS");
+		localeFiles.put("enUS", "English"); 
+		localeIndices.put(0, "enUS");
 		try {
 			new LocaleUpdater().start();
 		} catch (Exception e) {
 			Logger.logError(e.getMessage(), e);
 		}
-		// Add files from i18n directory
+	}
+
+	/**
+	 * Add files from the locale directory
+	 */
+	public static void addFiles() {
 		int i = 1;
 		Properties tmp = new Properties();
 		String[] list = dir.list();
@@ -116,6 +123,8 @@ public class I18N {
 			currentLocale = Locale.itIT;
 		} else if(locale.equalsIgnoreCase("maHU")) {
 			currentLocale = Locale.maHU;
+		} else if(locale.equalsIgnoreCase("frFR")) {
+			currentLocale = Locale.frFR;
 		} else {
 			currentLocale = Locale.enUS;
 		}
