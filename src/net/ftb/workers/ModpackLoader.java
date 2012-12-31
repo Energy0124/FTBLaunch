@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 import net.ftb.data.ModPack;
 import net.ftb.gui.panes.ModpacksPane;
@@ -14,82 +14,80 @@ import net.ftb.util.AppUtils;
 import net.ftb.util.DownloadUtils;
 import net.ftb.util.OSUtils;
 
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 public class ModpackLoader extends Thread {
+	private ArrayList<String> xmlFiles = new ArrayList<String>();
+
+	public ModpackLoader(ArrayList<String> xmlFiles) {
+		this.xmlFiles = xmlFiles;
+		xmlFiles.add(0, "modpacks.xml");
+	}
+
 	@Override
 	public void run() {
-
-		File modPackFile = new File(OSUtils.getDynamicStorageLocation() + File.separator + "Modpacks" + File.separator + "modpacks.xml");
-
-		try {
-			modPackFile.getParentFile().mkdirs();
-			DownloadUtils.downloadToFile(new URL(DownloadUtils.getStaticCreeperhostLink("modpacks.xml")), modPackFile);
-		} catch (IOException e) {
-			Logger.logWarn("Failed to load modpacks, loading from backup", e);
-		}
-
-		try {
-			Logger.logInfo("loading modpack information...");
-			Document doc;
+		int counter = 0;
+		for(String xmlFile : xmlFiles) {
+			boolean privatePack = !xmlFile.equalsIgnoreCase("modpacks.xml");
+			File modPackFile = new File(OSUtils.getDynamicStorageLocation(), "ModPacks" + File.separator + xmlFile);
+			try {
+				modPackFile.getParentFile().mkdirs();
+				DownloadUtils.downloadToFile(new URL(DownloadUtils.getStaticCreeperhostLink(xmlFile)), modPackFile);
+			} catch (IOException e) {
+				Logger.logWarn("Failed to load modpacks, loading from backup", e);
+			}
+			Logger.logInfo("Loading modpack information for " + xmlFile + "...");
 			InputStream modPackStream = null;
-
 			try {
 				modPackStream = new FileInputStream(modPackFile);
-			} catch(IOException e) {
-				Logger.logWarn("Failed to read modpackfile - falling back to direct download", e);
+			} catch (IOException e) {
+				Logger.logWarn("Failed to read modpack file - falling back to direct download", e);
 			}
-
-			if (modPackStream == null) {
+			if(modPackStream == null) {
 				try {
-					modPackStream = new URL(DownloadUtils.getStaticCreeperhostLink("modpacks.xml")).openStream();
-				} catch(IOException e) {
-					Logger.logError("Completely unable to download the modpackfile - check your connection", e);
+					modPackStream = new URL(DownloadUtils.getStaticCreeperhostLink(xmlFile)).openStream();
+				} catch (IOException e) {
+					Logger.logError("Completely unable to download the modpack file - check your connection", e);
+				}
+			}
+			if(modPackStream != null) {
+				Document doc;
+				try {
+					doc = AppUtils.getXML(modPackStream);
+				} catch (Exception e) {
+					Logger.logError("Exception reading modpack file", e);
 					return;
 				}
-			}
-
-			try {
-				doc = AppUtils.getXML(modPackStream);
-			} catch (SAXException e) {
-				Logger.logError("Exception reading modpackfile", e);
-				return;
-			} catch (IOException e) {
-				Logger.logError("Exception reading modpackfile", e);
-				return;
-			}
-			if (doc == null) {
-				Logger.logError("Error: could not load modpackdata!");
-				return;
-			}
-
-			NodeList modPacks = doc.getElementsByTagName("modpack");
-
-			for (int i = 0; i < modPacks.getLength(); i++) {
-				Node modPackNode = modPacks.item(i);
-				NamedNodeMap modPackAttr = modPackNode.getAttributes();
-				try {
-					ModPack.addPack(new ModPack(modPackAttr.getNamedItem("name").getTextContent(), modPackAttr.getNamedItem("author").getTextContent(),
-							modPackAttr.getNamedItem("version").getTextContent(), modPackAttr.getNamedItem("logo").getTextContent(),
-							modPackAttr.getNamedItem("url").getTextContent(), modPackAttr.getNamedItem("image").getTextContent(),
-							modPackAttr.getNamedItem("dir").getTextContent(), modPackAttr.getNamedItem("mcVersion").getTextContent(), 
-							modPackAttr.getNamedItem("serverPack").getTextContent(), modPackAttr.getNamedItem("description").getTextContent(),
-							modPackAttr.getNamedItem("mods") != null ? modPackAttr.getNamedItem("mods").getTextContent() : "", 
-							modPackAttr.getNamedItem("oldVersions") != null ? modPackAttr.getNamedItem("oldVersions").getTextContent() : "", i));
-				} catch (DOMException e) {
-					Logger.logError(e.getMessage(), e);
-				} catch (IOException e) {
-					Logger.logError(e.getMessage(), e);
+				if(doc == null) {
+					Logger.logError("Error: could not load modpack data!");
+					return;
 				}
+				NodeList modPacks = doc.getElementsByTagName("modpack");
+				for(int i = 0; i < modPacks.getLength(); i++) {
+					Node modPackNode = modPacks.item(i);
+					NamedNodeMap modPackAttr = modPackNode.getAttributes();
+					try {
+						ModPack.addPack(new ModPack(modPackAttr.getNamedItem("name").getTextContent(), modPackAttr.getNamedItem("author").getTextContent(),
+								modPackAttr.getNamedItem("version").getTextContent(), modPackAttr.getNamedItem("logo").getTextContent(),
+								modPackAttr.getNamedItem("url").getTextContent(), modPackAttr.getNamedItem("image").getTextContent(),
+								modPackAttr.getNamedItem("dir").getTextContent(), modPackAttr.getNamedItem("mcVersion").getTextContent(), 
+								modPackAttr.getNamedItem("serverPack").getTextContent(), modPackAttr.getNamedItem("description").getTextContent(),
+								modPackAttr.getNamedItem("mods") != null ? modPackAttr.getNamedItem("mods").getTextContent() : "", 
+								modPackAttr.getNamedItem("oldVersions") != null ? modPackAttr.getNamedItem("oldVersions").getTextContent() : "",
+								modPackAttr.getNamedItem("animation") != null ? modPackAttr.getNamedItem("animation").getTextContent() : "", counter, privatePack));
+						counter++;
+					} catch (Exception e) {
+						Logger.logError(e.getMessage(), e);
+					}
+				}
+				try {
+					modPackStream.close();
+				} catch (IOException e) { }
 			}
-			ModpacksPane.loaded = true;
-		} catch (NoSuchAlgorithmException e1) {
-			Logger.logError(e1.getMessage(), e1);
 		}
+		ModpacksPane.loaded = true;
 	}
 }

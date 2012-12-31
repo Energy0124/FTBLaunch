@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,13 +29,12 @@ import net.ftb.data.ModPack;
 import net.ftb.data.events.MapListener;
 import net.ftb.gui.LaunchFrame;
 import net.ftb.gui.dialogs.FilterDialogMaps;
+import net.ftb.gui.dialogs.SearchDialog;
 import net.ftb.locale.I18N;
 import net.ftb.log.Logger;
 import net.ftb.util.OSUtils;
 
 public class MapsPane extends JPanel implements ILauncherPane, MapListener {
-	private static final long serialVersionUID = 1L;
-
 	private static JPanel maps;
 	public static ArrayList<JPanel> mapPanels;
 	private static JScrollPane mapsScroll;
@@ -50,8 +50,7 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 	private static JEditorPane mapInfo;
 
 	public static boolean loaded = false;
-	public static boolean searched = false;
-
+	
 	private static HashMap<Integer, Map> currentMaps = new HashMap<Integer, Map>();
 
 	public MapsPane() {
@@ -108,6 +107,7 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 		mapsScroll.setWheelScrollingEnabled(true);
 		mapsScroll.setOpaque(false);
 		mapsScroll.setViewportView(maps);
+		mapsScroll.getVerticalScrollBar().setUnitIncrement(19);
 		add(mapsScroll);
 
 		mapInfo = new JEditorPane();
@@ -135,7 +135,10 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 		add(infoScroll);
 	}
 
-	@Override public void onVisible() { }
+	@Override public void onVisible() {
+		sortMaps();
+		updateFilter();
+	}
 
 	/*
 	 * GUI Code to add a map to the selection
@@ -146,8 +149,7 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 			maps.removeAll();
 		}
 
-		final int mapIndex = mapPanels.size();
-		Logger.logInfo("Adding map " + getMapNum());
+		final int mapIndex = mapPanels.size();	
 		final JPanel p = new JPanel();
 		p.setBounds(0, (mapIndex * 55), 420, 55);
 		p.setLayout(null);
@@ -194,76 +196,38 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 	@Override
 	public void onMapAdded(Map map) {
 		addMap(map);
+		Logger.logInfo("Adding map " + getMapNum());
 		updateMaps();
 	}
 
-	private static void sortMaps() {
+	public static void sortMaps() {
 		mapPanels.clear();
 		maps.removeAll();
 		currentMaps.clear();
 		int counter = 0;
 		selectedMap = 0;
-		LaunchFrame.getInstance().mapsPane.repaint();
+		maps.repaint();
 		LaunchFrame.updateMapInstallLocs(new String[]{""});
 		mapInfo.setText("");
-		if(origin.equals("All")) {
-			for(Map map : Map.getMapArray()) {
-				if(compatible.equals("All") || map.isCompatible(compatible)) {
-					addMap(map);
-					currentMaps.put(counter, map);
-					counter++;
-				}
-			}
-		} else if(origin.equals("FTB")) {
-			for(Map map : Map.getMapArray()) {
-				if(map.getAuthor().equalsIgnoreCase("the ftb team")) {
-					if(compatible.equals("All") || map.isCompatible(compatible)) {
-						addMap(map);
-						currentMaps.put(counter, map);
-						counter++;
-					}
-				}
-			}
-		} else {
-			for(Map map : Map.getMapArray()) {
-				if(!map.getAuthor().equalsIgnoreCase("the ftb team")) {
-					if(compatible.equals("All") || map.isCompatible(compatible)) {
-						addMap(map);
-						currentMaps.put(counter, map);
-						counter++;
-					}
-				}
-			}
-		}
-		updateMaps();
-		searched = false;
-	}
-
-	public static void searchMaps(String search) {
-		CharSequence seq = search;
-		System.out.println("Searching Packs for : " + search);
-		mapPanels.clear();
-		maps.removeAll();
-		currentMaps.clear();
-		maps.setMinimumSize(new Dimension(420, 0));
-		maps.setPreferredSize(new Dimension(420, 0));
-		maps.setLayout(null);
-		maps.setOpaque(false);
-		int counter = 0;
-		selectedMap = 0;
+		HashMap<Integer, List<Map>> sorted = new HashMap<Integer, List<Map>>();			
+		sorted.put(0, new ArrayList<Map>());
+		sorted.put(1, new ArrayList<Map>());
 		for(Map map : Map.getMapArray()) {
-			String name = map.getName().toLowerCase();
-			String author = map.getAuthor().toLowerCase();
-			if(map.getName().contains(seq) || map.getAuthor().contains(seq) || name.contains(seq) || author.contains(seq)) {
-				addMap(map);
-				currentMaps.put(counter, map);
-				counter++;
+			if(originCheck(map) && compatibilityCheck(map) && textSearch(map)) {
+				sorted.get((map.isCompatible(ModPack.getSelectedPack().getDir())) ? 1 : 0).add(map);
 			}
 		}
-		searched = true;
+		for(Map map : sorted.get(1)) {
+			addMap(map);
+			currentMaps.put(counter, map);
+			counter++;
+		}
+		for(Map map : sorted.get(0)) {
+			addMap(map);
+			currentMaps.put(counter, map);
+			counter++;
+		}
 		updateMaps();
-		seq = "";
-		maps.repaint();
 	}
 
 	private static void updateMaps() {
@@ -301,14 +265,7 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 	}
 
 	private static int getIndex() {
-		if(currentMaps.size() > 0) {
-			if(currentMaps.size() != Map.getMapArray().size()) {
-				if(!origin.equalsIgnoreCase("all")) {
-					return currentMaps.get(selectedMap).getIndex();
-				}
-			}
-		}
-		return selectedMap;
+		return (currentMaps.size() > 0) ? currentMaps.get(selectedMap).getIndex() : selectedMap;
 	}
 
 	private static int getMapNum() {
@@ -322,5 +279,18 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 
 	public void updateLocale() {
 		filter.setText(I18N.getLocaleString("FILTER_SETTINGS"));
+	}
+	
+	private static boolean originCheck(Map map) {
+		return (origin.equalsIgnoreCase("all")) || (origin.equalsIgnoreCase("ftb") && map.getAuthor().equalsIgnoreCase("the ftb team")) || (origin.equalsIgnoreCase("3rd party") && !map.getAuthor().equalsIgnoreCase("the ftb team"));
+	}
+	
+	private static boolean compatibilityCheck(Map map) {
+		return (compatible.equals("All") || map.isCompatible(compatible));
+	}
+	
+	private static boolean textSearch(Map map) {
+		String searchString = SearchDialog.lastMapSearch.toLowerCase();
+		return ((searchString.isEmpty()) || map.getName().toLowerCase().contains(searchString) || map.getAuthor().toLowerCase().contains(searchString));
 	}
 }

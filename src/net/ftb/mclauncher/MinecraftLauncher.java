@@ -14,24 +14,16 @@ import java.util.List;
 
 import net.ftb.data.ModPack;
 import net.ftb.data.Settings;
-import net.ftb.gui.LaunchFrame;
 import net.ftb.gui.panes.ModpacksPane;
 import net.ftb.log.LogLevel;
 import net.ftb.log.Logger;
 import net.ftb.util.OSUtils;
 
-/**
- * 
- *  Support Class for starting Minecraft with custom Memory options
- *
- */
 public class MinecraftLauncher {
-
 	public static Process launchMinecraft(String workingDir, String username, String password, String forgename, String rmax) throws IOException {
 		String[] jarFiles = new String[] {"minecraft.jar", "lwjgl.jar", "lwjgl_util.jar", "jinput.jar" };
 		StringBuilder cpb = new StringBuilder("");
-		File tempDir = new File(new File(workingDir).getParentFile(), "/instMods/");
-
+		File tempDir = new File(new File(workingDir).getParentFile(), "instMods/");
 		if(tempDir.isDirectory()) {
 			for(String name : tempDir.list()) {
 				if(name.toLowerCase().contains("forge") && name.toLowerCase().endsWith(".zip")) {
@@ -70,22 +62,21 @@ public class MinecraftLauncher {
 
 		setMemory(arguments, rmax);
 
+		arguments.add("-XX:+UseConcMarkSweepGC");
+		arguments.add("-XX:+CMSIncrementalMode");
+		arguments.add("-XX:+AggressiveOpts");
+
 		arguments.add("-cp");
 		arguments.add(System.getProperty("java.class.path") + cpb.toString());
 
 		arguments.add(MinecraftLauncher.class.getCanonicalName());
 		arguments.add(workingDir);
+		arguments.add((!ModPack.getSelectedPack().getAnimation().equalsIgnoreCase("empty")) ? OSUtils.getDynamicStorageLocation() + "ModPacks" + separator + ModPack.getSelectedPack().getDir() + separator + ModPack.getSelectedPack().getAnimation(): "empty");
 		arguments.add(forgename);
 		arguments.add(username);
 		arguments.add(password);
-		arguments.add(ModPack.getPack(ModpacksPane.getIndex()).getName());
+		arguments.add(ModPack.getSelectedPack().getName() + " v" + (Settings.getSettings().getPackVer().equalsIgnoreCase("recommended version") ? ModPack.getSelectedPack().getVersion() : Settings.getSettings().getPackVer()));
 		arguments.add(OSUtils.getDynamicStorageLocation() + "ModPacks" + separator + ModPack.getPack(ModpacksPane.getIndex()).getDir() + separator + ModPack.getPack(ModpacksPane.getIndex()).getLogoName());
-		arguments.add(Settings.getSettings().getMinecraftX());
-		arguments.add(Settings.getSettings().getMinecraftY());
-		arguments.add(Settings.getSettings().getMinecraftXPos());
-		arguments.add(Settings.getSettings().getMinecraftYPos());
-		arguments.add(Settings.getSettings().getAutoMaximize());
-		arguments.add(Settings.getSettings().getCenterWindow());
 
 		ProcessBuilder processBuilder = new ProcessBuilder(arguments);
 		processBuilder.redirectErrorStream(true);
@@ -95,9 +86,8 @@ public class MinecraftLauncher {
 	private static void setMemory(List<String> arguments, String rmax) {
 		boolean memorySet = false;
 		try {
-			int min = 256, max = -1;
+			int min = 256;
 			if (rmax != null && Integer.parseInt(rmax) > 0) {
-				max = Integer.parseInt(rmax);
 				arguments.add("-Xms" + min + "M");
 				Logger.logInfo("Setting MinMemory to " + min);
 				arguments.add("-Xmx" + rmax + "M");
@@ -116,18 +106,7 @@ public class MinecraftLauncher {
 	}
 
 	public static void main(String[] args) {
-		String basepath = args[0];
-		String forgename = args[1];
-		String username = args[2];
-		String password = args[3];
-		String modPackName = args[4];
-		String modPackImageName = args[5];
-		String minecraftX = args[6];
-		String minecraftY = args[7];
-		String minecraftXPos = args[8];
-		String minecraftYPos = args[9];
-		String minecraftMax = args[10];
-		String centerWindow = args[11];
+		String basepath = args[0], animationname = args[1], forgename = args[2], username = args[3], password = args[4], modPackName = args[5], modPackImageName = args[6];
 
 		try {
 			System.out.println("Loading jars...");
@@ -202,19 +181,16 @@ public class MinecraftLauncher {
 			System.out.println("MCDIR: " + mcDir);
 
 			System.out.println("Launching with applet wrapper...");
-			
+
 			try {
 				Class<?> MCAppletClass = cl.loadClass("net.minecraft.client.MinecraftApplet");
 				Applet mcappl = (Applet) MCAppletClass.newInstance();
-				MinecraftFrame mcWindow = new MinecraftFrame(modPackName, modPackImageName, Integer.parseInt(minecraftX), Integer.parseInt(minecraftY), 
-						Integer.parseInt(minecraftXPos), Integer.parseInt(minecraftYPos), Boolean.parseBoolean(minecraftMax), Boolean.parseBoolean(centerWindow));
+				MinecraftFrame mcWindow = new MinecraftFrame(modPackName, modPackImageName, animationname);
 				mcWindow.start(mcappl, mcArgs[0], mcArgs[1]);
 			} catch (InstantiationException e) {
 				Logger.log("Applet wrapper failed! Falling back to compatibility mode.", LogLevel.WARN, e);
 				mc.getMethod("main", String[].class).invoke(null, (Object) mcArgs);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) { }
 	}
 }

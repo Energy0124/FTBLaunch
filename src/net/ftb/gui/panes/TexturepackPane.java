@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,10 +24,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
+import net.ftb.data.ModPack;
 import net.ftb.data.TexturePack;
 import net.ftb.data.events.TexturePackListener;
 import net.ftb.gui.LaunchFrame;
+import net.ftb.gui.dialogs.FilterDialogTextures;
+import net.ftb.gui.dialogs.SearchDialog;
 import net.ftb.locale.I18N;
+import net.ftb.log.Logger;
 import net.ftb.util.OSUtils;
 
 public class TexturepackPane extends JPanel implements ILauncherPane, TexturePackListener {
@@ -38,11 +43,13 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 	private static JLabel splash;
 
 	private static JLabel typeLbl;
-	public static String origin = "All";
+	public static String origin = "All", compatible = "All";
 	private JButton filter;
 	private static boolean texturePacksAdded = false;
 	private static int selectedTexturePack = 0;
 	private static JEditorPane textureInfo;
+	
+	private TexturepackPane instance = this;
 
 	private static HashMap<Integer, TexturePack> currentTexturePacks = new HashMap<Integer, TexturePack>();
 
@@ -73,7 +80,8 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 		filter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
+				FilterDialogTextures filter = new FilterDialogTextures(instance);
+				filter.setVisible(true);
 			}
 		});
 		add(filter);
@@ -99,6 +107,7 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 		texturePacksScroll.setWheelScrollingEnabled(true);
 		texturePacksScroll.setOpaque(false);
 		texturePacksScroll.setViewportView(texturePacks);
+		texturePacksScroll.getVerticalScrollBar().setUnitIncrement(19);
 		add(texturePacksScroll);
 
 		textureInfo = new JEditorPane();
@@ -126,7 +135,9 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 		add(infoScroll);
 	}
 
-	@Override public void onVisible() { }
+	@Override public void onVisible() { 
+		updateFilter();
+	}
 
 	/*
 	 * GUI Code to add a texture pack to the selection
@@ -138,7 +149,7 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 		}
 
 		final int texturePackIndex = texturePackPanels.size();
-		System.out.println("Adding texture pack " + getTexturePackNum());
+
 		final JPanel p = new JPanel();
 		p.setBounds(0, (texturePackIndex * 55), 420, 55);
 		p.setLayout(null);
@@ -187,59 +198,34 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 	@Override
 	public void onTexturePackAdded(TexturePack texturePack) {
 		addTexturePack(texturePack);
+		Logger.logInfo("Adding texture pack " + getTexturePackNum());
 		updateTexturePacks();
 	}
 
-	private static void sortTexturePacks() {
+	public static void sortTexturePacks() {
 		texturePackPanels.clear();
 		texturePacks.removeAll();
 		currentTexturePacks.clear();
 		int counter = 0;
 		selectedTexturePack = 0;
-		LaunchFrame.getInstance().tpPane.repaint();
-		if(origin.equalsIgnoreCase("all")) {
-			for(TexturePack texturePack : TexturePack.getTexturePackArray()) {
-				addTexturePack(texturePack);
-				currentTexturePacks.put(counter, texturePack);
-				counter++;
-			}
-		} else if(origin.equalsIgnoreCase("ftb")) {
-			for(TexturePack texturePack : TexturePack.getTexturePackArray()) {
-				if(texturePack.getAuthor().equalsIgnoreCase("the ftb team")) {
-					addTexturePack(texturePack);
-					currentTexturePacks.put(counter, texturePack);
-					counter++;
-				}
-			}
-		} else {
-			for(TexturePack texturePack : TexturePack.getTexturePackArray()) {
-				if(!texturePack.getAuthor().equalsIgnoreCase("the ftb team")) {
-					addTexturePack(texturePack);
-					currentTexturePacks.put(counter, texturePack);
-					counter++;
-				}
+		texturePacks.repaint();
+		HashMap<Integer, List<TexturePack>> sorted = new HashMap<Integer, List<TexturePack>>();			
+		sorted.put(0, new ArrayList<TexturePack>());
+		sorted.put(1, new ArrayList<TexturePack>());
+		for(TexturePack texturePack : TexturePack.getTexturePackArray()) {
+			if(compatibilityCheck(texturePack) && textSearch(texturePack)) {
+				sorted.get((texturePack.isCompatible(ModPack.getSelectedPack().getDir())) ? 1 : 0).add(texturePack);
 			}
 		}
-		updateTexturePacks();
-	}
-
-	public static void searchTexturePacks(String search) {
-		System.out.println("Searching Texture Packs for : " + search);
-		texturePackPanels.clear();
-		texturePacks.removeAll();
-		currentTexturePacks.clear();
-		texturePacks.setMinimumSize(new Dimension(420, 0));
-		texturePacks.setPreferredSize(new Dimension(420, 0));
-		texturePacks.setLayout(null);
-		texturePacks.setOpaque(false);
-		int counter = 0;
-		selectedTexturePack = 0;
-		for(TexturePack texture : TexturePack.getTexturePackArray()) {
-			if(texture.getName().equalsIgnoreCase(search) || texture.getAuthor().equalsIgnoreCase(search)) {
-				addTexturePack(texture);
-				currentTexturePacks.put(counter, texture);
-				counter++;
-			}
+		for(TexturePack tp : sorted.get(1)) {
+			addTexturePack(tp);
+			currentTexturePacks.put(counter, tp);
+			counter++;
+		}
+		for(TexturePack tp : sorted.get(0)) {
+			addTexturePack(tp);
+			currentTexturePacks.put(counter, tp);
+			counter++;
 		}
 		updateTexturePacks();
 	}
@@ -270,14 +256,7 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 	}
 
 	private static int getIndex() {
-		if(currentTexturePacks.size() > 0) {
-			if(currentTexturePacks.size() != TexturePack.getTexturePackArray().size()) {
-				if(!origin.equalsIgnoreCase("all")) {
-					return currentTexturePacks.get(selectedTexturePack).getIndex();
-				}
-			}
-		}
-		return selectedTexturePack;
+		return (currentTexturePacks.size() > 0) ? currentTexturePacks.get(selectedTexturePack).getIndex() : selectedTexturePack;
 	}
 
 	private static int getTexturePackNum() {
@@ -291,5 +270,14 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 
 	public void updateLocale() {
 		filter.setText(I18N.getLocaleString("FILTER_SETTINGS"));
+	}
+	
+	private static boolean compatibilityCheck(TexturePack tp) {
+		return (compatible.equalsIgnoreCase("all") || tp.isCompatible(compatible));
+	}
+	
+	private static boolean textSearch(TexturePack tp) {
+		String searchString = SearchDialog.lastTextureSearch.toLowerCase();
+		return ((searchString.isEmpty()) || tp.getName().toLowerCase().contains(searchString) || tp.getAuthor().toLowerCase().contains(searchString));
 	}
 }
