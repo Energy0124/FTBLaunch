@@ -19,10 +19,12 @@ public class I18N {
 	public static Locale currentLocale = Locale.enUS;
 
 	public enum Locale {
+		cyGB,
 		daDK,
 		deDE,
 		enUS,
 		esES,
+		fiFI,
 		frFR,
 		itIT,
 		nlNL,
@@ -125,6 +127,10 @@ public class I18N {
 			currentLocale = Locale.maHU;
 		} else if(locale.equalsIgnoreCase("frFR")) {
 			currentLocale = Locale.frFR;
+		} else if(locale.equalsIgnoreCase("cyGB")) {
+			currentLocale = Locale.cyGB;
+		} else if(locale.equalsIgnoreCase("fiFI")) {
+			currentLocale = Locale.fiFI;
 		} else {
 			currentLocale = Locale.enUS;
 		}

@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -79,6 +80,14 @@ public class Settings extends Properties {
 	public void setInstallPath(String path) {
 		setProperty("installPath", path);
 	}
+	
+	public String getStyle() {
+		return getProperty("style", "defaultStyle.cfg");
+	}
+	
+	public void setStyle(String path) {
+		setProperty("style", path);
+	}
 
 	public boolean getForceUpdate() {
 		return forceUpdate;
@@ -120,12 +129,12 @@ public class Settings extends Properties {
 		return getProperty("downloadServer", "Automatic");
 	}
 
-	public void setConsoleActive(String console) {
-		setProperty("consoleActive", console);
+	public void setConsoleActive(boolean console) {
+		setProperty("consoleActive", String.valueOf(console));
 	}
 
-	public String getConsoleActive() {
-		return getProperty("consoleActive", "true");
+	public boolean getConsoleActive() {
+		return Boolean.valueOf(getProperty("consoleActive", "true"));
 	}
 
 	public void setPackVer(String string) {
@@ -181,9 +190,7 @@ public class Settings extends Properties {
 		String[] temp = getProperty("privatePacks", "").split(",");
 		if(temp.length > 0) {
 			ArrayList<String> packs = new ArrayList<String>();
-			for(String line : temp) {
-				packs.add(line);
-			}
+			Collections.addAll(packs, temp);
 			return packs;
 		}
 		return null;
@@ -205,12 +212,28 @@ public class Settings extends Properties {
 		return Integer.valueOf(getProperty("lastExtendedState", String.valueOf(Frame.MAXIMIZED_BOTH)));
 	}
 
-	public void setSnooper(String state) {
-		setProperty("snooperDisable", state);
+	public void setKeepLauncherOpen(boolean state) {
+		setProperty("keepLauncherOpen", String.valueOf(state));
+	}
+
+	public boolean getKeepLauncherOpen() {
+		return Boolean.parseBoolean(getProperty("keepLauncherOpen", "false"));
+	}
+
+	public void setSnooper(boolean state) {
+		setProperty("snooperDisable", String.valueOf(state));
 	}
 
 	public boolean getSnooper() {
 		return Boolean.parseBoolean(getProperty("snooperDisable", "false"));
+	}
+	
+	public String getAdditionalJavaOptions() {
+		return getProperty("additionalJavaOptions", "");
+	}
+	
+	public void setAdditionalJavaOptions(String opts) {
+		setProperty("additionalJavaOptions", opts);
 	}
 
 	public void setLastPosition(Point lastPosition) {

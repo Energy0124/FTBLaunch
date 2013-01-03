@@ -24,8 +24,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
+import net.ftb.data.LauncherStyle;
 import net.ftb.data.Map;
 import net.ftb.data.ModPack;
+import net.ftb.data.Settings;
 import net.ftb.data.events.MapListener;
 import net.ftb.gui.LaunchFrame;
 import net.ftb.gui.dialogs.FilterDialogMaps;
@@ -85,8 +87,20 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 			}
 		});
 		add(filter);
+		
+		String filterTextColor = LauncherStyle.getColorAsString(LauncherStyle.getCurrentStyle().filterTextColor);
+		String filterInnerTextColor = LauncherStyle.getColorAsString(LauncherStyle.getCurrentStyle().filterInnerTextColor);
 
-		typeLbl = new JLabel("<html><body><strong><font color=rgb\"(243,119,31)\">Filter:</strong></font> " + type + "<font color=rgb\"(243,119,31)\"> / </font>" + origin + "<font color=rgb\"(243,119,31)\"> / </font>" + compatible + "</body></html>");
+		String typeLblText = "<html><body>";
+		typeLblText += "<strong><font color=rgb\"(" + filterTextColor + ")\">Filter: </strong></font>";
+		typeLblText += "<font color=rgb\"(" + filterInnerTextColor + ")\">" + type + "</font>";
+		typeLblText += "<font color=rgb\"(" + filterTextColor + ")\"> / </font>";
+		typeLblText += "<font color=rgb\"(" + filterInnerTextColor + ")\">" + origin + "</font>";
+		typeLblText += "<font color=rgb\"(" + filterTextColor + ")\"> / </font>";
+		typeLblText += "<font color=rgb\"(" + filterInnerTextColor + ")\">" + compatible + "</font>";
+		typeLblText += "</body></html>";
+		
+		typeLbl = new JLabel(typeLblText);
 		typeLbl.setBounds(115, 5, 295, 25);
 		typeLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		add(typeLbl);
@@ -101,7 +115,7 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 		maps.add(p);
 
 		mapsScroll = new JScrollPane();
-		mapsScroll.setBounds(0, 30, 420, 280);
+		mapsScroll.setBounds(-3, 30, 420, 283);
 		mapsScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		mapsScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		mapsScroll.setWheelScrollingEnabled(true);
@@ -136,6 +150,9 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 	}
 
 	@Override public void onVisible() {
+		if(!Settings.getSettings().getSnooper()) {
+			LaunchFrame.tracker.trackPageViewFromReferrer("net/ftb/gui/MapsPane.java", "Map Tab View", "Feed The Beast", "http://www.feed-the-beast.com", "/");
+		}
 		sortMaps();
 		updateFilter();
 	}
@@ -259,7 +276,19 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 
 	public static void updateFilter() {
 		// TODO: Show Modpack specific filtering
-		typeLbl.setText("<html><body><strong><font color=rgb\"(243,119,31)\">Filter:</strong></font> " + type + "<font color=rgb\"(243,119,31)\"> / </font>" + origin + "<font color=rgb\"(243,119,31)\"> / </font>" + compatible + "</body></html>");
+		String filterTextColor = LauncherStyle.getColorAsString(LauncherStyle.getCurrentStyle().filterTextColor);
+		String filterInnerTextColor = LauncherStyle.getColorAsString(LauncherStyle.getCurrentStyle().filterInnerTextColor);
+
+		String typeLblText = "<html><body>";
+		typeLblText += "<strong><font color=rgb\"(" + filterTextColor + ")\">Filter: </strong></font>";
+		typeLblText += "<font color=rgb\"(" + filterInnerTextColor + ")\">" + type + "</font>";
+		typeLblText += "<font color=rgb\"(" + filterTextColor + ")\"> / </font>";
+		typeLblText += "<font color=rgb\"(" + filterInnerTextColor + ")\">" + origin + "</font>";
+		typeLblText += "<font color=rgb\"(" + filterTextColor + ")\"> / </font>";
+		typeLblText += "<font color=rgb\"(" + filterInnerTextColor + ")\">" + compatible + "</font>";
+		typeLblText += "</body></html>";
+		
+		typeLbl.setText(typeLblText);
 		sortMaps();
 		LaunchFrame.getInstance().updateFooter();
 	}

@@ -68,6 +68,11 @@ public class MinecraftLauncher {
 
 		arguments.add("-cp");
 		arguments.add(System.getProperty("java.class.path") + cpb.toString());
+		
+		String additionalOptions = Settings.getSettings().getAdditionalJavaOptions();
+		if (additionalOptions.trim().length() > 0) {
+			arguments.add(Settings.getSettings().getAdditionalJavaOptions());
+		}
 
 		arguments.add(MinecraftLauncher.class.getCanonicalName());
 		arguments.add(workingDir);
@@ -107,6 +112,7 @@ public class MinecraftLauncher {
 
 	public static void main(String[] args) {
 		String basepath = args[0], animationname = args[1], forgename = args[2], username = args[3], password = args[4], modPackName = args[5], modPackImageName = args[6];
+		Settings.getSettings().save();  //Call so that the settings file is loaded from the correct location.  Would be wrong on OS X and *nix if called after user.home is reset
 
 		try {
 			System.out.println("Loading jars...");
