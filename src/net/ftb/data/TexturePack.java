@@ -115,7 +115,7 @@ public class TexturePack {
 			}
 			BufferedReader in = new BufferedReader(new FileReader(verFile));
 			String line;
-			if((line = in.readLine()) == null || Integer.parseInt(version) > Integer.parseInt(line)) {
+			if((line = in.readLine()) == null || Integer.parseInt(version.replace(".", "")) > Integer.parseInt(line.replace(".", ""))) {
 				BufferedWriter out = new BufferedWriter(new FileWriter(verFile));
 				out.write(version);
 				out.flush();
@@ -178,8 +178,8 @@ public class TexturePack {
 	}
 
 	public boolean isCompatible(String dir) {
-		for(int i = 0; i < compatible.length; i++) {
-			if(compatible[i].equalsIgnoreCase(dir)) {
+		for (String aCompatible : compatible) {
+			if (aCompatible.equalsIgnoreCase(dir)) {
 				return true;
 			}
 		}

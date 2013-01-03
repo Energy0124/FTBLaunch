@@ -1,6 +1,5 @@
 package net.ftb.gui;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -16,6 +15,7 @@ import java.beans.PropertyChangeListener;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,6 +23,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 
@@ -40,10 +41,12 @@ import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import net.ftb.data.LauncherStyle;
 import net.ftb.data.LoginResponse;
 import net.ftb.data.Map;
 import net.ftb.data.ModPack;
 import net.ftb.data.Settings;
+import net.ftb.data.TexturePack;
 import net.ftb.data.UserManager;
 import net.ftb.gui.dialogs.InstallDirectoryDialog;
 import net.ftb.gui.dialogs.LauncherUpdateDialog;
@@ -78,6 +81,8 @@ import net.ftb.util.DownloadUtils;
 import net.ftb.util.ErrorUtils;
 import net.ftb.util.FileUtils;
 import net.ftb.util.OSUtils;
+import net.ftb.util.OSUtils.OS;
+import net.ftb.util.StyleUtil;
 import net.ftb.workers.GameUpdateWorker;
 import net.ftb.workers.LoginWorker;
 
@@ -94,7 +99,7 @@ public class LaunchFrame extends JFrame {
 	private static String[] dropdown_ = {"Select Profile", "Create Profile"};
 	private static JComboBox users, tpInstallLocation, mapInstallLocation;
 	private static LaunchFrame instance = null;
-	private static String version = "1.1.8";
+	private static String version = "1.1.9";
 	private static final long serialVersionUID = 1L;
 
 	public final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);	
@@ -106,7 +111,7 @@ public class LaunchFrame extends JFrame {
 	public TexturepackPane tpPane;
 	public OptionsPane optionsPane;
 
-	public static int buildNumber = 118;
+	public static int buildNumber = 119;
 	public static boolean noConfig = false;
 	public static LauncherConsole con;
 	public static String tempPass = "";
@@ -128,8 +133,8 @@ public class LaunchFrame extends JFrame {
 	 * @param args - CLI arguments
 	 */
 	public static void main(String[] args) {
-		AnalyticsConfigData config = new AnalyticsConfigData("UA-37330489-1");
-		tracker = new JGoogleAnalyticsTracker(config, GoogleAnalyticsVersion.V_4_7_2, DispatchMode.MULTI_THREAD);
+		AnalyticsConfigData config = new AnalyticsConfigData("UA-37330489-2");
+		tracker = new JGoogleAnalyticsTracker(config, GoogleAnalyticsVersion.V_4_7_2, DispatchMode.SINGLE_THREAD);
 		tracker.setEnabled(true);
 
 		if(!Settings.getSettings().getSnooper()) {
@@ -158,15 +163,7 @@ public class LaunchFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				Color baseColor = new Color(40, 40, 40);
-				UIManager.put("control", baseColor);
-				UIManager.put("text", baseColor.brighter().brighter().brighter().brighter().brighter());
-				UIManager.put("nimbusBase", new Color(0, 0, 0));
-				UIManager.put("nimbusFocus", baseColor);
-				UIManager.put("nimbusBorder", baseColor);
-				UIManager.put("nimbusLightBackground", baseColor);
-				UIManager.put("info", baseColor.brighter().brighter());
-				UIManager.put("nimbusSelectionBackground", baseColor.brighter().brighter());
+				StyleUtil.loadUiStyles();
 				try {
 					for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 						if ("Nimbus".equals(info.getName())) {
@@ -182,7 +179,7 @@ public class LaunchFrame extends JFrame {
 				I18N.setupLocale();
 				I18N.setLocale(Settings.getSettings().getLocale());
 
-				if(noConfig) {
+				if (noConfig) {
 					InstallDirectoryDialog installDialog = new InstallDirectoryDialog();
 					installDialog.setVisible(true);
 				}
@@ -192,13 +189,13 @@ public class LaunchFrame extends JFrame {
 					installDir.mkdirs();
 				}
 				File dynamicDir = new File(OSUtils.getDynamicStorageLocation());
-				if(!dynamicDir.exists()) {
+				if (!dynamicDir.exists()) {
 					dynamicDir.mkdirs();
 				}
 
 				userManager = new UserManager(new File(OSUtils.getDynamicStorageLocation(), "logindata"));
 				con = new LauncherConsole();
-				if(Boolean.parseBoolean(Settings.getSettings().getConsoleActive())) {
+				if (Settings.getSettings().getConsoleActive()) {
 					con.setVisible(true);
 				}
 
@@ -219,11 +216,11 @@ public class LaunchFrame extends JFrame {
 				Map.addListener(frame.mapsPane);
 				Map.loadAll();
 
-				//				TexturePack.addListener(frame.tpPane);
-				//				TexturePack.loadAll();
+				TexturePack.addListener(frame.tpPane);
+				TexturePack.loadAll();
 
 				UpdateChecker updateChecker = new UpdateChecker(buildNumber);
-				if(updateChecker.shouldUpdate()){
+				if (updateChecker.shouldUpdate()) {
 					LauncherUpdateDialog p = new LauncherUpdateDialog(updateChecker);
 					p.setVisible(true);
 				}
@@ -243,12 +240,16 @@ public class LaunchFrame extends JFrame {
 		panel = new JPanel();
 
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(100, 100, 850, 480);
+		if(OSUtils.getCurrentOS() == OS.WINDOWS) {
+			setBounds(100, 100, 842, 480);
+		} else {
+			setBounds(100, 100, 850, 480);
+		}
 		panel.setBounds(0, 0, 850, 480);
 		panel.setLayout(null);
 		footer.setBounds(0, 380, 850, 100);
 		footer.setLayout(null);
-		footer.setBackground(new Color(25, 25, 25));
+		footer.setBackground(LauncherStyle.getCurrentStyle().footerColor);
 		tabbedPane.setBounds(0, 0, 850, 380);
 		panel.add(tabbedPane);
 		panel.add(footer);
@@ -301,7 +302,7 @@ public class LaunchFrame extends JFrame {
 		dropdown_[0] = I18N.getLocaleString("PROFILE_SELECT");
 		dropdown_[1] = I18N.getLocaleString("PROFILE_CREATE");
 
-		String[] dropdown = merge(dropdown_, UserManager.getNames().toArray(new String[] {}));
+		String[] dropdown = concatenateArrays(dropdown_, UserManager.getNames().toArray(new String[]{}));
 		users = new JComboBox(dropdown);
 		if(Settings.getSettings().getLastUser() != null) {
 			for(int i = 0; i < dropdown.length; i++) {
@@ -362,7 +363,6 @@ public class LaunchFrame extends JFrame {
 				} else if(users.getSelectedIndex() <= 1) {
 					ErrorUtils.tossError("Please select a profile!");
 				}
-				setTabbedPaneIcons();
 			}
 		});
 
@@ -455,7 +455,7 @@ public class LaunchFrame extends JFrame {
 		modPacksPane = new ModpacksPane();
 		mapsPane = new MapsPane();
 		tpPane = new TexturepackPane();
-		optionsPane = new OptionsPane();
+		optionsPane = new OptionsPane(Settings.getSettings());
 
 		getRootPane().setDefaultButton(launch);
 		updateLocale();
@@ -465,8 +465,11 @@ public class LaunchFrame extends JFrame {
 		tabbedPane.add(modPacksPane, 2);
 		tabbedPane.add(mapsPane, 3);
 		tabbedPane.add(tpPane, 4);
-		tabbedPane.setEnabledAt(4, false);
-		setTabbedPaneIcons();
+		setNewsIcon();
+		tabbedPane.setIconAt(1, new ImageIcon(this.getClass().getResource("/image/tabs/options.png")));
+		tabbedPane.setIconAt(2, new ImageIcon(this.getClass().getResource("/image/tabs/modpacks.png")));
+		tabbedPane.setIconAt(3, new ImageIcon(this.getClass().getResource("/image/tabs/maps.png")));
+		tabbedPane.setIconAt(4, new ImageIcon(this.getClass().getResource("/image/tabs/texturepacks.png")));
 		tabbedPane.setSelectedIndex(tab);
 
 		tabbedPane.addChangeListener(new ChangeListener() {
@@ -481,23 +484,19 @@ public class LaunchFrame extends JFrame {
 		});
 	}
 
-	public void setTabbedPaneIcons() {
+	public void setNewsIcon() {
 		int i = getUnreadNews();
-		if(i > 0) {
+		if(i > 0 && i < 100) {
 			tabbedPane.setIconAt(0, new ImageAndTextIcon(this.getClass().getResource("/image/tabs/news_unread_" + Integer.toString(i).length() + ".png"), Integer.toString(i)));
 		} else {
 			tabbedPane.setIconAt(0, new ImageIcon(this.getClass().getResource("/image/tabs/news.png")));
 		}
-		tabbedPane.setIconAt(1, new ImageIcon(this.getClass().getResource("/image/tabs/options.png")));
-		tabbedPane.setIconAt(2, new ImageIcon(this.getClass().getResource("/image/tabs/modpacks.png")));
-		tabbedPane.setIconAt(3, new ImageIcon(this.getClass().getResource("/image/tabs/maps.png")));
-		tabbedPane.setIconAt(4, new ImageIcon(this.getClass().getResource("/image/tabs/texturepacks.png")));
 	}
 
 	/**
 	 * call this to login
 	 */
-	public void doLogin(final String username, String password) {
+	private void doLogin(final String username, String password) {
 		if(password.isEmpty()) {
 			PasswordDialog p = new PasswordDialog(this, true);
 			p.setVisible(true);
@@ -511,6 +510,7 @@ public class LaunchFrame extends JFrame {
 		Logger.logInfo("Logging in...");
 
 		tabbedPane.setEnabledAt(0, false);
+		tabbedPane.setIconAt(0, new ImageIcon(this.getClass().getResource("/image/tabs/news.png")));
 		tabbedPane.setEnabledAt(1, false);
 		tabbedPane.setEnabledAt(2, false);
 		tabbedPane.setEnabledAt(3, false);
@@ -581,7 +581,7 @@ public class LaunchFrame extends JFrame {
 	 * checks whether an update is needed, and then starts the update process off
 	 * @param response - the response from the minecraft servers
 	 */
-	public void runGameUpdater(final LoginResponse response) {
+	private void runGameUpdater(final LoginResponse response) {
 		final String installPath = Settings.getSettings().getInstallPath();
 		final ModPack pack = ModPack.getSelectedPack();
 		if(Settings.getSettings().getForceUpdate() && new File(installPath, pack.getDir() + File.separator + "version").exists()) {
@@ -643,33 +643,6 @@ public class LaunchFrame extends JFrame {
 	}
 
 	/**
-	 * @param filename - what to save it as on the system
-	 * @param urlString - the url to download
-	 * @throws IOException - various
-	 */
-	public void downloadUrl(String filename, String urlString) throws IOException {
-		BufferedInputStream in = null;
-		FileOutputStream fout = null;
-		try {
-			in = new BufferedInputStream(new URL(urlString).openStream());
-			fout = new FileOutputStream(filename);
-			byte data[] = new byte[1024];
-			int count;
-			while ((count = in.read(data, 0, 1024)) != -1) {
-				fout.write(data, 0, count);
-			}
-		} finally {
-			if (in != null) {
-				in.close();
-			}
-			if (fout != null) {
-				fout.flush();
-				fout.close();
-			}	
-		}
-	}
-
-	/**
 	 * launch the game with the mods in the classpath
 	 * @param workingDir - install path
 	 * @param username - the MC username
@@ -679,6 +652,9 @@ public class LaunchFrame extends JFrame {
 		try {
 			Process minecraftProcess = MinecraftLauncher.launchMinecraft(workingDir, username, password, FORGENAME, Settings.getSettings().getRamMax());
 			StreamLogger.start(minecraftProcess.getInputStream(), new LogEntry().level(LogLevel.UNKNOWN));
+			if(!Settings.getSettings().getSnooper()) {
+				tracker.trackPageViewFromReferrer(ModPack.getSelectedPack().getName() + " Launched", ModPack.getSelectedPack().getName(), "Feed The Beast", "http://www.feed-the-beast.com", "/");
+			}
 			tracker.completeBackgroundTasks(1000);
 			try {
 				Thread.sleep(1500);
@@ -690,7 +666,22 @@ public class LaunchFrame extends JFrame {
 				ProcessMonitor.create(minecraftProcess, new Runnable() {
 					@Override
 					public void run() {
-						System.exit(0);
+						if (!Settings.getSettings().getKeepLauncherOpen()) {
+							System.exit(0);
+						} else {
+							LaunchFrame launchFrame = LaunchFrame.this;
+							launchFrame.setVisible(true);
+							launchFrame.enableObjects();
+							try {
+								Settings.getSettings().load(new FileInputStream(Settings.getSettings().getConfigFile()));
+								tabbedPane.remove(1);
+								optionsPane = new OptionsPane(Settings.getSettings());
+								tabbedPane.add(optionsPane, 1);
+								tabbedPane.setIconAt(1, new ImageIcon(this.getClass().getResource("/image/tabs/options.png")));
+							} catch (Exception e1) {
+								Logger.logError("Failed to reload settings after launcher closed", e1);
+							}
+						}
 					}
 				});
 			}
@@ -729,7 +720,7 @@ public class LaunchFrame extends JFrame {
 		try {
 			userManager.write();
 		} catch (IOException e) { }
-		String[] usernames = merge(dropdown_, UserManager.getNames().toArray(new String[]{}));
+		String[] usernames = concatenateArrays(dropdown_, UserManager.getNames().toArray(new String[]{}));
 		users.removeAllItems();
 		for(int i = 0; i < usernames.length; i++) {
 			users.addItem(usernames[i]);
@@ -745,8 +736,8 @@ public class LaunchFrame extends JFrame {
 	 */
 	public static void updateTpInstallLocs(String[] locations) {
 		tpInstallLocation.removeAllItems();
-		for(int i = 0; i < locations.length; i++) {
-			tpInstallLocation.addItem(locations[i]);
+		for (String location : locations) {
+			tpInstallLocation.addItem(location);
 		}
 	}
 
@@ -756,21 +747,28 @@ public class LaunchFrame extends JFrame {
 	 */
 	public static void updateMapInstallLocs(String[] locations) {
 		mapInstallLocation.removeAllItems();
-		for(int i = 0; i < locations.length; i++) {
-			mapInstallLocation.addItem(locations[i]);
+		for (String location : locations) {
+			mapInstallLocation.addItem(location);
 		}
 	}
 
 	/**
-	 * @param A - First string array
-	 * @param B - Second string array
-	 * @return - Outputs resulting merged string array from the passed arrays
+	 * @param first - First array
+	 * @param rest - Rest of the arrays
+	 * @return - Outputs concatenated arrays
 	 */
-	public static String[] merge(String[] A, String[] B) {
-		String[] merged = new String[A.length+B.length];
-		System.arraycopy(A, 0, merged, 0, A.length);
-		System.arraycopy(B, 0, merged, A.length, B.length);
-		return merged;
+	public static <T> T[] concatenateArrays(T[] first, T[]... rest) {
+		int totalLength = first.length;
+		for (T[] array : rest) {
+			totalLength += array.length;
+		}
+		T[] result = Arrays.copyOf(first, totalLength);
+		int offset = first.length;
+		for (T[] array : rest) {
+			System.arraycopy(array, 0, result, offset, array.length);
+			offset += array.length;
+		}
+		return result;
 	}
 
 	/**
@@ -818,12 +816,13 @@ public class LaunchFrame extends JFrame {
 	/**
 	 * Enables all items that are disabled upon launching
 	 */
-	private void enableObjects(){
+	private void enableObjects() {
 		tabbedPane.setEnabledAt(0, true);
+		setNewsIcon();
 		tabbedPane.setEnabledAt(1, true);
 		tabbedPane.setEnabledAt(2, true);
 		tabbedPane.setEnabledAt(3, true);
-		//		tabbedPane.setEnabledAt(4, true);
+		tabbedPane.setEnabledAt(4, true);
 		tabbedPane.getSelectedComponent().setEnabled(true);
 		updateFooter();
 		mapInstall.setEnabled(true);
@@ -969,6 +968,7 @@ public class LaunchFrame extends JFrame {
 				}
 			}
 		}
+		s.add(0, "modpacks.xml");
 		return s;
 	}
 
@@ -981,9 +981,9 @@ public class LaunchFrame extends JFrame {
 			String s = reader.readLine();
 			s = s.trim();
 			String[] str = s.split(",");
-			for(int j = 0; j < str.length; j++) {
-				if(!timeStamps.contains(Long.parseLong(str[j]))) {
-					timeStamps.add(Long.parseLong(str[j]));
+			for (String aStr : str) {
+				if (!timeStamps.contains(Long.parseLong(aStr))) {
+					timeStamps.add(Long.parseLong(aStr));
 				}
 			}
 			long l;
@@ -993,9 +993,9 @@ public class LaunchFrame extends JFrame {
 				l = Long.parseLong(Settings.getSettings().getNewsDate().substring(0, 10));
 			}
 			System.out.println(l);
-			for(int j = 0; j < timeStamps.size(); j++) {
-				long time = timeStamps.get(j);
-				if(time > l) {
+			for (Long timeStamp : timeStamps) {
+				long time = timeStamp;
+				if (time > l) {
 					i++;
 				}
 			}
@@ -1006,8 +1006,4 @@ public class LaunchFrame extends JFrame {
 
 		return i;
 	}
-
-	//	public static JTabbedPane getTabbedPane() {
-	//		return tabbedPane;
-	//	}
 }
