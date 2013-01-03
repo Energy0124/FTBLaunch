@@ -234,7 +234,7 @@ public class LaunchFrame extends JFrame {
 	public LaunchFrame(final int tab) {
 		setFont(new Font("a_FuturaOrto", Font.PLAIN, 12));
 		setResizable(false);
-		setTitle("Feed the Beast Launcher v" + version);
+		setTitle("Feed the Beast Launcher SP v" + version);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/image/logo_ftb.png")));
 
 		panel = new JPanel();
