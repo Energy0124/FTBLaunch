@@ -1,8 +1,8 @@
-FTB Launcher
+FTB Launcher SP
 ====
 
 ##The license
-Copyright 2012 FTB Launcher Contributors
+Copyright 2012 FTB Launcher SP Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ limitations under the License.
 Before submitting a pull request, you should ensure that your fork is up to date.
 To do this, run these commands:
 
-    git remote add upstream git://github.com/Slowpoke101/FTBLaunch.git
+    git remote add upstream git://github.com/Energy0124/FTBLaunch.git
     git pull --rebase upstream master
     git push --force origin <branch_name>
 
