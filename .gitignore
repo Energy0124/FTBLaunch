@@ -2,3 +2,4 @@
 .metadata/
 *.jardesc
 ftblaunch.cfg
+/.idea/workspace.xml
