@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="92132747-735c-433b-90a4-d067e4feaaf1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="FTB Launcher.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="92132747-735c-433b-90a4-d067e4feaaf1" time="1357375471671" ignored="false" />
+    <file path="/Dummy.txt" changelist="92132747-735c-433b-90a4-d067e4feaaf1" time="1357375499896" ignored="false" />
     <file path="/pom.xml" changelist="92132747-735c-433b-90a4-d067e4feaaf1" time="1357374999404" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -584,7 +584,11 @@
       <created>1357375474243</created>
       <updated>1357375474243</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Add IntelliJ IDEA project">
+      <created>1357375526149</created>
+      <updated>1357375526149</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
