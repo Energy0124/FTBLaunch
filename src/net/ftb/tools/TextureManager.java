@@ -79,7 +79,7 @@ public class TextureManager extends JDialog {
 		}
 
 		protected void downloadTexturePack(String texturePackName, String dir) throws IOException, NoSuchAlgorithmException {
-			Logger.logInfo("Downloading");
+			Logger.logInfo("Downloading Texture Pack");
 			String installPath = OSUtils.getDynamicStorageLocation();
 			new File(installPath + "/TexturePacks/" + dir + "/").mkdirs();
 			new File(installPath + "/TexturePacks/" + dir + "/" + texturePackName).createNewFile();
@@ -88,13 +88,16 @@ public class TextureManager extends JDialog {
 		}
 
 		protected void installTexturePack(String texturePackName, String dir) throws IOException {
-			Logger.logInfo("Installing");
+			Logger.logInfo("Installing Texture Pack");
 			String installPath = Settings.getSettings().getInstallPath();
 			String tempPath = OSUtils.getDynamicStorageLocation();
 			TexturePack texturePack = TexturePack.getTexturePack(LaunchFrame.getSelectedTexturePackIndex());
 			new File(installPath, installDir + "/minecraft/texturepacks/").mkdirs();
 			FileUtils.copyFile(new File(tempPath, "TexturePacks/" + dir + "/" + texturePackName), new File(installPath, installDir + "/minecraft/texturepacks/" + texturePackName));
 			FileUtils.copyFile(new File(tempPath, "TexturePacks/" + dir + "/" + "version"), new File(installPath, installDir + "/minecraft/texturepacks/" + dir + "_version"));
+			if(!Settings.getSettings().getSnooper()) {
+				LaunchFrame.tracker.trackPageViewFromReferrer("", "Map Installation", "Feed The Beast", "http://www.feed-the-beast.com", "/");
+			}
 		}
 	}
 
