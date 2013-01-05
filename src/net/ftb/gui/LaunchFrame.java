@@ -8,15 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -74,7 +70,6 @@ import net.ftb.tools.ProcessMonitor;
 import net.ftb.tools.TextureManager;
 import net.ftb.tracking.AnalyticsConfigData;
 import net.ftb.tracking.JGoogleAnalyticsTracker;
-import net.ftb.tracking.JGoogleAnalyticsTracker.DispatchMode;
 import net.ftb.tracking.JGoogleAnalyticsTracker.GoogleAnalyticsVersion;
 import net.ftb.updater.UpdateChecker;
 import net.ftb.util.DownloadUtils;
@@ -100,7 +95,6 @@ public class LaunchFrame extends JFrame {
 	private static JComboBox users, tpInstallLocation, mapInstallLocation;
 	private static LaunchFrame instance = null;
 	private static String version = "1.1.9";
-	private static final long serialVersionUID = 1L;
 
 	public final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);	
 
@@ -116,7 +110,7 @@ public class LaunchFrame extends JFrame {
 	public static LauncherConsole con;
 	public static String tempPass = "";
 	public static Panes currentPane = Panes.MODPACK;
-	public static JGoogleAnalyticsTracker tracker;
+	public static JGoogleAnalyticsTracker tracker = new JGoogleAnalyticsTracker(new AnalyticsConfigData("UA-37330489-2"), GoogleAnalyticsVersion.V_4_7_2);
 
 	public static final String FORGENAME = "MinecraftForge.zip";
 
@@ -133,17 +127,15 @@ public class LaunchFrame extends JFrame {
 	 * @param args - CLI arguments
 	 */
 	public static void main(String[] args) {
-		AnalyticsConfigData config = new AnalyticsConfigData("UA-37330489-2");
-		tracker = new JGoogleAnalyticsTracker(config, GoogleAnalyticsVersion.V_4_7_2, DispatchMode.SINGLE_THREAD);
 		tracker.setEnabled(true);
-
 		if(!Settings.getSettings().getSnooper()) {
-			tracker.trackPageViewFromReferrer("net/ftb/gui/LaunchFrame.java", "Launcher Start", "Feed The Beast", "http://www.feed-the-beast.com", "/");
+			tracker.trackPageViewFromReferrer("net/ftb/gui/LaunchFrame.java", "Launcher Start v" + version, "Feed The Beast", "http://www.feed-the-beast.com", "/");
 		}
 
 		if(new File(Settings.getSettings().getInstallPath(), "FTBLauncherLog.txt").exists()) {
 			new File(Settings.getSettings().getInstallPath(), "FTBLauncherLog.txt").delete();
 		}
+		
 		if(new File(Settings.getSettings().getInstallPath(), "MinecraftLog.txt").exists()) {
 			new File(Settings.getSettings().getInstallPath(), "MinecraftLog.txt").delete();
 		}
@@ -216,11 +208,11 @@ public class LaunchFrame extends JFrame {
 				Map.addListener(frame.mapsPane);
 				Map.loadAll();
 
-				TexturePack.addListener(frame.tpPane);
-				TexturePack.loadAll();
+//				TexturePack.addListener(frame.tpPane);
+//				TexturePack.loadAll();
 
 				UpdateChecker updateChecker = new UpdateChecker(buildNumber);
-				if (updateChecker.shouldUpdate()) {
+				if(updateChecker.shouldUpdate()) {
 					LauncherUpdateDialog p = new LauncherUpdateDialog(updateChecker);
 					p.setVisible(true);
 				}
@@ -254,23 +246,6 @@ public class LaunchFrame extends JFrame {
 		panel.add(tabbedPane);
 		panel.add(footer);
 		setContentPane(panel);
-
-		addWindowListener(new WindowListener() {
-			@Override
-			public void windowClosing(WindowEvent arg0) {
-				tracker.completeBackgroundTasks(1000);
-				try {
-					Thread.sleep(1100);
-				} catch (InterruptedException e) { }
-			}
-
-			@Override public void windowActivated(WindowEvent arg0) { }
-			@Override public void windowClosed(WindowEvent arg0) { }
-			@Override public void windowDeactivated(WindowEvent arg0) { }
-			@Override public void windowDeiconified(WindowEvent arg0) { }
-			@Override public void windowIconified(WindowEvent arg0) { }
-			@Override public void windowOpened(WindowEvent arg0) { }
-		});
 
 		//Footer
 		footerLogo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -377,6 +352,9 @@ public class LaunchFrame extends JFrame {
 						try {
 							String version = (Settings.getSettings().getPackVer().equalsIgnoreCase("recommended version") || Settings.getSettings().getPackVer().equalsIgnoreCase("newest version")) ? ModPack.getSelectedPack().getVersion().replace(".", "_") : Settings.getSettings().getPackVer().replace(".", "_");
 							OSUtils.browse(DownloadUtils.getCreeperhostLink("modpacks%5E" + ModPack.getSelectedPack().getDir() + "%5E" + version + "%5E" + ModPack.getSelectedPack().getServerUrl()));
+							if(!Settings.getSettings().getSnooper()) {
+								tracker.trackPageViewFromReferrer(ModPack.getSelectedPack().getName() + " Server Download", ModPack.getSelectedPack().getName(), "Feed The Beast", "http://www.feed-the-beast.com", "/");
+							}
 						} catch (NoSuchAlgorithmException e) { }
 					}
 				}
@@ -465,6 +443,7 @@ public class LaunchFrame extends JFrame {
 		tabbedPane.add(modPacksPane, 2);
 		tabbedPane.add(mapsPane, 3);
 		tabbedPane.add(tpPane, 4);
+		tabbedPane.setEnabledAt(4, false);
 		setNewsIcon();
 		tabbedPane.setIconAt(1, new ImageIcon(this.getClass().getResource("/image/tabs/options.png")));
 		tabbedPane.setIconAt(2, new ImageIcon(this.getClass().getResource("/image/tabs/modpacks.png")));
@@ -514,7 +493,7 @@ public class LaunchFrame extends JFrame {
 		tabbedPane.setEnabledAt(1, false);
 		tabbedPane.setEnabledAt(2, false);
 		tabbedPane.setEnabledAt(3, false);
-		tabbedPane.setEnabledAt(4, false);
+//		tabbedPane.setEnabledAt(4, false);
 		tabbedPane.getSelectedComponent().setEnabled(false);
 
 		launch.setEnabled(false);
@@ -655,7 +634,6 @@ public class LaunchFrame extends JFrame {
 			if(!Settings.getSettings().getSnooper()) {
 				tracker.trackPageViewFromReferrer(ModPack.getSelectedPack().getName() + " Launched", ModPack.getSelectedPack().getName(), "Feed The Beast", "http://www.feed-the-beast.com", "/");
 			}
-			tracker.completeBackgroundTasks(1000);
 			try {
 				Thread.sleep(1500);
 			} catch (InterruptedException e) { }
@@ -666,7 +644,7 @@ public class LaunchFrame extends JFrame {
 				ProcessMonitor.create(minecraftProcess, new Runnable() {
 					@Override
 					public void run() {
-						if (!Settings.getSettings().getKeepLauncherOpen()) {
+						if(!Settings.getSettings().getKeepLauncherOpen()) {
 							System.exit(0);
 						} else {
 							LaunchFrame launchFrame = LaunchFrame.this;
@@ -822,7 +800,7 @@ public class LaunchFrame extends JFrame {
 		tabbedPane.setEnabledAt(1, true);
 		tabbedPane.setEnabledAt(2, true);
 		tabbedPane.setEnabledAt(3, true);
-		tabbedPane.setEnabledAt(4, true);
+//		tabbedPane.setEnabledAt(4, true);
 		tabbedPane.getSelectedComponent().setEnabled(true);
 		updateFooter();
 		mapInstall.setEnabled(true);
@@ -992,7 +970,6 @@ public class LaunchFrame extends JFrame {
 			} else {
 				l = Long.parseLong(Settings.getSettings().getNewsDate().substring(0, 10));
 			}
-			System.out.println(l);
 			for (Long timeStamp : timeStamps) {
 				long time = timeStamp;
 				if (time > l) {
