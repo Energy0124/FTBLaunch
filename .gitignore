@@ -3,3 +3,17 @@
 *.jardesc
 ftblaunch.cfg
 /.idea/workspace.xml
+.idea
+.idea/
+copyright
+libraries
+scopes
+.name
+ant.xml
+compiler.xml
+encodings.xml
+misc.xml
+modules.xml
+uiDesigner.xml
+vcs.xml
+workspace.xml
