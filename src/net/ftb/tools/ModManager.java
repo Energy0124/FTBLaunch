@@ -1,3 +1,19 @@
+/*
+ * This file is part of FTB Launcher.
+ *
+ * Copyright © 2012-2013, FTB Launcher Contributors <https://github.com/Slowpoke101/FTBLaunch/>
+ * FTB Launcher is licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.ftb.tools;
 
 import java.awt.event.WindowEvent;
@@ -31,6 +47,7 @@ import net.ftb.util.DownloadUtils;
 import net.ftb.util.ErrorUtils;
 import net.ftb.util.FileUtils;
 import net.ftb.util.OSUtils;
+import net.ftb.util.TrackerUtils;
 
 public class ModManager extends JDialog {
 	public static boolean update = false, backup = false, erroneous = false, upToDate = false;
@@ -92,9 +109,7 @@ public class ModManager extends JDialog {
 
 		protected boolean downloadModPack(String modPackName, String dir) throws IOException, NoSuchAlgorithmException {
 			Logger.logInfo("Downloading Mod Pack");
-			if(!Settings.getSettings().getSnooper()) {
-				LaunchFrame.tracker.trackPageViewFromReferrer("net/ftb/tools/ModManager.java", "Downloaded: " + modPackName + " v." + curVersion.replace('_', '.'), "Feed The Beast", "http://www.feed-the-beast.com", "/");
-			}
+			TrackerUtils.sendPageView("net/ftb/tools/ModManager.java", "Downloaded: " + modPackName + " v." + curVersion.replace('_', '.'));
 			String dynamicLoc = OSUtils.getDynamicStorageLocation();
 			String installPath = Settings.getSettings().getInstallPath();
 			ModPack pack = ModPack.getSelectedPack();

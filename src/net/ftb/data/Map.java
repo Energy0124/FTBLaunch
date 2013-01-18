@@ -1,3 +1,19 @@
+/*
+ * This file is part of FTB Launcher.
+ *
+ * Copyright © 2012-2013, FTB Launcher Contributors <https://github.com/Slowpoke101/FTBLaunch/>
+ * FTB Launcher is licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.ftb.data;
 
 import java.awt.Image;
@@ -249,7 +265,7 @@ public class Map {
 	 * @return - the compatible pack based on the selected map
 	 */
 	public String getSelectedCompatible() {
-		return compatible[LaunchFrame.getSelectedMapInstallIndex()];
+		return compatible[LaunchFrame.getSelectedMapInstallIndex()].trim();
 	}
 
 	/**
@@ -293,13 +309,13 @@ public class Map {
 	}
 
 	/**
-	 * Checks if the map is compatible with the passed modpack directory
-	 * @param dir the directory of the pack
+	 * Checks if the map is compatible with the passed modpack name
+	 * @param packName the name of the pack
 	 * @return true if the pack is compatible with a map
 	 */
-	public boolean isCompatible(String dir) {
+	public boolean isCompatible(String packName) {
 		for (String aCompatible : compatible) {
-			if (aCompatible.equalsIgnoreCase(dir)) {
+			if (ModPack.getPack(aCompatible).getName().equals(packName)) {
 				return true;
 			}
 		}

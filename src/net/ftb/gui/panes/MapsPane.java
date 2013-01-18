@@ -1,3 +1,19 @@
+/*
+ * This file is part of FTB Launcher.
+ *
+ * Copyright © 2012-2013, FTB Launcher Contributors <https://github.com/Slowpoke101/FTBLaunch/>
+ * FTB Launcher is licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.ftb.gui.panes;
 
 import java.awt.Color;
@@ -7,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +56,6 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 	private static JPanel maps;
 	public static ArrayList<JPanel> mapPanels;
 	private static JScrollPane mapsScroll;
-	private static JLabel splash;
 
 	private static JLabel typeLbl;
 	private JButton filter;
@@ -58,10 +74,6 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 		super();
 		this.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setLayout(null);
-
-		splash = new JLabel();
-		splash.setBounds(420, 0, 410, 200);
-		this.add(splash);
 
 		mapPanels = new ArrayList<JPanel>();
 
@@ -139,7 +151,7 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 		add(mapInfo);
 
 		JScrollPane infoScroll = new JScrollPane();
-		infoScroll.setBounds(420, 210, 410, 90);
+		infoScroll.setBounds(410, 25, 430, 290);
 		infoScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		infoScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		infoScroll.setWheelScrollingEnabled(true);
@@ -227,7 +239,7 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 		sorted.put(1, new ArrayList<Map>());
 		for(Map map : Map.getMapArray()) {
 			if(originCheck(map) && compatibilityCheck(map) && textSearch(map)) {
-				sorted.get((map.isCompatible(ModPack.getSelectedPack().getDir())) ? 1 : 0).add(map);
+				sorted.get((map.isCompatible(ModPack.getSelectedPack().getName())) ? 1 : 0).add(map);
 			}
 		}
 		for(Map map : sorted.get(1)) {
@@ -250,15 +262,16 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 				if (Map.getMap(getIndex()).getCompatible() != null) {
 					packs += "<p>This map works with the folowing packs:</p><ul>";
 					for (String name : Map.getMap(getIndex()).getCompatible()) {
-						packs += "<li>" + name + "</li>";
+						packs += "<li>" + ModPack.getPack(name).getName() + "</li>";
 					}
 					packs += "</ul>";
 				}
 				mapPanels.get(i).setBackground(UIManager.getColor("control").darker().darker());
-				splash.setIcon(new ImageIcon(Map.getMap(getIndex()).getImage()));
 				mapPanels.get(i).setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				LaunchFrame.updateMapInstallLocs(Map.getMap(getIndex()).getCompatible());
-				mapInfo.setText(Map.getMap(getIndex()).getInfo() + packs);
+				File tempDir = new File(OSUtils.getDynamicStorageLocation(), "Maps" + File.separator + Map.getMap(getIndex()).getMapName());
+				mapInfo.setText("<html><img src='file:///" + tempDir.getPath() + File.separator + Map.getMap(getIndex()).getImageName() + "' width=400 height=200></img> <br>" + Map.getMap(getIndex()).getInfo() + packs);
+				mapInfo.setCaretPosition(0);
 			} else {
 				mapPanels.get(i).setBackground(UIManager.getColor("control"));
 				mapPanels.get(i).setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

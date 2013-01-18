@@ -1,3 +1,19 @@
+/*
+ * This file is part of FTB Launcher.
+ *
+ * Copyright © 2012-2013, FTB Launcher Contributors <https://github.com/Slowpoke101/FTBLaunch/>
+ * FTB Launcher is licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.ftb.gui.dialogs;
 
 import java.awt.Toolkit;
@@ -34,7 +50,6 @@ public class EditModPackDialog extends JDialog {
 	private JPanel modsFolderPane = new JPanel();
 	private JPanel coreModsFolderPane = new JPanel();
 	private JPanel jarModsFolderPane = new JPanel();
-	private JPanel oldVersionsFolderPane = new JPanel();
 
 	private JLabel enabledLabel = new JLabel("<html><body><h1>" + I18N.getLocaleString("MODS_EDIT_ENABLED_LABEL") + "</h1></html></body>");
 	private JLabel disabledLabel = new JLabel("<html><body><h1>" + I18N.getLocaleString("MODS_EDIT_DISABLED_LABEL") + "</h1></html></body>");
@@ -59,8 +74,6 @@ public class EditModPackDialog extends JDialog {
 	public File folder = modsFolder;
 
 	private Tab currentTab = Tab.MODS;
-	private final JLabel lblTheOldVersions = new JLabel("Versions currently available:");
-	private final JComboBox oldVersions;
 
 	public enum Tab {
 		MODS,
@@ -93,27 +106,7 @@ public class EditModPackDialog extends JDialog {
 		tabbedPane.addTab("<html><body leftMargin=15 topmargin=8 marginwidth=15 marginheight=5>Mods</body></html>", modsFolderPane);
 		tabbedPane.addTab("<html><body leftMargin=15 topmargin=8 marginwidth=15 marginheight=5>JarMods</body></html>", jarModsFolderPane);
 		tabbedPane.addTab("<html><body leftMargin=15 topmargin=8 marginwidth=15 marginheight=5>CoreMods</body></html>", coreModsFolderPane);
-		tabbedPane.addTab("<html><body leftMargin=15 topmargin=8 marginwidth=15 marginheight=5>Modpack Version</body></html>", oldVersionsFolderPane);
 
-		oldVersionsFolderPane.setLayout(null);
-		lblTheOldVersions.setBounds(100, 42, 200, 39);
-		lblTheOldVersions.setHorizontalAlignment(SwingConstants.RIGHT);
-		oldVersionsFolderPane.add(lblTheOldVersions);
-		ArrayList<String> items = new ArrayList<String>();
-		items.add("Recommended Version");
-		if(ModPack.getSelectedPack().getOldVersions() != null) {
-			items.addAll(Arrays.asList(ModPack.getSelectedPack().getOldVersions()));
-		}
-		oldVersions = new JComboBox(items.toArray());
-		oldVersions.setSelectedItem(Settings.getSettings().getPackVer());
-		oldVersions.setBounds(317, 40, 250, 42);
-		oldVersions.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Settings.getSettings().setPackVer(String.valueOf(oldVersions.getSelectedItem()));
-			}
-		});
-		oldVersionsFolderPane.add(oldVersions);
 
 		tabbedPane.addChangeListener(new ChangeListener() {
 			@Override

@@ -1,3 +1,19 @@
+/*
+ * This file is part of FTB Launcher.
+ *
+ * Copyright © 2012-2013, FTB Launcher Contributors <https://github.com/Slowpoke101/FTBLaunch/>
+ * FTB Launcher is licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.ftb.gui.panes;
 
 import java.awt.Color;
@@ -7,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,31 +42,29 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import net.ftb.data.LauncherStyle;
+import net.ftb.data.Map;
 import net.ftb.data.ModPack;
 import net.ftb.data.TexturePack;
 import net.ftb.data.events.TexturePackListener;
 import net.ftb.gui.LaunchFrame;
-import net.ftb.gui.dialogs.TexturePackFilterDialog;
 import net.ftb.gui.dialogs.SearchDialog;
+import net.ftb.gui.dialogs.TexturePackFilterDialog;
 import net.ftb.locale.I18N;
 import net.ftb.log.Logger;
 import net.ftb.util.OSUtils;
 
 public class TexturepackPane extends JPanel implements ILauncherPane, TexturePackListener {
-	private static final long serialVersionUID = 1L;
-
 	private static JPanel texturePacks;
 	public static ArrayList<JPanel> texturePackPanels;
 	private static JScrollPane texturePacksScroll;
-	private static JLabel splash;
 
 	private static JLabel typeLbl;
-	public static String origin = "All", compatible = "All";
+	public static String compatible = "All", resolution = "All";
 	private JButton filter;
 	private static boolean texturePacksAdded = false;
 	private static int selectedTexturePack = 0;
 	private static JEditorPane textureInfo;
-	
+
 	private TexturepackPane instance = this;
 
 	private static HashMap<Integer, TexturePack> currentTexturePacks = new HashMap<Integer, TexturePack>();
@@ -60,10 +75,6 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 		super();
 		this.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setLayout(null);
-
-		splash = new JLabel();
-		splash.setBounds(420, 0, 410, 200);
-		this.add(splash);
 
 		texturePackPanels = new ArrayList<JPanel>();
 
@@ -92,9 +103,11 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 
 		String typeLblText = "<html><body>";
 		typeLblText += "<strong><font color=rgb\"(" + filterTextColor + ")\">Filter: </strong></font>";
-		typeLblText += "<font color=rgb\"(" + filterInnerTextColor + ")\">" + origin + "</font>";
+		typeLblText += "<font color=rgb\"(" + filterInnerTextColor + ")\">" + compatible + "</font>";
+		typeLblText += "<strong><font color=rgb\"(" + filterTextColor + ")\"> / </strong></font>";
+		typeLblText += "<font color=rgb\"(" + filterInnerTextColor + ")\">" + resolution + "</font>";
 		typeLblText += "</body></html>";
-		
+
 		typeLbl = new JLabel(typeLblText);
 		typeLbl.setBounds(115, 5, 295, 25);
 		typeLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -135,7 +148,7 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 		add(textureInfo);
 
 		JScrollPane infoScroll = new JScrollPane();
-		infoScroll.setBounds(420, 210, 410, 90);
+		infoScroll.setBounds(410, 25, 430, 290);
 		infoScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		infoScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		infoScroll.setWheelScrollingEnabled(true);
@@ -194,7 +207,7 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 		p.add(logo);
 		texturePackPanels.add(p);
 		texturePacks.add(p);
-		if(origin.equalsIgnoreCase("all")) {
+		if(compatible.equalsIgnoreCase("all") && resolution.equalsIgnoreCase("all")) {
 			texturePacks.setMinimumSize(new Dimension(420, (TexturePack.getTexturePackArray().size()) * 55));
 			texturePacks.setPreferredSize(new Dimension(420, (TexturePack.getTexturePackArray().size()) * 55));
 		} else {
@@ -222,7 +235,7 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 		sorted.put(0, new ArrayList<TexturePack>());
 		sorted.put(1, new ArrayList<TexturePack>());
 		for(TexturePack texturePack : TexturePack.getTexturePackArray()) {
-			if(compatibilityCheck(texturePack) && textSearch(texturePack)) {
+			if(compatibilityCheck(texturePack) && resolutionCheck(texturePack) && textSearch(texturePack)) {
 				sorted.get((texturePack.isCompatible(ModPack.getSelectedPack().getDir())) ? 1 : 0).add(texturePack);
 			}
 		}
@@ -240,13 +253,22 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 	}
 
 	private static void updateTexturePacks() {
-		for (int i = 0; i < texturePackPanels.size(); i++) {
+		for(int i = 0; i < texturePackPanels.size(); i++) {
 			if(selectedTexturePack == i) {
+				String packs = "";
+				if (TexturePack.getTexturePack(getIndex()).getCompatible() != null) {
+					packs += "<p>This texture pack works with the folowing packs:</p><ul>";
+					for (String name : TexturePack.getTexturePack(getIndex()).getCompatible()) {
+						packs += "<li>" + ModPack.getPack(name).getName() + "</li>";
+					}
+					packs += "</ul>";
+				}
 				texturePackPanels.get(i).setBackground(UIManager.getColor("control").darker().darker());
-				splash.setIcon(new ImageIcon(TexturePack.getTexturePack(getIndex()).getImage()));
 				texturePackPanels.get(i).setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				LaunchFrame.updateTpInstallLocs(TexturePack.getTexturePack(getIndex()).getCompatible());
-				textureInfo.setText(TexturePack.getTexturePack(getIndex()).getInfo());
+				File tempDir = new File(OSUtils.getDynamicStorageLocation(), "TexturePacks" + File.separator + TexturePack.getTexturePack(getIndex()).getName());
+				textureInfo.setText("<html><img src='file:///" + tempDir.getPath() + File.separator + TexturePack.getTexturePack(getIndex()).getImageName() +"' width=400 height=200></img> <br>" + TexturePack.getTexturePack(getIndex()).getInfo() + packs);
+				textureInfo.setCaretPosition(0);
 			} else {
 				texturePackPanels.get(i).setBackground(UIManager.getColor("control"));
 				texturePackPanels.get(i).setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -254,7 +276,7 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 		}
 	}
 
-	public int getSelectedTexturePackIndex() {
+	public static int getSelectedTexturePackIndex() {
 		return texturePacksAdded ? getIndex() : -1;
 	}
 
@@ -264,9 +286,11 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 
 		String typeLblText = "<html><body>";
 		typeLblText += "<strong><font color=rgb\"(" + filterTextColor + ")\">Filter: </strong></font>";
-		typeLblText += "<font color=rgb\"(" + filterInnerTextColor + ")\">" + origin + "</font>";
+		typeLblText += "<font color=rgb\"(" + filterInnerTextColor + ")\">" + compatible + "</font>";
+		typeLblText += "<strong><font color=rgb\"(" + filterTextColor + ")\"> / </strong></font>";
+		typeLblText += "<font color=rgb\"(" + filterInnerTextColor + ")\">" + resolution + "</font>";
 		typeLblText += "</body></html>";
-		
+
 		typeLbl.setText(typeLblText);
 		sortTexturePacks();
 		LaunchFrame.getInstance().updateFooter();
@@ -278,7 +302,7 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 
 	private static int getTexturePackNum() {
 		if(currentTexturePacks.size() > 0) {
-			if(!origin.equalsIgnoreCase("all")) {
+			if(!compatible.equalsIgnoreCase("all") || !resolution.equalsIgnoreCase("all")) {
 				return currentTexturePacks.get((texturePackPanels.size() - 1)).getIndex();
 			}
 		}
@@ -288,11 +312,15 @@ public class TexturepackPane extends JPanel implements ILauncherPane, TexturePac
 	public void updateLocale() {
 		filter.setText(I18N.getLocaleString("FILTER_SETTINGS"));
 	}
-	
+
 	private static boolean compatibilityCheck(TexturePack tp) {
-		return (compatible.equalsIgnoreCase("all") || tp.isCompatible(compatible));
+		return (compatible.equals("All") || tp.isCompatible(compatible));
 	}
 	
+	private static boolean resolutionCheck(TexturePack tp) {
+		return (resolution.equals("All") || tp.getResolution().equalsIgnoreCase(resolution));
+	}
+
 	private static boolean textSearch(TexturePack tp) {
 		String searchString = SearchDialog.lastTextureSearch.toLowerCase();
 		return ((searchString.isEmpty()) || tp.getName().toLowerCase().contains(searchString) || tp.getAuthor().toLowerCase().contains(searchString));

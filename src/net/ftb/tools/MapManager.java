@@ -1,3 +1,19 @@
+/*
+ * This file is part of FTB Launcher.
+ *
+ * Copyright © 2012-2013, FTB Launcher Contributors <https://github.com/Slowpoke101/FTBLaunch/>
+ * FTB Launcher is licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.ftb.tools;
 
 import java.awt.event.WindowEvent;
@@ -27,6 +43,7 @@ import net.ftb.log.Logger;
 import net.ftb.util.DownloadUtils;
 import net.ftb.util.FileUtils;
 import net.ftb.util.OSUtils;
+import net.ftb.util.TrackerUtils;
 
 public class MapManager extends JDialog {
 	private JPanel contentPane;
@@ -102,9 +119,7 @@ public class MapManager extends JDialog {
 			new File(installPath, map.getSelectedCompatible() + "/minecraft/saves/" + dir).mkdirs();
 			FileUtils.copyFolder(new File(tempPath, "Maps/" + dir + "/" + dir), new File(installPath, map.getSelectedCompatible() + "/minecraft/saves/" + dir));
 			FileUtils.copyFile(new File(tempPath, "Maps/" + dir + "/" + "version"), new File(installPath, map.getSelectedCompatible() + "/minecraft/saves/" + dir + "/version"));
-			if(!Settings.getSettings().getSnooper()) {
-				LaunchFrame.tracker.trackPageViewFromReferrer(map.getName() + " Install", Map.getSelectedMap().getName(), "Feed The Beast", "http://www.feed-the-beast.com", "/");
-			}
+			TrackerUtils.sendPageView(map.getName() + " Install", map.getName());
 		}
 	}
 

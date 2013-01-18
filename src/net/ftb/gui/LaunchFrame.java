@@ -1,3 +1,19 @@
+/*
+ * This file is part of FTB Launcher.
+ *
+ * Copyright © 2012-2013, FTB Launcher Contributors <https://github.com/Slowpoke101/FTBLaunch/>
+ * FTB Launcher is licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.ftb.gui;
 
 import java.awt.Cursor;
@@ -78,6 +94,7 @@ import net.ftb.util.FileUtils;
 import net.ftb.util.OSUtils;
 import net.ftb.util.OSUtils.OS;
 import net.ftb.util.StyleUtil;
+import net.ftb.util.TrackerUtils;
 import net.ftb.workers.GameUpdateWorker;
 import net.ftb.workers.LoginWorker;
 
@@ -94,18 +111,22 @@ public class LaunchFrame extends JFrame {
 	private static String[] dropdown_ = {"Select Profile", "Create Profile"};
 	private static JComboBox users, tpInstallLocation, mapInstallLocation;
 	private static LaunchFrame instance = null;
-	private static String version = "1.2.0";
+
+	private static String version = "1.2.3";
+
 
 	public final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);	
 
 	protected static UserManager userManager;
 
-	public ModpacksPane modPacksPane;
+	public static ModpacksPane modPacksPane;
 	public MapsPane mapsPane;
 	public TexturepackPane tpPane;
 	public OptionsPane optionsPane;
 
-	public static int buildNumber = 120;
+
+	public static int buildNumber = 123;
+
 	public static boolean noConfig = false;
 	public static LauncherConsole con;
 	public static String tempPass = "";
@@ -128,14 +149,12 @@ public class LaunchFrame extends JFrame {
 	 */
 	public static void main(String[] args) {
 		tracker.setEnabled(true);
-		if(!Settings.getSettings().getSnooper()) {
-			tracker.trackPageViewFromReferrer("net/ftb/gui/LaunchFrame.java", "Launcher Start v" + version, "Feed The Beast", "http://www.feed-the-beast.com", "/");
-		}
+		TrackerUtils.sendPageView("net/ftb/gui/LaunchFrame.java", "Launcher Start v" + version);
 
 		if(new File(Settings.getSettings().getInstallPath(), "FTBLauncherLog.txt").exists()) {
 			new File(Settings.getSettings().getInstallPath(), "FTBLauncherLog.txt").delete();
 		}
-		
+
 		if(new File(Settings.getSettings().getInstallPath(), "MinecraftLog.txt").exists()) {
 			new File(Settings.getSettings().getInstallPath(), "MinecraftLog.txt").delete();
 		}
@@ -206,9 +225,9 @@ public class LaunchFrame extends JFrame {
 				ModPack.loadXml(getXmls());
 
 				Map.addListener(frame.mapsPane);
-				Map.loadAll();
+//				Map.loadAll();
 
-//				TexturePack.addListener(frame.tpPane);
+				TexturePack.addListener(frame.tpPane);
 //				TexturePack.loadAll();
 
 				UpdateChecker updateChecker = new UpdateChecker(buildNumber);
@@ -331,13 +350,7 @@ public class LaunchFrame extends JFrame {
 		launch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(users.getSelectedIndex() > 1 && modPacksPane.packPanels.size() > 0) {
-					Settings.getSettings().setLastPack(ModPack.getSelectedPack().getDir());
-					saveSettings();
-					doLogin(UserManager.getUsername(users.getSelectedItem().toString()), UserManager.getPassword(users.getSelectedItem().toString()));
-				} else if(users.getSelectedIndex() <= 1) {
-					ErrorUtils.tossError("Please select a profile!");
-				}
+				doLaunch();
 			}
 		});
 
@@ -351,10 +364,12 @@ public class LaunchFrame extends JFrame {
 					if(modPacksPane.packPanels.size() > 0 && getSelectedModIndex() >= 0) {
 						try {
 							String version = (Settings.getSettings().getPackVer().equalsIgnoreCase("recommended version") || Settings.getSettings().getPackVer().equalsIgnoreCase("newest version")) ? ModPack.getSelectedPack().getVersion().replace(".", "_") : Settings.getSettings().getPackVer().replace(".", "_");
-							OSUtils.browse(DownloadUtils.getCreeperhostLink("modpacks%5E" + ModPack.getSelectedPack().getDir() + "%5E" + version + "%5E" + ModPack.getSelectedPack().getServerUrl()));
-							if(!Settings.getSettings().getSnooper()) {
-								tracker.trackPageViewFromReferrer(ModPack.getSelectedPack().getName() + " Server Download", ModPack.getSelectedPack().getName(), "Feed The Beast", "http://www.feed-the-beast.com", "/");
+							if(ModPack.getSelectedPack().isPrivatePack()) {
+								OSUtils.browse(DownloadUtils.getCreeperhostLink("privatepacks%5E" + ModPack.getSelectedPack().getDir() + "%5E" + version + "%5E" + ModPack.getSelectedPack().getServerUrl()));
+							} else {
+								OSUtils.browse(DownloadUtils.getCreeperhostLink("modpacks%5E" + ModPack.getSelectedPack().getDir() + "%5E" + version + "%5E" + ModPack.getSelectedPack().getServerUrl()));
 							}
+							TrackerUtils.sendPageView(ModPack.getSelectedPack().getName() + " Server Download", ModPack.getSelectedPack().getName());
 						} catch (NoSuchAlgorithmException e) { }
 					}
 				}
@@ -400,10 +415,10 @@ public class LaunchFrame extends JFrame {
 		tpInstall.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				TextureManager.installDir = (String)tpInstallLocation.getSelectedItem();
-				TextureManager man = new TextureManager(new JFrame(), true);
-				man.setVisible(true);
-				TextureManager.cleanUp();
+				if(tpPane.texturePackPanels.size() > 0 && getSelectedTexturePackIndex() >= 0) {
+					TextureManager man = new TextureManager(new JFrame(), true);
+					man.setVisible(true);
+				}
 			}
 		});
 
@@ -443,7 +458,6 @@ public class LaunchFrame extends JFrame {
 		tabbedPane.add(modPacksPane, 2);
 		tabbedPane.add(mapsPane, 3);
 		tabbedPane.add(tpPane, 4);
-		tabbedPane.setEnabledAt(4, false);
 		setNewsIcon();
 		tabbedPane.setIconAt(1, new ImageIcon(this.getClass().getResource("/image/tabs/options.png")));
 		tabbedPane.setIconAt(2, new ImageIcon(this.getClass().getResource("/image/tabs/modpacks.png")));
@@ -493,7 +507,7 @@ public class LaunchFrame extends JFrame {
 		tabbedPane.setEnabledAt(1, false);
 		tabbedPane.setEnabledAt(2, false);
 		tabbedPane.setEnabledAt(3, false);
-//		tabbedPane.setEnabledAt(4, false);
+		tabbedPane.setEnabledAt(4, false);
 		tabbedPane.getSelectedComponent().setEnabled(false);
 
 		launch.setEnabled(false);
@@ -570,6 +584,9 @@ public class LaunchFrame extends JFrame {
 			enableObjects();
 			return;
 		}
+		try {
+			TextureManager.updateTextures();
+		} catch (Exception e1) { }
 		MinecraftVersionDetector mvd = new MinecraftVersionDetector();
 		if(!new File(installPath, pack.getDir() + "/minecraft/bin/minecraft.jar").exists() || mvd.shouldUpdate(installPath + "/" + pack.getDir() + "/minecraft")) {
 			final ProgressMonitor progMonitor = new ProgressMonitor(this, "Downloading minecraft...", "", 0, 100);
@@ -631,9 +648,7 @@ public class LaunchFrame extends JFrame {
 		try {
 			Process minecraftProcess = MinecraftLauncher.launchMinecraft(workingDir, username, password, FORGENAME, Settings.getSettings().getRamMax());
 			StreamLogger.start(minecraftProcess.getInputStream(), new LogEntry().level(LogLevel.UNKNOWN));
-			if(!Settings.getSettings().getSnooper()) {
-				tracker.trackPageViewFromReferrer(ModPack.getSelectedPack().getName() + " Launched", ModPack.getSelectedPack().getName(), "Feed The Beast", "http://www.feed-the-beast.com", "/");
-			}
+			TrackerUtils.sendPageView(ModPack.getSelectedPack().getName() + " Launched", ModPack.getSelectedPack().getName());
 			try {
 				Thread.sleep(1500);
 			} catch (InterruptedException e) { }
@@ -714,9 +729,12 @@ public class LaunchFrame extends JFrame {
 	 */
 	public static void updateTpInstallLocs(String[] locations) {
 		tpInstallLocation.removeAllItems();
-		for (String location : locations) {
-			tpInstallLocation.addItem(location);
+		for(String location : locations) {
+			if(!location.isEmpty()) {
+				tpInstallLocation.addItem(ModPack.getPack(location.trim()).getName());
+			}
 		}
+		tpInstallLocation.setSelectedItem(ModPack.getSelectedPack().getName());
 	}
 
 	/**
@@ -725,8 +743,10 @@ public class LaunchFrame extends JFrame {
 	 */
 	public static void updateMapInstallLocs(String[] locations) {
 		mapInstallLocation.removeAllItems();
-		for (String location : locations) {
-			mapInstallLocation.addItem(location);
+		for(String location : locations) {
+			if(!location.isEmpty()) {
+				mapInstallLocation.addItem(ModPack.getPack(location.trim()).getName());
+			}
 		}
 	}
 
@@ -800,7 +820,7 @@ public class LaunchFrame extends JFrame {
 		tabbedPane.setEnabledAt(1, true);
 		tabbedPane.setEnabledAt(2, true);
 		tabbedPane.setEnabledAt(3, true);
-//		tabbedPane.setEnabledAt(4, true);
+		tabbedPane.setEnabledAt(4, true);
 		tabbedPane.getSelectedComponent().setEnabled(true);
 		updateFooter();
 		mapInstall.setEnabled(true);
@@ -811,6 +831,7 @@ public class LaunchFrame extends JFrame {
 		users.setEnabled(true);
 		serverbutton.setEnabled(true);
 		tpInstallLocation.setEnabled(true);
+		TextureManager.updating = false;
 	}
 
 	/**
@@ -879,12 +900,11 @@ public class LaunchFrame extends JFrame {
 			disableMapButtons();
 			break;
 		default:
-			result = modPacksPane.type.equals("Server");
-			launch.setVisible(!result);
+			launch.setVisible(true);
 			edit.setEnabled(users.getSelectedIndex() > 1);
-			edit.setVisible(!result);
-			users.setVisible(!result);
-			serverbutton.setVisible(result);
+			edit.setVisible(true);
+			users.setVisible(true);
+			serverbutton.setVisible(false);
 			disableMapButtons();
 			disableTextureButtons();
 			break;
@@ -982,5 +1002,15 @@ public class LaunchFrame extends JFrame {
 		}
 
 		return i;
+	}
+
+	public void doLaunch() {
+		if(users.getSelectedIndex() > 1 && modPacksPane.packPanels.size() > 0) {
+			Settings.getSettings().setLastPack(ModPack.getSelectedPack().getDir());
+			saveSettings();
+			doLogin(UserManager.getUsername(users.getSelectedItem().toString()), UserManager.getPassword(users.getSelectedItem().toString()));
+		} else if(users.getSelectedIndex() <= 1) {
+			ErrorUtils.tossError("Please select a profile!");
+		}
 	}
 }

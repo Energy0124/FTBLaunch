@@ -1,3 +1,19 @@
+/*
+ * This file is part of FTB Launcher.
+ *
+ * Copyright © 2012-2013, FTB Launcher Contributors <https://github.com/Slowpoke101/FTBLaunch/>
+ * FTB Launcher is licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.ftb.gui.dialogs;
 
 import java.awt.Toolkit;
@@ -12,6 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.ftb.data.Map;
+import net.ftb.data.ModPack;
 import net.ftb.gui.LaunchFrame;
 import net.ftb.gui.panes.MapsPane;
 
@@ -20,8 +37,6 @@ public class MapFilterDialog extends JDialog {
 	private JLabel typeLbl = new JLabel("Mod Pack Type:"), originLbl = new JLabel("Mod Pack Origin:"), packLbl = new JLabel("Compatible Pack:");
 	private JComboBox typeBox = new JComboBox(new String[] {"Client", "Server"}), originBox = new JComboBox(new String[] {"All", "FTB", "3rd Party"}), compatibleBox;
 	private JButton applyButton = new JButton("Apply Filter"), cancelButton = new JButton("Cancel"), searchButton = new JButton("Search Maps");
-	private final JLabel lblMinecraftVersion = new JLabel("Minecraft Version:");
-	private final JComboBox comboBox = new JComboBox();
 
 	private MapsPane pane;
 
@@ -43,8 +58,8 @@ public class MapFilterDialog extends JDialog {
 		typeBox.setBounds(120, 10, 100, 30);
 		originLbl.setBounds(10, 40, 100, 30);
 		originBox.setBounds(120, 40, 100, 30);
-		applyButton.setBounds(10, 106, 100, 25);
-		searchButton.setBounds(10, 141, 210, 25);
+		applyButton.setBounds(10, 141, 210, 25);
+		searchButton.setBounds(10, 110, 100, 25);
 		getRootPane().setDefaultButton(applyButton);
 		cancelButton.setBounds(120, 110, 100, 25);
 		panel.add(typeLbl);
@@ -55,7 +70,6 @@ public class MapFilterDialog extends JDialog {
 		panel.add(cancelButton);
 		panel.add(searchButton);
 		panel.setBounds(0, 0, 230, 250);
-		applyButton.setBounds(10, 110, 100, 25);
 		cancelButton.setBounds(120, 110, 100, 25);
 
 		typeBox.setSelectedItem(pane.type);
@@ -68,9 +82,9 @@ public class MapFilterDialog extends JDialog {
 		packs.add("All");
 		for(int i = 0; i < Map.getMapArray().size(); i++) {
 			String[] compat = Map.getMap(i).getCompatible();
-			for (String compatable : compat) {
-				if (!packs.contains(compatable)) {
-					packs.add(compatable);
+			for(String compatable : compat) {
+				if(!compatable.isEmpty() && !packs.contains(ModPack.getPack(compatable.trim()).getName())) {
+					packs.add(ModPack.getPack(compatable.trim()).getName());
 				}
 			}
 		}
