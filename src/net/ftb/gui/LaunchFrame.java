@@ -23,14 +23,17 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.MouseAdapter;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
@@ -98,6 +101,7 @@ import net.ftb.util.TrackerUtils;
 import net.ftb.workers.GameUpdateWorker;
 import net.ftb.workers.LoginWorker;
 
+@SuppressWarnings("serial")
 public class LaunchFrame extends JFrame {
 	private LoginResponse RESPONSE;
 	private NewsPane newsPane;
@@ -161,7 +165,7 @@ public class LaunchFrame extends JFrame {
 
 		DownloadUtils thread = new DownloadUtils();
 		thread.start();
-
+		
 		Logger.logInfo("FTBLaunch starting up (version "+ version + ")");
 		Logger.logInfo("Java version: "+System.getProperty("java.version"));
 		Logger.logInfo("Java vendor: "+System.getProperty("java.vendor"));
@@ -209,6 +213,44 @@ public class LaunchFrame extends JFrame {
 				if (Settings.getSettings().getConsoleActive()) {
 					con.setVisible(true);
 				}
+				
+				File credits = new File(OSUtils.getDynamicStorageLocation(), "credits.txt");
+				
+				try {
+					if(!credits.exists()) {
+						FileOutputStream fos = new FileOutputStream(credits);
+						OutputStreamWriter osw = new OutputStreamWriter(fos);
+						
+						osw.write("FTB Launcher and Modpack Credits " + System.getProperty("line.separator"));
+						osw.write("-------------------------------" + System.getProperty("line.separator"));
+						osw.write("Launcher Developers:" + System.getProperty("line.separator"));
+						osw.write("jjw123" + System.getProperty("line.separator"));
+						osw.write("unv_annihilator" + System.getProperty("line.separator"));
+						osw.write("Vbitz" + System.getProperty("line.separator") + System.getProperty("line.separator"));
+						osw.write("Web Developers:" + System.getProperty("line.separator"));
+						osw.write("captainnana" + System.getProperty("line.separator"));
+						osw.write("Rob" + System.getProperty("line.separator") + System.getProperty("line.separator"));
+						osw.write("Modpack Team:" + System.getProperty("line.separator"));
+						osw.write("CWW256" + System.getProperty("line.separator"));
+						osw.write("Lathanael" + System.getProperty("line.separator"));
+						osw.write("Watchful11" + System.getProperty("line.separator"));
+						
+						osw.flush();
+						
+						TrackerUtils.sendPageView("net/ftb/gui/LaunchFrame.java", "Unique User (Credits)");
+					}
+					
+					if(!Settings.getSettings().getLoaded() && !Settings.getSettings().getSnooper()) {
+						TrackerUtils.sendPageView("net/ftb/gui/LaunchFrame.java", "Unique User (Settings)");
+						Settings.getSettings().setLoaded(true);
+					}
+					
+				} catch (FileNotFoundException e1) {
+					Logger.logError(e1.getMessage());
+				} catch (IOException e1) {
+					Logger.logError(e1.getMessage());
+				}
+
 
 				LaunchFrame frame = new LaunchFrame(2);
 				instance = frame;
@@ -269,28 +311,20 @@ public class LaunchFrame extends JFrame {
 		//Footer
 		footerLogo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		footerLogo.setBounds(20, 20, 42, 42);
-		footerLogo.addMouseListener(new MouseListener() {
+		footerLogo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
 				OSUtils.browse("http://www.feed-the-beast.com");
 			}
-			@Override public void mouseReleased(MouseEvent arg0) { }
-			@Override public void mousePressed(MouseEvent arg0) { }
-			@Override public void mouseExited(MouseEvent arg0) { }
-			@Override public void mouseEntered(MouseEvent arg0) { }
 		});
 
 		footerCreeper.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		footerCreeper.setBounds(72, 20, 132, 42);
-		footerCreeper.addMouseListener(new MouseListener() {
+		footerCreeper.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
 				OSUtils.browse("http://www.creeperhost.net/aff.php?aff=293");
 			}
-			@Override public void mouseReleased(MouseEvent arg0) { }
-			@Override public void mousePressed(MouseEvent arg0) { }
-			@Override public void mouseExited(MouseEvent arg0) { }
-			@Override public void mouseEntered(MouseEvent arg0) { }
 		});
 
 		dropdown_[0] = I18N.getLocaleString("PROFILE_SELECT");
@@ -361,7 +395,7 @@ public class LaunchFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				if(!ModPack.getSelectedPack().getServerUrl().isEmpty()) {
-					if(modPacksPane.packPanels.size() > 0 && getSelectedModIndex() >= 0) {
+					if(getSelectedModIndex() >= 0) {
 						try {
 							String version = (Settings.getSettings().getPackVer().equalsIgnoreCase("recommended version") || Settings.getSettings().getPackVer().equalsIgnoreCase("newest version")) ? ModPack.getSelectedPack().getVersion().replace(".", "_") : Settings.getSettings().getPackVer().replace(".", "_");
 							if(ModPack.getSelectedPack().isPrivatePack()) {
@@ -382,7 +416,7 @@ public class LaunchFrame extends JFrame {
 		mapInstall.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(mapsPane.mapPanels.size() > 0 && getSelectedMapIndex() >= 0) {
+				if(getSelectedMapIndex() >= 0) {
 					MapManager man = new MapManager(new JFrame(), true);
 					man.setVisible(true);
 					MapManager.cleanUp();
@@ -401,9 +435,9 @@ public class LaunchFrame extends JFrame {
 		serverMap.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if(mapsPane.mapPanels.size() > 0 && getSelectedMapIndex() >= 0) {
+				if(getSelectedMapIndex() >= 0) {
 					try {
-						OSUtils.browse(DownloadUtils.getCreeperhostLink(Map.getMap(LaunchFrame.getSelectedMapIndex()).getUrl()));
+						OSUtils.browse(DownloadUtils.getCreeperhostLink("maps%5E" + Map.getMap(LaunchFrame.getSelectedMapIndex()).getMapName() + "%5E" + Map.getMap(LaunchFrame.getSelectedMapIndex()).getVersion() + "%5E" + Map.getMap(LaunchFrame.getSelectedMapIndex()).getUrl()));
 					} catch (NoSuchAlgorithmException e) { }
 				}
 			}
@@ -415,7 +449,7 @@ public class LaunchFrame extends JFrame {
 		tpInstall.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(tpPane.texturePackPanels.size() > 0 && getSelectedTexturePackIndex() >= 0) {
+				if(getSelectedTexturePackIndex() >= 0) {
 					TextureManager man = new TextureManager(new JFrame(), true);
 					man.setVisible(true);
 				}
@@ -1005,7 +1039,7 @@ public class LaunchFrame extends JFrame {
 	}
 
 	public void doLaunch() {
-		if(users.getSelectedIndex() > 1 && modPacksPane.packPanels.size() > 0) {
+		if(users.getSelectedIndex() > 1 && ModPack.getSelectedPack() != null) {
 			Settings.getSettings().setLastPack(ModPack.getSelectedPack().getDir());
 			saveSettings();
 			doLogin(UserManager.getUsername(users.getSelectedItem().toString()), UserManager.getPassword(users.getSelectedItem().toString()));

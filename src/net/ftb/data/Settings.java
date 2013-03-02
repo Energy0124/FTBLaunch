@@ -39,6 +39,7 @@ import net.ftb.gui.LaunchFrame;
 import net.ftb.log.Logger;
 import net.ftb.util.OSUtils;
 
+@SuppressWarnings("serial")
 public class Settings extends Properties {
 	private static Settings settings;
 	private File configFile;
@@ -246,6 +247,14 @@ public class Settings extends Properties {
 
 	public boolean getSnooper() {
 		return Boolean.parseBoolean(getProperty("snooperDisable", "false"));
+	}
+	
+	public void setLoaded(boolean state) {
+		setProperty("loaded", String.valueOf(state));
+	}
+
+	public boolean getLoaded() {
+		return Boolean.parseBoolean(getProperty("loaded", "false"));
 	}
 
 	public String getAdditionalJavaOptions() {

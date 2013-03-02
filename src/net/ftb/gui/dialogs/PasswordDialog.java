@@ -31,17 +31,17 @@ import javax.swing.SpringLayout;
 import net.ftb.gui.LaunchFrame;
 import net.ftb.locale.I18N;
 
+@SuppressWarnings("serial")
 public class PasswordDialog extends JDialog {
-	private static final long serialVersionUID = 1L;
 	private JLabel passwordLbl;
 	private JPasswordField password;
 	private JButton login;
 
 	public PasswordDialog(LaunchFrame instance, boolean modal) {
 		super(instance, modal);
+		setupGui();
 
 		getRootPane().setDefaultButton(login);
-
 		login.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
