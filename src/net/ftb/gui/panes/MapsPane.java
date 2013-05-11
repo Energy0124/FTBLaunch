@@ -21,12 +21,13 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -52,6 +53,7 @@ import net.ftb.locale.I18N;
 import net.ftb.log.Logger;
 import net.ftb.util.OSUtils;
 
+@SuppressWarnings("serial")
 public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 	private static JPanel maps;
 	public static ArrayList<JPanel> mapPanels;
@@ -188,18 +190,15 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 		filler.setForeground(Color.white);
 		filler.setBounds(58, 6, 378, 42);
 		filler.setBackground(new Color(255, 255, 255, 0));
-		MouseListener lin = new MouseListener() {
+		MouseAdapter lin = new MouseAdapter() {
 			@Override public void mouseClicked(MouseEvent e) {
 				selectedMap = mapIndex;
 				updateMaps();
 			}
-			@Override public void mouseReleased(MouseEvent e) { }
 			@Override public void mousePressed(MouseEvent e) { 
 				selectedMap = mapIndex;
 				updateMaps();
 			}
-			@Override public void mouseExited(MouseEvent e) { }
-			@Override public void mouseEntered(MouseEvent e) { }
 		};
 		p.addMouseListener(lin);
 		filler.addMouseListener(lin);
@@ -260,7 +259,7 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 			if(selectedMap == i) {
 				String packs = "";
 				if (Map.getMap(getIndex()).getCompatible() != null) {
-					packs += "<p>This map works with the folowing packs:</p><ul>";
+					packs += "<p>This map works with the following packs:</p><ul>";
 					for (String name : Map.getMap(getIndex()).getCompatible()) {
 						packs += "<li>" + ModPack.getPack(name).getName() + "</li>";
 					}
@@ -308,7 +307,7 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 
 	private static int getMapNum() {
 		if(currentMaps.size() > 0) {
-			if(!origin.equalsIgnoreCase("all")) {
+			if(!origin.equalsIgnoreCase(I18N.getLocaleString("MAIN_ALL"))) {
 				return currentMaps.get((mapPanels.size() - 1)).getIndex();
 			}
 		}
@@ -320,11 +319,11 @@ public class MapsPane extends JPanel implements ILauncherPane, MapListener {
 	}
 
 	private static boolean originCheck(Map map) {
-		return (origin.equalsIgnoreCase("all")) || (origin.equalsIgnoreCase("ftb") && map.getAuthor().equalsIgnoreCase("the ftb team")) || (origin.equalsIgnoreCase("3rd party") && !map.getAuthor().equalsIgnoreCase("the ftb team"));
+		return (origin.equalsIgnoreCase(I18N.getLocaleString("MAIN_ALL"))) || (origin.equalsIgnoreCase("ftb") && map.getAuthor().equalsIgnoreCase("the ftb team")) || (origin.equalsIgnoreCase(I18N.getLocaleString("FILTER_3THPARTY")) && !map.getAuthor().equalsIgnoreCase("the ftb team"));
 	}
 
 	private static boolean compatibilityCheck(Map map) {
-		return (compatible.equals("All") || map.isCompatible(compatible));
+		return (compatible.equalsIgnoreCase(I18N.getLocaleString("MAIN_ALL")) || map.isCompatible(compatible));
 	}
 
 	private static boolean textSearch(Map map) {

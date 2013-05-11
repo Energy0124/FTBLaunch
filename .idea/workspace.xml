@@ -1,105 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="92132747-735c-433b-90a4-d067e4feaaf1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/app/JavaApplicationStub" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/app/Info.plist.template" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/net/ftb/util/TrackerUtils.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/licenseheader.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/i18n/noNO" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/style_checks.xml" />
-      <change type="DELETED" beforePath="F:\Users\Energy\Documents\Git\Projects\FTBLaunchSP\External Jars\swingx-all-1.6.4.jar" afterPath="" />
-      <change type="DELETED" beforePath="F:\Users\Energy\Documents\Git\Projects\FTBLaunchSP\res\template\FTB_Launcher.app\Contents\Info.plist" afterPath="" />
-      <change type="DELETED" beforePath="F:\Users\Energy\Documents\Git\Projects\FTBLaunchSP\res\template\FTB_Launcher.app\Contents\MacOS\FTBLauncher" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.classpath" afterPath="$PROJECT_DIR$/.classpath" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/tracking/system/AWTSystemPopulator.java" afterPath="$PROJECT_DIR$/src/net/ftb/tracking/system/AWTSystemPopulator.java" />
+    <list default="true" id="92132747-735c-433b-90a4-d067e4feaaf1" name="Default" comment="Merge branch 'master' of https://github.com/Slowpoke101/FTBLaunch into Slowpoke101-master&#10;&#10;Conflicts:&#10;&#9;pom.xml&#10;&#9;src/net/ftb/gui/LaunchFrame.java&#10;">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/AdvancedOptionsDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/AdvancedOptionsDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/tracking/dispatch/AnalyticsDispatcher.java" afterPath="$PROJECT_DIR$/src/net/ftb/tracking/dispatch/AnalyticsDispatcher.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/util/AppUtils.java" afterPath="$PROJECT_DIR$/src/net/ftb/util/AppUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/ChooseDir.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/ChooseDir.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/util/CryptoUtils.java" afterPath="$PROJECT_DIR$/src/net/ftb/util/CryptoUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/util/DownloadUtils.java" afterPath="$PROJECT_DIR$/src/net/ftb/util/DownloadUtils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/EditModPackDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/EditModPackDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/util/ErrorUtils.java" afterPath="$PROJECT_DIR$/src/net/ftb/util/ErrorUtils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FTB Launcher.iml" afterPath="$PROJECT_DIR$/FTB Launcher.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/util/FileUtils.java" afterPath="$PROJECT_DIR$/src/net/ftb/util/FileUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/workers/GameUpdateWorker.java" afterPath="$PROJECT_DIR$/src/net/ftb/workers/GameUpdateWorker.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/locale/I18N.java" afterPath="$PROJECT_DIR$/src/net/ftb/locale/I18N.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/panes/ILauncherPane.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/panes/ILauncherPane.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/log/ILogListener.java" afterPath="$PROJECT_DIR$/src/net/ftb/log/ILogListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/ImageAndTextIcon.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/ImageAndTextIcon.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/InstallDirectoryDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/InstallDirectoryDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/LaunchFrame.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/LaunchFrame.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/minecraft/Launcher.java" afterPath="$PROJECT_DIR$/src/net/minecraft/Launcher.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/LauncherConsole.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/LauncherConsole.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/data/LauncherStyle.java" afterPath="$PROJECT_DIR$/src/net/ftb/data/LauncherStyle.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/LauncherUpdateDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/LauncherUpdateDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/locale/LocaleUpdater.java" afterPath="$PROJECT_DIR$/src/net/ftb/locale/LocaleUpdater.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/log/LogEntry.java" afterPath="$PROJECT_DIR$/src/net/ftb/log/LogEntry.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/log/LogLevel.java" afterPath="$PROJECT_DIR$/src/net/ftb/log/LogLevel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/log/LogSource.java" afterPath="$PROJECT_DIR$/src/net/ftb/log/LogSource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/log/LogThread.java" afterPath="$PROJECT_DIR$/src/net/ftb/log/LogThread.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/log/LogType.java" afterPath="$PROJECT_DIR$/src/net/ftb/log/LogType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/log/LogWriter.java" afterPath="$PROJECT_DIR$/src/net/ftb/log/LogWriter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/log/Logger.java" afterPath="$PROJECT_DIR$/src/net/ftb/log/Logger.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/data/LoginResponse.java" afterPath="$PROJECT_DIR$/src/net/ftb/data/LoginResponse.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/workers/LoginWorker.java" afterPath="$PROJECT_DIR$/src/net/ftb/workers/LoginWorker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/data/Map.java" afterPath="$PROJECT_DIR$/src/net/ftb/data/Map.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/MapFilterDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/MapFilterDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/data/events/MapListener.java" afterPath="$PROJECT_DIR$/src/net/ftb/data/events/MapListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/workers/MapLoader.java" afterPath="$PROJECT_DIR$/src/net/ftb/workers/MapLoader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/tools/MapManager.java" afterPath="$PROJECT_DIR$/src/net/ftb/tools/MapManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/MapOverwriteDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/MapOverwriteDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/panes/MapsPane.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/panes/MapsPane.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/mclauncher/MinecraftFrame.java" afterPath="$PROJECT_DIR$/src/net/ftb/mclauncher/MinecraftFrame.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/mclauncher/MinecraftLauncher.java" afterPath="$PROJECT_DIR$/src/net/ftb/mclauncher/MinecraftLauncher.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/tools/MinecraftVersionDetector.java" afterPath="$PROJECT_DIR$/src/net/ftb/tools/MinecraftVersionDetector.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/tools/ModManager.java" afterPath="$PROJECT_DIR$/src/net/ftb/tools/ModManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/data/ModPack.java" afterPath="$PROJECT_DIR$/src/net/ftb/data/ModPack.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/ModPackFilterDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/ModPackFilterDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/data/events/ModPackListener.java" afterPath="$PROJECT_DIR$/src/net/ftb/data/events/ModPackListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/workers/ModpackLoader.java" afterPath="$PROJECT_DIR$/src/net/ftb/workers/ModpackLoader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/ModpackUpdateDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/ModpackUpdateDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/panes/ModpacksPane.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/panes/ModpacksPane.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/panes/NewsPane.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/panes/NewsPane.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/util/OSUtils.java" afterPath="$PROJECT_DIR$/src/net/ftb/util/OSUtils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/panes/OptionsPane.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/panes/OptionsPane.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/PasswordDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/PasswordDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/tools/PastebinPoster.java" afterPath="$PROJECT_DIR$/src/net/ftb/tools/PastebinPoster.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/PlayOfflineDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/PlayOfflineDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/PrivatePackDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/PrivatePackDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/tools/ProcessMonitor.java" afterPath="$PROJECT_DIR$/src/net/ftb/tools/ProcessMonitor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/ProfileAdderDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/ProfileAdderDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/ProfileEditorDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/ProfileEditorDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/SearchDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/SearchDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/updater/SelfUpdate.java" afterPath="$PROJECT_DIR$/src/net/ftb/updater/SelfUpdate.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/data/Settings.java" afterPath="$PROJECT_DIR$/src/net/ftb/data/Settings.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/log/StreamLogger.java" afterPath="$PROJECT_DIR$/src/net/ftb/log/StreamLogger.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/util/StyleUtil.java" afterPath="$PROJECT_DIR$/src/net/ftb/util/StyleUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/tools/TextureManager.java" afterPath="$PROJECT_DIR$/src/net/ftb/tools/TextureManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/data/TexturePack.java" afterPath="$PROJECT_DIR$/src/net/ftb/data/TexturePack.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/TexturePackFilterDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/TexturePackFilterDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/data/events/TexturePackListener.java" afterPath="$PROJECT_DIR$/src/net/ftb/data/events/TexturePackListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/workers/TexturePackLoader.java" afterPath="$PROJECT_DIR$/src/net/ftb/workers/TexturePackLoader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/panes/TexturepackPane.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/panes/TexturepackPane.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/updater/UpdateChecker.java" afterPath="$PROJECT_DIR$/src/net/ftb/updater/UpdateChecker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/data/User.java" afterPath="$PROJECT_DIR$/src/net/ftb/data/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/data/UserManager.java" afterPath="$PROJECT_DIR$/src/net/ftb/data/UserManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/tracking/VisitorData.java" afterPath="$PROJECT_DIR$/src/net/ftb/tracking/VisitorData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/i18n/cyGB" afterPath="$PROJECT_DIR$/res/i18n/cyGB" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/i18n/deDE" afterPath="$PROJECT_DIR$/res/i18n/deDE" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/i18n/enUS" afterPath="$PROJECT_DIR$/res/i18n/enUS" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/i18n/fiFI" afterPath="$PROJECT_DIR$/res/i18n/fiFI" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/readme.md" afterPath="$PROJECT_DIR$/readme.md" />
-      <change type="MOVED" beforePath="F:\Users\Energy\Documents\Git\Projects\FTBLaunchSP\res\image\logo_ftb.ico" afterPath="$PROJECT_DIR$/res/exe/icon.ico" />
-      <change type="MOVED" beforePath="F:\Users\Energy\Documents\Git\Projects\FTBLaunchSP\res\template\FTB_Launcher.app\Contents\Resources\ftb.icns" afterPath="$PROJECT_DIR$/res/app/icon.icns" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/i18n/ptPT" afterPath="$PROJECT_DIR$/res/i18n/ptPT" />
     </list>
     <list id="553d8e72-eac3-4490-affb-251aed88e5a8" name="New changelist" comment="" />
     <ignored path="FTB Launcher.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="92132747-735c-433b-90a4-d067e4feaaf1" time="1358502101918" ignored="false" />
+    <file path="/Dummy.txt" changelist="92132747-735c-433b-90a4-d067e4feaaf1" time="1368263999447" ignored="false" />
     <file path="/pom.xml" changelist="92132747-735c-433b-90a4-d067e4feaaf1" time="1357374999404" ignored="false" />
     <file path="/fragment.java" changelist="92132747-735c-433b-90a4-d067e4feaaf1" time="1357376484066" ignored="false" />
     <file path="/readme.md" changelist="92132747-735c-433b-90a4-d067e4feaaf1" time="1357380335416" ignored="false" />
-    <file path="$PROJECT_DIR$/.idea/workspace.xml" changelist="92132747-735c-433b-90a4-d067e4feaaf1" time="1358502101404" ignored="false" />
+    <file path="$PROJECT_DIR$/.idea/workspace.xml" changelist="92132747-735c-433b-90a4-d067e4feaaf1" time="1358506560663" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,6 +70,7 @@
         <option name="ENABLED" value="false" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
         <option name="SUSPEND_POLICY" value="SuspendAll" />
         <option name="SUSPEND" value="true" />
         <option name="COUNT_FILTER_ENABLED" value="false" />
@@ -138,6 +87,7 @@
         <option name="ENABLED" value="false" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
         <option name="SUSPEND_POLICY" value="SuspendAll" />
         <option name="SUSPEND" value="true" />
         <option name="COUNT_FILTER_ENABLED" value="false" />
@@ -158,10 +108,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="pom.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="259" column="33" selection-start="9379" selection-end="9379" vertical-scroll-proportion="0.6809269">
+            <state line="186" column="109" selection-start="6345" selection-end="6345" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -185,11 +135,40 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LaunchFrame.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="LaunchFrame.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/net/ftb/gui/LaunchFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="113" column="73" selection-start="4383" selection-end="4383" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="1044" column="0" selection-start="35491" selection-end="35491" vertical-scroll-proportion="36.19708">
+              <folding>
+                <element signature="e#0#35492#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#3650#3677#0" expanded="true" />
+                <element signature="e#6791#10536#0" expanded="true" />
+                <element signature="e#9912#10107#0" expanded="true" />
+                <element signature="e#10100#10101#0" expanded="true" />
+                <element signature="e#10531#10532#0" expanded="true" />
+                <element signature="e#12806#13125#0" expanded="true" />
+                <element signature="e#13120#13121#0" expanded="true" />
+                <element signature="e#13322#13679#0" expanded="true" />
+                <element signature="e#13674#13675#0" expanded="true" />
+                <element signature="e#13805#13916#0" expanded="true" />
+                <element signature="e#13911#13912#0" expanded="true" />
+                <element signature="e#14101#15272#0" expanded="true" />
+                <element signature="e#15267#15268#0" expanded="true" />
+                <element signature="e#15440#15723#0" expanded="true" />
+                <element signature="e#15718#15719#0" expanded="true" />
+                <element signature="e#16080#16571#0" expanded="true" />
+                <element signature="e#16566#16567#0" expanded="true" />
+                <element signature="e#16743#17021#0" expanded="true" />
+                <element signature="e#17016#17017#0" expanded="true" />
+                <element signature="e#18534#18858#0" expanded="true" />
+                <element signature="e#18853#18854#0" expanded="true" />
+                <element signature="e#23591#24036#0" expanded="true" />
+                <element signature="e#24030#24031#0" expanded="true" />
+                <element signature="e#25058#25824#0" expanded="true" />
+                <element signature="e#25817#25818#0" expanded="true" />
+                <element signature="e#34397#34403#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -235,6 +214,12 @@
         <option name="importAutomatically" value="true" />
       </MavenImportingSettings>
     </option>
+    <option name="enabledProfiles">
+      <list>
+        <option value="package-mac" />
+        <option value="package-win" />
+      </list>
+    </option>
   </component>
   <component name="MavenProjectNavigator">
     <treeState>
@@ -246,24 +231,6 @@
         <PATH_ELEMENT>
           <option name="myItemId" value="FTB Launcher" />
           <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="Dependencies" />
-          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$DependenciesNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="" />
-          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="FTB Launcher" />
-          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="Plugins" />
-          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$PluginsNode" />
         </PATH_ELEMENT>
       </PATH>
       <PATH>
@@ -285,14 +252,19 @@
           <option name="myItemId" value="" />
           <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
         </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Profiles" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProfilesNode" />
+        </PATH_ELEMENT>
       </PATH>
     </treeState>
   </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="height" value="1034" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -322,8 +294,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -342,12 +312,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FTB Launcher" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FTBLaunchSP" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
@@ -362,9 +348,9 @@
     <property name="restartRequiresConfirmation" value="true" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RunManager" selected="Application.LaunchFrame">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -388,6 +374,7 @@
             <option name="profilesMap">
               <map />
             </option>
+            <option name="resolveToWorkspace" value="false" />
             <option name="workingDirPath" value="" />
           </MavenRunnerParameters>
         </option>
@@ -400,19 +387,6 @@
       <option name="SHMEM_ADDRESS" value="javadebug" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -441,6 +415,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -505,7 +492,7 @@
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
-  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false">
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="all">
     <option name="USER" value="" />
     <option name="PASSWORD" value="" />
     <option name="mySSHConnectionTimeout" value="30000" />
@@ -515,7 +502,6 @@
     <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
     <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
     <option name="IGNORE_SPACES_IN_MERGE" value="false" />
-    <option name="DETECT_NESTED_COPIES" value="true" />
     <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
     <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
     <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
@@ -607,7 +593,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1034" extended-state="7" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32887402" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -621,14 +607,15 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998884" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32998884" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295325" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998884" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15368196" sideWeight="0.67001116" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16168623" sideWeight="0.672" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13713981" sideWeight="0.67001116" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32887402" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13660619" sideWeight="0.672" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.328" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -662,7 +649,7 @@
     <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
-    <option name="SHORT_DIFF_HORISONTALLY" value="true" />
+    <option name="SHORT_DIFF_HORIZONTALLY" value="true" />
     <option name="SHORT_DIFF_EXTRA_LINES" value="2" />
     <option name="SOFT_WRAPS_IN_SHORT_DIFF" value="true" />
     <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
@@ -672,6 +659,10 @@
     <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
     <option name="LIMIT_HISTORY" value="true" />
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
+    <option name="UPDATE_FILTER_SCOPE_NAME" />
+    <option name="USE_COMMIT_MESSAGE_MARGIN" value="false" />
+    <option name="COMMIT_MESSAGE_MARGIN_SIZE" value="72" />
+    <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
     <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'upstream/master'&#10;&#10;Conflicts:&#10;&#9;pom.xml&#10;&#9;src/net/ftb/gui/LaunchFrame.java&#10;" />
@@ -685,6 +676,7 @@
     <option name="ACTIVE_VCS_NAME" />
     <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
+    <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="Change Title" />
@@ -720,7 +712,36 @@
     <entry file="file://$PROJECT_DIR$/src/net/ftb/gui/LaunchFrame.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="106" column="27" selection-start="4033" selection-end="4033" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <element signature="e#0#35492#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#3650#3677#0" expanded="true" />
+            <element signature="e#6791#10536#0" expanded="true" />
+            <element signature="e#9912#10107#0" expanded="true" />
+            <element signature="e#10100#10101#0" expanded="true" />
+            <element signature="e#10531#10532#0" expanded="true" />
+            <element signature="e#12806#13125#0" expanded="true" />
+            <element signature="e#13120#13121#0" expanded="true" />
+            <element signature="e#13322#13679#0" expanded="true" />
+            <element signature="e#13674#13675#0" expanded="true" />
+            <element signature="e#13805#13916#0" expanded="true" />
+            <element signature="e#13911#13912#0" expanded="true" />
+            <element signature="e#14101#15272#0" expanded="true" />
+            <element signature="e#15267#15268#0" expanded="true" />
+            <element signature="e#15440#15723#0" expanded="true" />
+            <element signature="e#15718#15719#0" expanded="true" />
+            <element signature="e#16080#16571#0" expanded="true" />
+            <element signature="e#16566#16567#0" expanded="true" />
+            <element signature="e#16743#17021#0" expanded="true" />
+            <element signature="e#17016#17017#0" expanded="true" />
+            <element signature="e#18534#18858#0" expanded="true" />
+            <element signature="e#18853#18854#0" expanded="true" />
+            <element signature="e#23591#24036#0" expanded="true" />
+            <element signature="e#24030#24031#0" expanded="true" />
+            <element signature="e#25058#25824#0" expanded="true" />
+            <element signature="e#25817#25818#0" expanded="true" />
+            <element signature="e#34397#34403#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -787,17 +808,46 @@
         <state line="19" column="10" selection-start="198" selection-end="198" vertical-scroll-proportion="0.41494253" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/ftb/gui/LaunchFrame.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="113" column="73" selection-start="4383" selection-end="4383" vertical-scroll-proportion="0.0">
+        <state line="186" column="109" selection-start="6345" selection-end="6345" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/gui/LaunchFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="259" column="33" selection-start="9379" selection-end="9379" vertical-scroll-proportion="0.6809269">
-          <folding />
+        <state line="1044" column="0" selection-start="35491" selection-end="35491" vertical-scroll-proportion="36.19708">
+          <folding>
+            <element signature="e#0#35492#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#3650#3677#0" expanded="true" />
+            <element signature="e#6791#10536#0" expanded="true" />
+            <element signature="e#9912#10107#0" expanded="true" />
+            <element signature="e#10100#10101#0" expanded="true" />
+            <element signature="e#10531#10532#0" expanded="true" />
+            <element signature="e#12806#13125#0" expanded="true" />
+            <element signature="e#13120#13121#0" expanded="true" />
+            <element signature="e#13322#13679#0" expanded="true" />
+            <element signature="e#13674#13675#0" expanded="true" />
+            <element signature="e#13805#13916#0" expanded="true" />
+            <element signature="e#13911#13912#0" expanded="true" />
+            <element signature="e#14101#15272#0" expanded="true" />
+            <element signature="e#15267#15268#0" expanded="true" />
+            <element signature="e#15440#15723#0" expanded="true" />
+            <element signature="e#15718#15719#0" expanded="true" />
+            <element signature="e#16080#16571#0" expanded="true" />
+            <element signature="e#16566#16567#0" expanded="true" />
+            <element signature="e#16743#17021#0" expanded="true" />
+            <element signature="e#17016#17017#0" expanded="true" />
+            <element signature="e#18534#18858#0" expanded="true" />
+            <element signature="e#18853#18854#0" expanded="true" />
+            <element signature="e#23591#24036#0" expanded="true" />
+            <element signature="e#24030#24031#0" expanded="true" />
+            <element signature="e#25058#25824#0" expanded="true" />
+            <element signature="e#25817#25818#0" expanded="true" />
+            <element signature="e#34397#34403#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -841,7 +891,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>1.7</last-edited>
+          <last-edited>1.7.0u15</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

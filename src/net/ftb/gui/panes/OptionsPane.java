@@ -48,6 +48,7 @@ import net.ftb.gui.dialogs.AdvancedOptionsDialog;
 import net.ftb.locale.I18N;
 import net.ftb.log.Logger;
 
+@SuppressWarnings("serial")
 public class OptionsPane extends JPanel implements ILauncherPane {
 	private JToggleButton tglbtnForceUpdate;
 	private JButton installBrowseBtn, advancedOptionsBtn;
@@ -152,10 +153,13 @@ public class OptionsPane extends JPanel implements ILauncherPane {
 		add(ramMaximum);
 		add(currentRam);
 
-		String[] locales = new String[I18N.localeIndices.size()];
-		for(Map.Entry<Integer, String> entry : I18N.localeIndices.entrySet()) {
-			Logger.logInfo("[i18n] Added " + entry.getKey().toString() + " " + entry.getValue() + " to options pane");
-			locales[entry.getKey()] = I18N.localeFiles.get(entry.getValue());
+		String[] locales;
+		synchronized (I18N.localeIndices) {
+			locales = new String[I18N.localeIndices.size()];
+			for(Map.Entry<Integer, String> entry : I18N.localeIndices.entrySet()) {
+				Logger.logInfo("[i18n] Added " + entry.getKey().toString() + " " + entry.getValue() + " to options pane");
+				locales[entry.getKey()] = I18N.localeFiles.get(entry.getValue());
+			}
 		}
 		locale = new JComboBox(locales);
 		locale.setBounds(190, 130, 222, 25);
@@ -176,13 +180,13 @@ public class OptionsPane extends JPanel implements ILauncherPane {
 		add(lblLocale);
 		add(locale);
 
-		chckbxShowConsole = new JCheckBox("Show Console?");
+		chckbxShowConsole = new JCheckBox(I18N.getLocaleString("SHOW_CONSOLE"));
 		chckbxShowConsole.addFocusListener(settingsChangeListener);
 		chckbxShowConsole.setSelected(settings.getConsoleActive());
 		chckbxShowConsole.setBounds(550, 95, 183, 25);
 		add(chckbxShowConsole);
 
-		keepLauncherOpen = new JCheckBox("Reopen launcher after exiting minecraft?");
+		keepLauncherOpen = new JCheckBox(I18N.getLocaleString("REOPEN_LAUNCHER"));
 		keepLauncherOpen.setBounds(550, 130, 300, 25);
 		keepLauncherOpen.setSelected(settings.getKeepLauncherOpen());
 		keepLauncherOpen.addFocusListener(settingsChangeListener);

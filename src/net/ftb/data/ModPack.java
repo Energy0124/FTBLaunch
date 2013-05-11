@@ -114,6 +114,7 @@ public class ModPack {
 		return packs.get(i);
 	}
 
+
 	public static ModPack getPack(String dir) {
 		for(ModPack pack : packs) {
 			if(pack.getDir().equalsIgnoreCase(dir)) {

@@ -21,8 +21,8 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -58,9 +58,8 @@ import net.ftb.util.DownloadUtils;
 import net.ftb.util.OSUtils;
 import net.ftb.util.TrackerUtils;
 
+@SuppressWarnings("serial")
 public class ModpacksPane extends JPanel implements ILauncherPane, ModPackListener {
-	private static final long serialVersionUID = 1L;
-
 	private static JPanel packs;
 	public static ArrayList<JPanel> packPanels;
 	private static JScrollPane packsScroll;
@@ -268,20 +267,17 @@ public class ModpacksPane extends JPanel implements ILauncherPane, ModPackListen
 		filler.setForeground(Color.white);
 		filler.setBounds(58, 6, 378, 42);
 		filler.setBackground(new Color(255, 255, 255, 0));
-		MouseListener lin = new MouseListener() {
+		MouseAdapter lin = new MouseAdapter() {
 			@Override public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 2)
 				{
 					LaunchFrame.getInstance().doLaunch();
 				}
 			}
-			@Override public void mouseReleased(MouseEvent e) { }
 			@Override public void mousePressed(MouseEvent e) { 
 				selectedPack = packIndex;
 				updatePacks();
 			}
-			@Override public void mouseExited(MouseEvent e) { }
-			@Override public void mouseEntered(MouseEvent e) { }
 		};
 		p.addMouseListener(lin);
 		filler.addMouseListener(lin);
@@ -405,15 +401,15 @@ public class ModpacksPane extends JPanel implements ILauncherPane, ModPackListen
 	}
 
 	private static boolean avaliabilityCheck(ModPack pack) {
-		return (avaliability.equalsIgnoreCase("all")) || (avaliability.equalsIgnoreCase("public") && !pack.isPrivatePack()) || (avaliability.equalsIgnoreCase("private") && pack.isPrivatePack());
+		return (avaliability.equalsIgnoreCase(I18N.getLocaleString("MAIN_ALL"))) || (avaliability.equalsIgnoreCase(I18N.getLocaleString("FILTER_PUBLIC")) && !pack.isPrivatePack()) || (avaliability.equalsIgnoreCase(I18N.getLocaleString("FILTER_PRIVATE")) && pack.isPrivatePack());
 	}
 
 	private static boolean mcVersionCheck(ModPack pack) {
-		return (mcVersion.equalsIgnoreCase("all")) || (mcVersion.equalsIgnoreCase(pack.getMcVersion()));
+		return (mcVersion.equalsIgnoreCase(I18N.getLocaleString("MAIN_ALL"))) || (mcVersion.equalsIgnoreCase(pack.getMcVersion()));
 	}
 
 	private static boolean originCheck(ModPack pack) {
-		return (origin.equalsIgnoreCase("all")) || (origin.equalsIgnoreCase("ftb") && pack.getAuthor().equalsIgnoreCase("the ftb team")) || (origin.equalsIgnoreCase("3rd party") && !pack.getAuthor().equalsIgnoreCase("the ftb team"));
+		return (origin.equalsIgnoreCase(I18N.getLocaleString("MAIN_ALL"))) || (origin.equalsIgnoreCase("ftb") && pack.getAuthor().equalsIgnoreCase("the ftb team")) || (origin.equalsIgnoreCase(I18N.getLocaleString("FILTER_3THPARTY")) && !pack.getAuthor().equalsIgnoreCase("the ftb team"));
 	}
 
 	private static boolean textSearch(ModPack pack) {
