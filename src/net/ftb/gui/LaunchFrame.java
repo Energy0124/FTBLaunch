@@ -115,7 +115,7 @@ public class LaunchFrame extends JFrame {
 	private static String[] dropdown_ = {"Select Profile", "Create Profile"};
 	private static JComboBox users, tpInstallLocation, mapInstallLocation;
 	private static LaunchFrame instance = null;
-	private static String version = "1.2.4";
+	private static String version = "1.2.5";
 
 	public final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);	
 
@@ -126,7 +126,7 @@ public class LaunchFrame extends JFrame {
 	public TexturepackPane tpPane;
 	public OptionsPane optionsPane;
 
-	public static int buildNumber = 124;
+	public static int buildNumber = 125;
 	public static boolean noConfig = false;
 	public static LauncherConsole con;
 	public static String tempPass = "";
@@ -605,10 +605,22 @@ public class LaunchFrame extends JFrame {
 	private void runGameUpdater(final LoginResponse response) {
 		final String installPath = Settings.getSettings().getInstallPath();
 		final ModPack pack = ModPack.getSelectedPack();
+		boolean debugVerbose = Settings.getSettings().getDebugLauncher();
+		final String debugTag = "DEBUG: runGameUpdater: ";
+
+		if (debugVerbose) {
+			Logger.logInfo(debugTag + "ForceUpdate: " + Settings.getSettings().getForceUpdate());
+			Logger.logInfo(debugTag + "installPath: " + installPath);
+			Logger.logInfo(debugTag + "pack dir: " + pack.getDir());
+			Logger.logInfo(debugTag + "pack check path: " + pack.getDir() + File.separator + "version");
+		}
+
 		if(Settings.getSettings().getForceUpdate() && new File(installPath, pack.getDir() + File.separator + "version").exists()) {
 			new File(installPath, pack.getDir() + File.separator + "version").delete();
+			if (debugVerbose) { Logger.logInfo(debugTag + "Pack found and delete attempted"); }
 		}
 		if(!initializeMods()) {
+			if (debugVerbose) { Logger.logInfo(debugTag + "initializeMods: Failed to Init mods! Aborting to menu."); }
 			enableObjects();
 			return;
 		}
@@ -616,6 +628,9 @@ public class LaunchFrame extends JFrame {
 			TextureManager.updateTextures();
 		} catch (Exception e1) { }
 		MinecraftVersionDetector mvd = new MinecraftVersionDetector();
+
+		// I know it's wordy, but it's correct; why is this not using File.separator ? http://stackoverflow.com/questions/2417485/file-separator-vs-slash-in-paths
+
 		if(!new File(installPath, pack.getDir() + "/minecraft/bin/minecraft.jar").exists() || mvd.shouldUpdate(installPath + "/" + pack.getDir() + "/minecraft")) {
 			final ProgressMonitor progMonitor = new ProgressMonitor(this, "Downloading minecraft...", "", 0, 100);
 			final GameUpdateWorker updater = new GameUpdateWorker(pack.getMcVersion(), new File(installPath, pack.getDir() + "/minecraft/bin").getPath()) {
@@ -626,7 +641,7 @@ public class LaunchFrame extends JFrame {
 						if(get()) {
 							Logger.logInfo("Game update complete");
 							FileUtils.killMetaInf();
-							launchMinecraft(installPath + "/" + pack.getDir() + "/minecraft", RESPONSE.getUsername(), RESPONSE.getSessionID());
+							launchMinecraft(installPath + "/" + pack.getDir() + "/minecraft", RESPONSE.getUsername(), RESPONSE.getSessionID(), pack.getMaxPermSize());
 						} else {
 							ErrorUtils.tossError("Error occurred during downloading the game");
 						}
@@ -662,7 +677,7 @@ public class LaunchFrame extends JFrame {
 			});
 			updater.execute();
 		} else {
-			launchMinecraft(installPath + "/" + pack.getDir() + "/minecraft", RESPONSE.getUsername(), RESPONSE.getSessionID());
+			launchMinecraft(installPath + "/" + pack.getDir() + "/minecraft", RESPONSE.getUsername(), RESPONSE.getSessionID(), pack.getMaxPermSize());
 		}
 	}
 
@@ -672,9 +687,9 @@ public class LaunchFrame extends JFrame {
 	 * @param username - the MC username
 	 * @param password - the MC password
 	 */
-	public void launchMinecraft(String workingDir, String username, String password) {
+	public void launchMinecraft(String workingDir, String username, String password, String maxPermSize) {
 		try {
-			Process minecraftProcess = MinecraftLauncher.launchMinecraft(workingDir, username, password, FORGENAME, Settings.getSettings().getRamMax());
+			Process minecraftProcess = MinecraftLauncher.launchMinecraft(workingDir, username, password, FORGENAME, Settings.getSettings().getRamMax(), maxPermSize);
 			StreamLogger.start(minecraftProcess.getInputStream(), new LogEntry().level(LogLevel.UNKNOWN));
 			TrackerUtils.sendPageView(ModPack.getSelectedPack().getName() + " Launched", ModPack.getSelectedPack().getName());
 			try {
@@ -716,14 +731,30 @@ public class LaunchFrame extends JFrame {
 	protected void installMods(String modPackName) throws IOException {
 		String installpath = Settings.getSettings().getInstallPath();
 		String temppath = OSUtils.getDynamicStorageLocation();
+
 		ModPack pack = ModPack.getPack(modPacksPane.getSelectedModIndex());
+
+		String packDir = pack.getDir();
+
 		Logger.logInfo("dirs mk'd");
-		File source = new File(temppath, "ModPacks/" + pack.getDir() + "/.minecraft");
+
+		File source = new File(temppath, "ModPacks/" + packDir + "/.minecraft");
 		if(!source.exists()) {
-			source = new File(temppath, "ModPacks/" + pack.getDir() + "/minecraft");
+			source = new File(temppath, "ModPacks/" + packDir + "/minecraft");
 		}
-		FileUtils.copyFolder(source, new File(installpath, pack.getDir() + "/minecraft/"));
-		FileUtils.copyFolder(new File(temppath, "ModPacks/" + pack.getDir() + "/instMods/"), new File(installpath, pack.getDir() + "/instMods/"));
+
+		if (Settings.getSettings().getDebugLauncher()) {
+			final String debugTag = "debug: installMods: ";
+			Logger.logInfo(debugTag + "install path: " + installpath);
+			Logger.logInfo(debugTag + "temp path: " + temppath);
+			Logger.logInfo(debugTag + "source: " + source);
+			Logger.logInfo(debugTag + "packDir: " + packDir);
+		}
+
+		FileUtils.copyFolder(source,
+							 new File(installpath, packDir + "/minecraft/"));
+		FileUtils.copyFolder(new File(temppath, "ModPacks/" + packDir + "/instMods/"),
+							 new File(installpath, packDir + "/instMods/"));
 	}
 
 	/**
@@ -867,6 +898,10 @@ public class LaunchFrame extends JFrame {
 	 * @return boolean - represents whether it was successful in initializing mods
 	 */
 	private boolean initializeMods() {
+		boolean debugVerbose = Settings.getSettings().getDebugLauncher();
+		final String debugTag = "debug: initializeMods: ";
+
+		if (debugVerbose) { Logger.logInfo(debugTag + "pack dir..."); }
 		Logger.logInfo(ModPack.getSelectedPack().getDir());
 		ModManager man = new ModManager(new JFrame(), true);
 		man.setVisible(true);
@@ -876,7 +911,9 @@ public class LaunchFrame extends JFrame {
 		try {
 			installMods(ModPack.getSelectedPack().getDir());
 			man.cleanUp();
-		} catch (IOException e) { }
+		} catch (IOException e) {
+			if (debugVerbose) { Logger.logInfo(debugTag + "Exception: " + e); }
+		}
 		return true;
 	}
 
