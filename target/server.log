@@ -47,3 +47,32 @@
 2013-01-25 18:58:14 [INFO] Saving worlds
 2013-01-25 18:58:14 [INFO] Saving chunks for level 'New World'/Overworld
 2013-01-25 18:58:14 [INFO] Saving chunks for level 'New World'/Nether
+2013-05-13 01:03:22 [INFO] Starting integrated minecraft server version 1.4.7
+2013-05-13 01:03:22 [INFO] Generating keypair
+2013-05-13 01:03:22 [INFO] Converting map!
+2013-05-13 01:03:28 [INFO] Preparing start region for level 0
+2013-05-13 01:03:29 [INFO] Preparing spawn area: 11%
+2013-05-13 01:03:30 [INFO] Preparing spawn area: 36%
+2013-05-13 01:03:31 [INFO] Preparing spawn area: 56%
+2013-05-13 01:03:32 [INFO] Preparing spawn area: 65%
+2013-05-13 01:03:33 [INFO] Preparing spawn area: 90%
+2013-05-13 01:03:34 [SEVERE] Encountered an unexpected exception NoClassDefFoundError
+java.lang.NoClassDefFoundError: ls
+	at lt.a(SourceFile:120)
+	at is.a(EntityTrackerEntry.java:183)
+	at ii.a(EntityTracker.java:238)
+	at net.minecraft.server.MinecraftServer.r(MinecraftServer.java:692)
+	at net.minecraft.server.MinecraftServer.q(MinecraftServer.java:599)
+	at bdz.q(IntegratedServer.java:123)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:497)
+	at fy.run(SourceFile:849)
+Caused by: java.lang.ClassNotFoundException: ls
+	at cpw.mods.fml.relauncher.RelaunchClassLoader.findClass(RelaunchClassLoader.java:185)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 8 more
+Caused by: java.lang.NullPointerException
+2013-05-13 01:03:34 [INFO] Stopping server
+2013-05-13 01:03:34 [INFO] Saving players
+2013-05-13 01:03:34 [INFO] Saving worlds
+2013-05-13 01:03:34 [INFO] Saving chunks for level 'New World'/Overworld
