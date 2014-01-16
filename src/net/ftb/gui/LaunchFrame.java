@@ -87,6 +87,7 @@ import net.ftb.data.TexturePack;
 import net.ftb.data.UserManager;
 import net.ftb.gui.dialogs.InstallDirectoryDialog;
 import net.ftb.gui.dialogs.LauncherUpdateDialog;
+import net.ftb.gui.dialogs.ModPackVersionChangeDialog;
 import net.ftb.gui.dialogs.PasswordDialog;
 import net.ftb.gui.dialogs.PlayOfflineDialog;
 import net.ftb.gui.dialogs.ProfileAdderDialog;
@@ -138,7 +139,7 @@ public class LaunchFrame extends JFrame {
 	private static String[] dropdown_ = {"Select Profile", "Create Profile"};
 	private static JComboBox users, tpInstallLocation, mapInstallLocation;
 	private static LaunchFrame instance = null;
-	private static String version = "1.3.2";
+	private static String version = "1.3.4";
 
 	public final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);	
 
@@ -149,8 +150,10 @@ public class LaunchFrame extends JFrame {
 	public TexturepackPane tpPane;
 	public OptionsPane optionsPane;
 
-	public static int buildNumber = 132;
+	public static int buildNumber = 134;
 	public static boolean noConfig = false;
+	public static boolean allowVersionChange = false;
+	public static boolean doVersionBackup = false;
 	public static LauncherConsole con;
 	public static String tempPass = "";
 	public static Panes currentPane = Panes.MODPACK;
@@ -193,7 +196,10 @@ public class LaunchFrame extends JFrame {
 				System.getProperty("java.vm.specification.version") + " by " + System.getProperty("java.vm.specification.vendor"));
 		Logger.logInfo("Java vm: "+System.getProperty("java.vm.name") + " version: " + System.getProperty("java.vm.version") + " by " + System.getProperty("java.vm.vendor"));
 		Logger.logInfo("OS: "+System.getProperty("os.arch") + " " + System.getProperty("os.name") + " " + System.getProperty("os.version"));
-
+        Logger.logInfo("Launcher Install Dir: " + Settings.getSettings().getInstallPath());
+		Logger.logInfo("System memory: " + OSUtils.getOSFreeMemory() + "M free, " + OSUtils.getOSTotalMemory() + "M total");
+    	
+        
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -245,14 +251,19 @@ public class LaunchFrame extends JFrame {
 						osw.write("Launcher Developers:" + System.getProperty("line.separator"));
 						osw.write("jjw123" + System.getProperty("line.separator"));
 						osw.write("unv_annihilator" + System.getProperty("line.separator"));
-						osw.write("Vbitz" + System.getProperty("line.separator") + System.getProperty("line.separator"));
+	                    osw.write("ProgWML6" + System.getProperty("line.separator"));
+	                    osw.write("Major Launcher Dev Contributors" + System.getProperty("line.separator"));
+	                    osw.write("LexManos" + System.getProperty("line.separator"));
+	                    osw.write("Viper-7" + System.getProperty("line.separator") + System.getProperty("line.separator"));
+                        osw.write("Vbitz" + System.getProperty("line.separator") + System.getProperty("line.separator"));
 						osw.write("Web Developers:" + System.getProperty("line.separator"));
-						osw.write("captainnana" + System.getProperty("line.separator"));
+						osw.write("Captainnana" + System.getProperty("line.separator"));
 						osw.write("Rob" + System.getProperty("line.separator") + System.getProperty("line.separator"));
 						osw.write("Modpack Team:" + System.getProperty("line.separator"));
-						osw.write("CWW256" + System.getProperty("line.separator"));
 						osw.write("Lathanael" + System.getProperty("line.separator"));
 						osw.write("Watchful11" + System.getProperty("line.separator"));
+                        osw.write("Jadedcat" + System.getProperty("line.separator"));
+                        osw.write("Eyamaz" + System.getProperty("line.separator"));
 						
 						osw.flush();
 						
@@ -595,9 +606,7 @@ public class LaunchFrame extends JFrame {
 
 				try {
 					RESPONSE = new LoginResponse(responseStr);
-
-                } catch (IllegalArgumentException e) {
-					/*
+				} catch (IllegalArgumentException e) {
 					if(responseStr.contains(":")) {
 						Logger.logError("Received invalid response from server.");
 					} else {
@@ -613,10 +622,6 @@ public class LaunchFrame extends JFrame {
 					}
 					enableObjects();
 					return;
-                                        */
-                    RESPONSE = new LoginResponse(" 0:0:" + username + ":0:0");
-
-
 				}
 				Logger.logInfo("Login complete.");
 				runGameUpdater(RESPONSE);
@@ -625,6 +630,16 @@ public class LaunchFrame extends JFrame {
 		loginWorker.execute();
 	}
 
+	private Boolean checkVersion(File verFile, ModPack pack) {
+		String storedVersion = pack.getStoredVersion(verFile);
+		String onlineVersion = pack.getVersion();
+		if(Integer.parseInt(storedVersion.replace(".", "")) != Integer.parseInt(onlineVersion.replace(".",  ""))) {
+			ModPackVersionChangeDialog verDialog = new ModPackVersionChangeDialog(this, true, storedVersion, onlineVersion);
+			verDialog.setVisible(true);
+		}
+		return allowVersionChange & (storedVersion != onlineVersion);
+	}
+	
 	/**
 	 * checks whether an update is needed, and then starts the update process off
 	 * @param response - the response from the minecraft servers
@@ -642,15 +657,33 @@ public class LaunchFrame extends JFrame {
 			Logger.logInfo(debugTag + "pack check path: " + pack.getDir() + File.separator + "version");
 		}
 
-		if(Settings.getSettings().getForceUpdate() && new File(installPath, pack.getDir() + File.separator + "version").exists()) {
-			new File(installPath, pack.getDir() + File.separator + "version").delete();
+		File verFile = new File(installPath, pack.getDir() + File.separator + "version");
+
+		if(Settings.getSettings().getForceUpdate() && verFile.exists()) {
+			verFile.delete();
 			if (debugVerbose) { Logger.logInfo(debugTag + "Pack found and delete attempted"); }
 		}
-		if(!initializeMods()) {
-			if (debugVerbose) { Logger.logInfo(debugTag + "initializeMods: Failed to Init mods! Aborting to menu."); }
-			enableObjects();
-			return;
+		
+		if(Settings.getSettings().getForceUpdate() || !verFile.exists() || checkVersion(verFile, pack)) {
+			if(doVersionBackup) {
+				try {
+					File destination = new File(OSUtils.getDynamicStorageLocation(), "backups" + File.separator + pack.getDir() + File.separator + "config_backup");
+					if(destination.exists()) {
+						FileUtils.delete(destination);
+					}
+					FileUtils.copyFolder(new File(Settings.getSettings().getInstallPath(), pack.getDir() + File.separator + "minecraft" + File.separator + "config"), destination);
+				} catch (IOException e) {
+					Logger.logError(e.getMessage(), e);
+				}
+			}
+			
+			if(!initializeMods()) {
+				if (debugVerbose) { Logger.logInfo(debugTag + "initializeMods: Failed to Init mods! Aborting to menu."); }
+				enableObjects();
+				return;
+			}
 		}
+		
 		try {
 			TextureManager.updateTextures();
 		} catch (Exception e1) { }
@@ -721,15 +754,17 @@ public class LaunchFrame extends JFrame {
         
         if (assets.size() > 0)
         {
+        	Logger.logInfo("Gathering " + assets.size() + " assets, this may take a while...");
+        	
             final ProgressMonitor prog = new ProgressMonitor(this, "Downloading Files...", "", 0, 100); //Not sure why this isnt showing...
             final AssetDownloader downloader = new AssetDownloader(prog, assets)
             {
                 @Override
                 public void done()
                 {
-                    prog.close();
                     try
                     {
+                        prog.close();
                         if(get())
                         {
                             Logger.logInfo("Asset downloading complete");
@@ -752,24 +787,6 @@ public class LaunchFrame extends JFrame {
                 }
             };
 
-            downloader.addPropertyChangeListener(new PropertyChangeListener() {
-                @Override
-                public void propertyChange(PropertyChangeEvent evt) {
-                    if (prog.isCanceled()) {
-                        downloader.cancel(false);
-                    }
-                    if (!downloader.isDone()) {
-                        int progress = downloader.getProgress();
-                        if (progress < 0) {
-                            progress = 0;
-                        } else if (progress > 100) {
-                            progress = 100;
-                        }
-                        prog.setProgress(progress);
-                        prog.setNote(downloader.getStatus());
-                    }
-                }
-            });
             downloader.execute();
         }
         else
@@ -833,39 +850,28 @@ public class LaunchFrame extends JFrame {
 	    private List<DownloadInfo> downloads;
 	    private final ProgressMonitor monitor;
 	    private String status;
-	    private long total = 1;
+	    private int progressIndex = 0;
 	    
 	    private AssetDownloader(final ProgressMonitor monitor, List<DownloadInfo> downloads)
 	    {
 	        this.downloads = downloads;
 	        this.monitor = monitor;
 
-            for (DownloadInfo i : downloads) total += i.size;
-
+	        monitor.setMaximum(downloads.size() * 100);
+	        
             addPropertyChangeListener(new PropertyChangeListener()
             {
                 @Override
                 public void propertyChange(PropertyChangeEvent evt)
                 {
                     if (monitor.isCanceled()) AssetDownloader.this.cancel(false);
-                    if (!AssetDownloader.this.isDone())
-                    {
-                        monitor.setProgress(AssetDownloader.this.getProgress());
-                        monitor.setNote(AssetDownloader.this.getStatus());
-                    }
                 }
             });
-	    }
-
-	    protected String getStatus()
-	    {
-	        return status;
 	    }
 
         @Override
         protected Boolean doInBackground() throws Exception
         {
-            long downloaded = 0;
             boolean allDownloaded = true;
 
             byte[] buffer = new byte[24000];
@@ -895,15 +901,22 @@ public class LaunchFrame extends JFrame {
                         FileOutputStream output = new FileOutputStream(asset.local);
                         int readLen;
                         int currentSize = 0;
+                        int size = Integer.parseInt(con.getHeaderField("Content-Length"));
+                        setProgress(0);
                         while((readLen = input.read(buffer, 0, buffer.length)) != -1)
                         {
                             output.write(buffer, 0, readLen);
                             currentSize += readLen;
-                            downloaded += readLen;
-                            int prog = (int)((downloaded / total) * 100);
+                            int prog = (int)((currentSize / size) * 100);
                             if(prog > 100) prog = 100;
                             if(prog < 0  ) prog = 0;
+                            
                             setProgress(prog);
+                            
+                            prog = (progressIndex * 100) + prog;
+                            
+                            monitor.setProgress(prog);
+                            monitor.setNote(this.status);
                         }
                         input.close();
                         output.close();
@@ -919,6 +932,7 @@ public class LaunchFrame extends JFrame {
                                 downloadSuccess = true;
                             }
                         }
+                        progressIndex += 1;
                     }
                     catch (Exception e)
                     {

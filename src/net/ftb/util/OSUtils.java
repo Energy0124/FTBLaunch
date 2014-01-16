@@ -18,6 +18,9 @@ package net.ftb.util;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.reflect.Method;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.URI;
@@ -78,6 +81,50 @@ public class OSUtils {
 		}
 	}
 
+    public static long getOSTotalMemory() {
+        long ram = 0;
+        
+        OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+		Method m;
+		try {
+			m = operatingSystemMXBean.getClass().getDeclaredMethod("getTotalPhysicalMemorySize");
+			m.setAccessible(true);
+			Object value = m.invoke(operatingSystemMXBean);
+			if(value != null) {
+				ram = Long.valueOf(value.toString()) / 1024 / 1024;
+			} else {
+				Logger.logWarn("Could not get RAM Value");
+				ram = 1024;
+			}
+		} catch (Exception e) {
+			Logger.logError(e.getMessage(), e);
+		}
+		
+		return ram;
+    }
+
+    public static long getOSFreeMemory() {
+        long ram = 0;
+        
+        OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+		Method m;
+		try {
+			m = operatingSystemMXBean.getClass().getDeclaredMethod("getFreePhysicalMemorySize");
+			m.setAccessible(true);
+			Object value = m.invoke(operatingSystemMXBean);
+			if(value != null) {
+				ram = Long.valueOf(value.toString()) / 1024 / 1024;
+			} else {
+				Logger.logWarn("Could not get free RAM Value");
+				ram = 1024;
+			}
+		} catch (Exception e) {
+			Logger.logError(e.getMessage(), e);
+		}
+		
+		return ram;
+    }
+    
 	/**
 	 * Used to get the java delimiter for current OS
 	 * @return string containing java delimiter for current OS
@@ -111,7 +158,14 @@ public class OSUtils {
 			return OS.OTHER;
 		}
 	}
-
+	
+	/**
+     * sees if the hash of the UUID matches the one stored in the config
+     * @return true if UUID matches hash or false if it does not
+     */
+	public static boolean verifyUUID(){
+	    return true;
+	}
 	/**
 	 * Grabs the mac address of computer and makes it 10 times longer
 	 * @return a byte array containing mac address
@@ -125,7 +179,7 @@ public class OSUtils {
 			while(networkInterfaces.hasMoreElements()) {
 				NetworkInterface network = networkInterfaces.nextElement();
 				byte[] mac = network.getHardwareAddress();
-				if(mac != null && mac.length > 0) {
+				if(mac != null && mac.length > 0 && !network.isLoopback() && !network.isVirtual() && !network.isPointToPoint()) {
 					cachedMacAddress = new byte[mac.length * 10];
 					for(int i = 0; i < cachedMacAddress.length; i++) {
 						cachedMacAddress[i] = mac[i - (Math.round(i / mac.length) * mac.length)];

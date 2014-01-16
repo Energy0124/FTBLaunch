@@ -22,9 +22,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
-import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.Map;
 
@@ -55,7 +52,7 @@ import net.ftb.util.winreg.JavaFinder;
 public class OptionsPane extends JPanel implements ILauncherPane {
 	private JToggleButton tglbtnForceUpdate;
 	private JButton installBrowseBtn, advancedOptionsBtn, btnInstallJava;
-	private JLabel lblInstallFolder, lblRamMaximum, lblLocale, currentRam, minecraftSize, lblX, lbl32BitWarning;
+	private JLabel lblJavaVersion, lblInstallFolder, lblRamMaximum, lblLocale, currentRam, minecraftSize, lblX, lbl32BitWarning;
 	private JSlider ramMaximum;
 	private JComboBox locale;
 	private JTextField installFolderTextField;
@@ -104,22 +101,8 @@ public class OptionsPane extends JPanel implements ILauncherPane {
 
 		currentRam = new JLabel();
 		currentRam.setBounds(427, 95, 85, 25);
-		long ram = 0;
-		OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
-		Method m;
-		try {
-			m = operatingSystemMXBean.getClass().getDeclaredMethod("getTotalPhysicalMemorySize");
-			m.setAccessible(true);
-			Object value = m.invoke(operatingSystemMXBean);
-			if(value != null) {
-				ram = Long.valueOf(value.toString()) / 1024 / 1024;
-			} else {
-				Logger.logWarn("Could not get RAM Value");
-				ram = 8192;
-			}
-		} catch (Exception e) {
-			Logger.logError(e.getMessage(), e);
-		}
+		long ram = OSUtils.getOSTotalMemory();
+		long freeram = OSUtils.getOSFreeMemory();
 
 		ramMaximum = new JSlider();
 		ramMaximum.setBounds(190, 95, 222, 25);
@@ -140,7 +123,11 @@ public class OptionsPane extends JPanel implements ILauncherPane {
 				if(ram < 1024) {
 					ramMaximum.setMaximum((int)ram);
 				} else {
-					ramMaximum.setMaximum(1024);
+				    if(freeram > 2046) {
+                        ramMaximum.setMaximum(1536);
+                    } else {
+                        ramMaximum.setMaximum(1024);
+                    }
 				}
 			}
 		}
@@ -191,7 +178,7 @@ public class OptionsPane extends JPanel implements ILauncherPane {
 		// Dependant on vmType from earlier RAM calculations to detect 64 bit JVM 
 		if(vmType.equals("32")) {
 			lbl32BitWarning = new JLabel(I18N.getLocaleString("JAVA_32BIT_WARNING"));
-			lbl32BitWarning.setBounds(230, 170, 500, 25);
+			lbl32BitWarning.setBounds(190, 170, 500, 25);
 			lbl32BitWarning.setForeground(Color.red);
 			add(lbl32BitWarning);
 			
@@ -217,7 +204,7 @@ public class OptionsPane extends JPanel implements ILauncherPane {
 							}
 						}
 					});
-					btnInstallJava.setBounds(385, 200, 150, 28);
+					btnInstallJava.setBounds(345, 200, 150, 28);
 					add(btnInstallJava);
 				}
 			}
@@ -246,6 +233,12 @@ public class OptionsPane extends JPanel implements ILauncherPane {
 		});
 		advancedOptionsBtn.getModel().setPressed(settings.getForceUpdate());
 		add(advancedOptionsBtn);
+		
+		if (OSUtils.getCurrentOS().equals(OS.WINDOWS) && JavaFinder.parseWinJavaVersion().path != null) {
+		    lblJavaVersion = new JLabel("Java version: " + JavaFinder.parseWinJavaVersion().origVersion);
+    		lblJavaVersion.setBounds(15,276,250,25);
+    		add(lblJavaVersion);
+		}
 	}
 
 	public void setInstallFolderText(String text) {

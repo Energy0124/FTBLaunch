@@ -25,20 +25,34 @@
     <option name="FILTER_BY_CURRENT_PROJECT" value="true" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="92132747-735c-433b-90a4-d067e4feaaf1" name="Default" comment="Merge branch 'master' of https://github.com/Slowpoke101/FTBLaunch into Slowpoke101-master&#10;&#10;Conflicts:&#10;&#9;pom.xml&#10;&#9;src/net/ftb/gui/LaunchFrame.java&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/util/DownloadUtils.java" afterPath="$PROJECT_DIR$/src/net/ftb/util/DownloadUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FTB Launcher.iml" afterPath="$PROJECT_DIR$/FTB Launcher.iml" />
+    <list default="true" id="92132747-735c-433b-90a4-d067e4feaaf1" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/ModPackVersionChangeDialog.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build.gradle" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gradlew.bat" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gradlew" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/settings.gradle" />
+      <change type="DELETED" beforePath="F:\Users\Energy\Documents\GitHub\FTBLaunch\res\app\Info.plist.template" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/app/icon.icns" afterPath="$PROJECT_DIR$/res/app/icon.icns" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/util/winreg/JavaFinder.java" afterPath="$PROJECT_DIR$/src/net/ftb/util/winreg/JavaFinder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/util/winreg/JavaInfo.java" afterPath="$PROJECT_DIR$/src/net/ftb/util/winreg/JavaInfo.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/LaunchFrame.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/LaunchFrame.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/tools/MapManager.java" afterPath="$PROJECT_DIR$/src/net/ftb/tools/MapManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/mclauncher/MinecraftLauncher.java" afterPath="$PROJECT_DIR$/src/net/ftb/mclauncher/MinecraftLauncher.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/panes/MapsPane.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/panes/MapsPane.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/mclauncher/MinecraftLauncherNew.java" afterPath="$PROJECT_DIR$/src/net/ftb/mclauncher/MinecraftLauncherNew.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/tools/ModManager.java" afterPath="$PROJECT_DIR$/src/net/ftb/tools/ModManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/data/ModPack.java" afterPath="$PROJECT_DIR$/src/net/ftb/data/ModPack.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/workers/ModpackLoader.java" afterPath="$PROJECT_DIR$/src/net/ftb/workers/ModpackLoader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/panes/ModpacksPane.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/panes/ModpacksPane.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/PrivatePackDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/PrivatePackDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/data/Settings.java" afterPath="$PROJECT_DIR$/src/net/ftb/data/Settings.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/util/OSUtils.java" afterPath="$PROJECT_DIR$/src/net/ftb/util/OSUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/panes/OptionsPane.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/panes/OptionsPane.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/PlayOfflineDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/PlayOfflineDialog.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/ProfileAdderDialog.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/dialogs/ProfileAdderDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/tools/TextureManager.java" afterPath="$PROJECT_DIR$/src/net/ftb/tools/TextureManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/i18n/deDE" afterPath="$PROJECT_DIR$/res/i18n/deDE" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/gui/panes/TexturepackPane.java" afterPath="$PROJECT_DIR$/src/net/ftb/gui/panes/TexturepackPane.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/ftb/data/UserManager.java" afterPath="$PROJECT_DIR$/src/net/ftb/data/UserManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/i18n/enUS" afterPath="$PROJECT_DIR$/res/i18n/enUS" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/i18n/nlNL" afterPath="$PROJECT_DIR$/res/i18n/nlNL" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
     </list>
     <list id="553d8e72-eac3-4490-affb-251aed88e5a8" name="New changelist" comment="" />
@@ -107,7 +121,7 @@
       <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="248" column="58" selection-start="8785" selection-end="8785" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5377">
+            <state line="5" column="11" selection-start="323" selection-end="323" vertical-scroll-proportion="0.0" vertical-offset="95" max-vertical-offset="5814">
               <folding />
             </state>
           </provider>
@@ -131,36 +145,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LaunchFrame.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="LaunchFrame.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/net/ftb/gui/LaunchFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="908" column="27" selection-start="31942" selection-end="31942" vertical-scroll-proportion="0.7179963" vertical-offset="16694" max-vertical-offset="20596">
+            <state line="623" column="129" selection-start="23290" selection-end="23290" vertical-scroll-proportion="0.0" vertical-offset="8505" max-vertical-offset="27702">
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#3676#3703#0" expanded="true" />
-                <element signature="e#11542#11685#0" expanded="true" />
-                <element signature="e#11680#11681#0" expanded="true" />
-                <element signature="e#11841#11997#0" expanded="true" />
-                <element signature="e#11992#11993#0" expanded="true" />
-                <element signature="e#12832#13151#0" expanded="true" />
-                <element signature="e#13146#13147#0" expanded="true" />
-                <element signature="e#13348#13705#0" expanded="true" />
-                <element signature="e#13700#13701#0" expanded="true" />
-                <element signature="e#13831#13942#0" expanded="true" />
-                <element signature="e#13937#13938#0" expanded="true" />
-                <element signature="e#14127#15286#0" expanded="true" />
-                <element signature="e#15281#15282#0" expanded="true" />
-                <element signature="e#15454#15737#0" expanded="true" />
-                <element signature="e#15732#15733#0" expanded="true" />
-                <element signature="e#16094#16585#0" expanded="true" />
-                <element signature="e#16580#16581#0" expanded="true" />
-                <element signature="e#16757#17035#0" expanded="true" />
-                <element signature="e#17030#17031#0" expanded="true" />
-                <element signature="e#18548#18872#0" expanded="true" />
-                <element signature="e#18867#18868#0" expanded="true" />
-                <element signature="e#24439#24884#0" expanded="true" />
-                <element signature="e#24878#24879#0" expanded="true" />
+                <element signature="e#4562#4589#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="36" selection-start="99" selection-end="99" vertical-scroll-proportion="0.36121672" vertical-offset="0" max-vertical-offset="526">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoginResponse.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/net/ftb/data/LoginResponse.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="17" selection-start="752" selection-end="752" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="988">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -168,20 +177,8 @@
       <file leaf-file-name="ModManager.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/net/ftb/tools/ModManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="224" column="53" selection-start="9887" selection-end="9887" vertical-scroll-proportion="0.0" vertical-offset="3992" max-vertical-offset="6422">
-              <folding>
-                <element signature="e#0#14943#0" expanded="true" />
-                <element signature="imports" expanded="true" />
-                <element signature="e#1797#1824#0" expanded="true" />
-                <element signature="e#4294#4445#0" expanded="true" />
-                <element signature="e#4426#4427#0" expanded="true" />
-                <element signature="e#4992#5224#0" expanded="true" />
-                <element signature="e#5197#5198#0" expanded="true" />
-                <element signature="e#10529#10933#0" expanded="true" />
-                <element signature="e#10655#10874#0" expanded="true" />
-                <element signature="e#10855#10856#0" expanded="true" />
-                <element signature="e#10922#10923#0" expanded="true" />
-              </folding>
+            <state line="282" column="53" selection-start="9746" selection-end="9746" vertical-scroll-proportion="0.0" vertical-offset="5358" max-vertical-offset="6707">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -198,7 +195,7 @@
       <file leaf-file-name="UserManager.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/net/ftb/data/UserManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="13" selection-start="1137" selection-end="1137" vertical-scroll-proportion="0.0" vertical-offset="627" max-vertical-offset="3268">
+            <state line="43" column="13" selection-start="1406" selection-end="1406" vertical-scroll-proportion="0.0" vertical-offset="817" max-vertical-offset="3534">
               <folding />
             </state>
           </provider>
@@ -222,12 +219,12 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/FTB Launcher.iml" />
         <option value="$PROJECT_DIR$/readme.md" />
+        <option value="$PROJECT_DIR$/src/net/ftb/tools/ModManager.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/net/ftb/gui/LaunchFrame.java" />
-        <option value="$PROJECT_DIR$/src/net/ftb/tools/ModManager.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -251,6 +248,48 @@
           <option name="myItemId" value="" />
           <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
         </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="FTB Launcher" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Dependencies" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$DependenciesNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="FTB Launcher" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Plugins" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$PluginsNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="FTB Launcher" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Lifecycle" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$LifecycleNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
       </PATH>
     </treeState>
   </component>
@@ -261,8 +300,10 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="width" value="1840" />
-    <option name="height" value="1018" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1014" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -277,7 +318,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
-    <option name="STATE" value="0" />
+    <option name="STATE" value="2" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
@@ -292,8 +333,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -414,12 +453,92 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="mclauncher" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FTB Launcher" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FTBLaunch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="net" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ftb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="log" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FTB Launcher" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FTBLaunch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="net" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ftb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="locale" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FTB Launcher" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FTBLaunch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="net" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ftb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="gui" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -430,7 +549,7 @@
     <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="preferences.sourceCode" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../SpoutcraftLauncher" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
@@ -443,6 +562,16 @@
     <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RunManager" selected="Application.LaunchFrame">
+    <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails" singleton="true">
+      <module name="" />
+      <setting name="vmparams" value="" />
+      <setting name="cmdLine" value="run-app" />
+      <setting name="depsClasspath" value="false" />
+      <setting name="passParentEnv" value="true" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <setting name="launchBrowser" value="false" />
+      <method />
+    </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin" singleton="true">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
@@ -477,6 +606,12 @@
       <option name="SHMEM_ADDRESS" value="javadebug" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
       <method />
     </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
@@ -520,19 +655,11 @@
       <listeners />
       <method />
     </configuration>
-    <configuration default="true" type="Application" factoryName="Application">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="">
+      <browser start="false" url="" with-js-debugger="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
@@ -554,6 +681,132 @@
       </option>
       <envs />
       <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="FlashRunConfigurationType" factoryName="Flash App">
+      <option name="BCName" value="" />
+      <option name="IOSSimulatorSdkPath" value="" />
+      <option name="adlOptions" value="" />
+      <option name="airProgramParameters" value="" />
+      <option name="appDescriptorForEmulator" value="Android" />
+      <option name="debugTransport" value="USB" />
+      <option name="debuggerSdkRaw" value="BC SDK" />
+      <option name="emulator" value="NexusOne" />
+      <option name="emulatorAdlOptions" value="" />
+      <option name="fastPackaging" value="true" />
+      <option name="fullScreenHeight" value="0" />
+      <option name="fullScreenWidth" value="0" />
+      <option name="launchUrl" value="false" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browserFamily" value="FIREFOX" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="FlashPlayerDebugger.exe" />
+        </LauncherParameters>
+      </option>
+      <option name="mobileRunTarget" value="Emulator" />
+      <option name="moduleName" value="" />
+      <option name="overriddenMainClass" value="" />
+      <option name="overriddenOutputFileName" value="" />
+      <option name="overrideMainClass" value="false" />
+      <option name="runTrusted" value="true" />
+      <option name="screenDpi" value="0" />
+      <option name="screenHeight" value="0" />
+      <option name="screenWidth" value="0" />
+      <option name="url" value="http://" />
+      <option name="usbDebugPort" value="7936" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" appDescriptorForEmulator="Android" class_name="" emulatorAdlOptions="" method_name="" output_log_level="null" package_name="" scope="Class">
+      <option name="BCName" value="" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browserFamily" value="FIREFOX" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="FlashPlayerDebugger.exe" />
+        </LauncherParameters>
+      </option>
+      <option name="moduleName" value="" />
+      <option name="trusted" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="myFilePath" />
+      <option name="GLUE" />
+      <option name="myNameFilter" />
+      <option name="myGeneratedName" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="USE_COMMAND_LINE" value="true" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
     <configuration default="false" name="LaunchFrame" type="Application" factoryName="Application">
@@ -606,7 +859,12 @@
       <changelist id="553d8e72-eac3-4490-affb-251aed88e5a8" name="New changelist" comment="" />
       <created>1357210142553</created>
       <updated>1357210142553</updated>
-      <workItem from="1379177380641" duration="769000" />
+      <workItem from="1379177380641" duration="1470000" />
+      <workItem from="1379670827992" duration="266000" />
+      <workItem from="1387999502705" duration="406000" />
+      <workItem from="1387999909691" duration="2527000" />
+      <workItem from="1389857312890" duration="182000" />
+      <workItem from="1389857496338" duration="1190000" />
     </task>
     <task id="LOCAL-00001" summary="Change Title">
       <created>1357210900883</created>
@@ -660,11 +918,15 @@
       <created>1358501015957</created>
       <updated>1358501015957</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Merge branch 'master' of https://github.com/Slowpoke101/FTBLaunch&#10;&#10;Conflicts:&#10;&#9;pom.xml&#10;&#9;src/net/ftb/gui/LaunchFrame.java&#10;&#9;src/net/ftb/tools/ModManager.java&#10;">
+      <created>1388002280387</created>
+      <updated>1388002280387</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="769000" />
+    <option name="totallyTimeSpent" value="6041000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -687,51 +949,58 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1840" height="1018" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1014" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32887402" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32788798" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998884" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32945284" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998884" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13610798" sideWeight="0.6740396" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32596043" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspector" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26144835" sideWeight="0.67479676" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3243874" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven-2 Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3282887" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven-2 Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="CheckStyle" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="JRebel Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32905483" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle View" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TeamCity" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="JRebel" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="FindBugs-IDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32945284" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="TeamCity" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="FindBugs-IDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32905483" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16366704" sideWeight="0.6740396" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16347177" sideWeight="0.67479676" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspector" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="JRebel Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="JRebel" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USERS">
+      <collection />
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
@@ -742,7 +1011,10 @@
     <MESSAGE value="Build 1.2.0" />
     <MESSAGE value="Update project" />
     <MESSAGE value="Merge remote-tracking branch 'upstream/master'&#10;&#10;Conflicts:&#10;&#9;pom.xml&#10;&#9;src/net/ftb/gui/LaunchFrame.java&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'upstream/master'&#10;&#10;Conflicts:&#10;&#9;pom.xml&#10;&#9;src/net/ftb/gui/LaunchFrame.java&#10;" />
+    <MESSAGE value="Merge branch 'master' of https://github.com/Slowpoke101/FTBLaunch into Slowpoke101-master&#10;&#10;Conflicts:&#10;&#9;pom.xml&#10;&#9;src/net/ftb/gui/LaunchFrame.java&#10;" />
+    <MESSAGE value="Merge branch 'master' of https://github.com/Slowpoke101/FTBLaunch&#10;&#10;Conflicts:&#10;&#9;pom.xml&#10;&#9;src/net/ftb/gui/LaunchFrame.java&#10;&#9;src/net/ftb/tools/ModManager.java&#10;" />
+    <MESSAGE value="Merge branch 'master' of https://github.com/Slowpoke101/FTBLaunch&#10;&#10;Conflicts:&#10;&#9;.gitignore&#10;&#9;pom.xml&#10;&#9;src/net/ftb/gui/LaunchFrame.java&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of https://github.com/Slowpoke101/FTBLaunch&#10;&#10;Conflicts:&#10;&#9;.gitignore&#10;&#9;pom.xml&#10;&#9;src/net/ftb/gui/LaunchFrame.java&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -752,34 +1024,229 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="11" selection-start="323" selection-end="323" vertical-scroll-proportion="0.0" vertical-offset="95" max-vertical-offset="5814">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/workers/LoginWorker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="13" selection-start="1045" selection-end="1045" vertical-scroll-proportion="0.0" vertical-offset="570" max-vertical-offset="1045">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/locale/I18N.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="13" selection-start="978" selection-end="978" vertical-scroll-proportion="0.0" vertical-offset="532" max-vertical-offset="3192">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/gui/LaunchFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="626" column="41" selection-start="23285" selection-end="23285" vertical-scroll-proportion="0.0" vertical-offset="11894" max-vertical-offset="27645">
+          <folding>
+            <element signature="e#4562#4589#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/data/LoginResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="11" selection-start="958" selection-end="958" vertical-scroll-proportion="0.0" vertical-offset="475" max-vertical-offset="1425">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/tools/ModManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="282" column="53" selection-start="9746" selection-end="9746" vertical-scroll-proportion="0.0" vertical-offset="5358" max-vertical-offset="7866">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/licenseheader.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="361">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/data/UserManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="13" selection-start="1406" selection-end="1406" vertical-scroll-proportion="0.0" vertical-offset="817" max-vertical-offset="3534">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="11" selection-start="323" selection-end="323" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5852">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/workers/LoginWorker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="13" selection-start="1045" selection-end="1045" vertical-scroll-proportion="0.0" vertical-offset="570" max-vertical-offset="1045">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/locale/I18N.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="13" selection-start="978" selection-end="978" vertical-scroll-proportion="0.0" vertical-offset="532" max-vertical-offset="3192">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/gui/LaunchFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="621" column="154" selection-start="22536" selection-end="22536" vertical-scroll-proportion="0.0" vertical-offset="11799" max-vertical-offset="28367">
+          <folding>
+            <element signature="e#4562#4589#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/data/LoginResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="11" selection-start="958" selection-end="958" vertical-scroll-proportion="0.0" vertical-offset="475" max-vertical-offset="1425">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/tools/ModManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="230" column="53" selection-start="8418" selection-end="8418" vertical-scroll-proportion="0.0" vertical-offset="4106" max-vertical-offset="6878">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/licenseheader.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="361">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/data/UserManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="13" selection-start="1137" selection-end="1137" vertical-scroll-proportion="0.0" vertical-offset="627" max-vertical-offset="3268">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="11" selection-start="323" selection-end="323" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5852">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/workers/LoginWorker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="13" selection-start="1045" selection-end="1045" vertical-scroll-proportion="0.0" vertical-offset="570" max-vertical-offset="1045">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/locale/I18N.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="13" selection-start="978" selection-end="978" vertical-scroll-proportion="0.0" vertical-offset="532" max-vertical-offset="3192">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/gui/LaunchFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="598" column="51" selection-start="21782" selection-end="21782" vertical-scroll-proportion="0.0" vertical-offset="11362" max-vertical-offset="30647">
+          <folding>
+            <element signature="e#4562#4589#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/tools/ModManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="230" column="53" selection-start="8418" selection-end="8418" vertical-scroll-proportion="0.0" vertical-offset="4106" max-vertical-offset="6878">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/licenseheader.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="361">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/data/UserManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="13" selection-start="1137" selection-end="1137" vertical-scroll-proportion="0.0" vertical-offset="627" max-vertical-offset="3268">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="11" selection-start="2495" selection-end="2516" vertical-scroll-proportion="0.0" vertical-offset="950" max-vertical-offset="5377">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/workers/LoginWorker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="13" selection-start="1045" selection-end="1045" vertical-scroll-proportion="0.0" vertical-offset="570" max-vertical-offset="1045">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/locale/I18N.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="13" selection-start="978" selection-end="978" vertical-scroll-proportion="0.0" vertical-offset="532" max-vertical-offset="3192">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/gui/LaunchFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="909" column="73" selection-start="32029" selection-end="32029" vertical-scroll-proportion="0.0" vertical-offset="17271" max-vertical-offset="20767">
+          <folding>
+            <element signature="e#4562#4589#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/tools/ModManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="224" column="53" selection-start="9887" selection-end="9887" vertical-scroll-proportion="0.0" vertical-offset="3992" max-vertical-offset="6422">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/licenseheader.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="361">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/data/UserManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="13" selection-start="1137" selection-end="1137" vertical-scroll-proportion="0.0" vertical-offset="627" max-vertical-offset="3268">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/net/ftb/gui/LaunchFrame.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="106" column="27" selection-start="4033" selection-end="4033" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3676#3703#0" expanded="true" />
-            <element signature="e#11542#11685#0" expanded="true" />
-            <element signature="e#11680#11681#0" expanded="true" />
-            <element signature="e#11841#11997#0" expanded="true" />
-            <element signature="e#11992#11993#0" expanded="true" />
-            <element signature="e#12832#13151#0" expanded="true" />
-            <element signature="e#13146#13147#0" expanded="true" />
-            <element signature="e#13348#13705#0" expanded="true" />
-            <element signature="e#13700#13701#0" expanded="true" />
-            <element signature="e#13831#13942#0" expanded="true" />
-            <element signature="e#13937#13938#0" expanded="true" />
-            <element signature="e#14127#15286#0" expanded="true" />
-            <element signature="e#15281#15282#0" expanded="true" />
-            <element signature="e#15454#15737#0" expanded="true" />
-            <element signature="e#15732#15733#0" expanded="true" />
-            <element signature="e#16094#16585#0" expanded="true" />
-            <element signature="e#16580#16581#0" expanded="true" />
-            <element signature="e#16757#17035#0" expanded="true" />
-            <element signature="e#17030#17031#0" expanded="true" />
-            <element signature="e#18548#18872#0" expanded="true" />
-            <element signature="e#18867#18868#0" expanded="true" />
-            <element signature="e#24439#24884#0" expanded="true" />
-            <element signature="e#24878#24879#0" expanded="true" />
+            <element signature="e#4562#4589#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -805,7 +1272,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/net/ftb/data/UserManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="13" selection-start="1137" selection-end="1137" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+        <state line="43" column="13" selection-start="1406" selection-end="1406" vertical-scroll-proportion="0.0" vertical-offset="817" max-vertical-offset="3534">
           <folding />
         </state>
       </provider>
@@ -842,11 +1309,6 @@
         <state line="8" column="36" selection-start="246" selection-end="246" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="10" selection-start="198" selection-end="198" vertical-scroll-proportion="0.41494253" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/licenseheader.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="834">
@@ -856,59 +1318,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="248" column="58" selection-start="8785" selection-end="8785" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5377">
+        <state line="5" column="11" selection-start="323" selection-end="323" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5852">
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/feed_the_beast/launcher/json/EnumAdaptorFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="22" selection-start="167" selection-end="167" vertical-scroll-proportion="0.24094203" vertical-offset="0" max-vertical-offset="1235" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/net/ftb/tools/ModManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="224" column="53" selection-start="9887" selection-end="9887" vertical-scroll-proportion="0.0" vertical-offset="3992" max-vertical-offset="6422">
-          <folding>
-            <element signature="e#0#14943#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#1797#1824#0" expanded="true" />
-            <element signature="e#4294#4445#0" expanded="true" />
-            <element signature="e#4426#4427#0" expanded="true" />
-            <element signature="e#4992#5224#0" expanded="true" />
-            <element signature="e#5197#5198#0" expanded="true" />
-            <element signature="e#10529#10933#0" expanded="true" />
-            <element signature="e#10655#10874#0" expanded="true" />
-            <element signature="e#10855#10856#0" expanded="true" />
-            <element signature="e#10922#10923#0" expanded="true" />
-          </folding>
+        <state line="282" column="53" selection-start="9746" selection-end="9746" vertical-scroll-proportion="0.0" vertical-offset="5094" max-vertical-offset="7866">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/ftb/data/LoginResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="17" selection-start="752" selection-end="752" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="988">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/net/ftb/gui/LaunchFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="908" column="27" selection-start="31942" selection-end="31942" vertical-scroll-proportion="0.7179963" vertical-offset="16694" max-vertical-offset="20596">
+        <state line="623" column="129" selection-start="23290" selection-end="23290" vertical-scroll-proportion="0.0" vertical-offset="8505" max-vertical-offset="27702">
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3676#3703#0" expanded="true" />
-            <element signature="e#11542#11685#0" expanded="true" />
-            <element signature="e#11680#11681#0" expanded="true" />
-            <element signature="e#11841#11997#0" expanded="true" />
-            <element signature="e#11992#11993#0" expanded="true" />
-            <element signature="e#12832#13151#0" expanded="true" />
-            <element signature="e#13146#13147#0" expanded="true" />
-            <element signature="e#13348#13705#0" expanded="true" />
-            <element signature="e#13700#13701#0" expanded="true" />
-            <element signature="e#13831#13942#0" expanded="true" />
-            <element signature="e#13937#13938#0" expanded="true" />
-            <element signature="e#14127#15286#0" expanded="true" />
-            <element signature="e#15281#15282#0" expanded="true" />
-            <element signature="e#15454#15737#0" expanded="true" />
-            <element signature="e#15732#15733#0" expanded="true" />
-            <element signature="e#16094#16585#0" expanded="true" />
-            <element signature="e#16580#16581#0" expanded="true" />
-            <element signature="e#16757#17035#0" expanded="true" />
-            <element signature="e#17030#17031#0" expanded="true" />
-            <element signature="e#18548#18872#0" expanded="true" />
-            <element signature="e#18867#18868#0" expanded="true" />
-            <element signature="e#24439#24884#0" expanded="true" />
-            <element signature="e#24878#24879#0" expanded="true" />
+            <element signature="e#4562#4589#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="36" selection-start="99" selection-end="99" vertical-scroll-proportion="0.36121672" vertical-offset="0" max-vertical-offset="526">
+          <folding />
         </state>
       </provider>
     </entry>

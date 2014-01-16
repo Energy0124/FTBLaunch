@@ -27,6 +27,8 @@ SHOW_CONSOLE = Show Console?
 REOPEN_LAUNCHER = Reopen launcher after exiting minecraft?
 ADVANCED_OPTIONS = Advanced Options
 INSTALL_FIRSTUSE = Since this is your first time using the launcher, we suggest setting the install directory.
+DOWNLOAD_JAVA64 = Download Java 64-bit
+JAVA_32BIT_WARNING = Your system is using a 32-bit version of Java. This will limit Minecraft to 1.5gb of RAM.
 
 # Shared strings
 FILTER_SETTINGS = Filter Settings
@@ -62,6 +64,7 @@ ADVANCED_OPTIONS_DEBUGLAUNCHERVERBOSE = Extra Launcher Debugging
 
 # Update
 UPDATE_WICHUPDATE = Do you wish to update?
+UPDATE_DOWNGRADE = Do you wish to downgrade?
 
 # LUNCHERUPDATE
 LUNCHERUPDATE_ISAVAILABLE = of the launcher is available.
@@ -72,6 +75,8 @@ LUNCHERUPDATE_ISAVAILABLETITLE = Launcher Update Available
 UPDATEMODPACK_ISAVALIBLE = A new mod pack version is available!
 UPDATEMODPACK_BACKUP = Back-up config files?
 UPDATEMODPACK_TITLE = Mod Pack Update Available
+UPDATEMODPACK_DOWNGRADE = Installed version is newer than selected version
+UPDATEMODPACK_FROM_TO_VERSION = Current Version: %LOCALVER%\nSelected Version: %ONLINEVER%
 
 # Private Pack
 PRIVATEPACK_TITLE = Private Pack Interface
@@ -90,7 +95,7 @@ FILTER_SEARCHMAP = Search Maps
 FILTER_TITLE = Filter
 FILTER_PUBLIC = Public
 FILTER_PRIVATE = Private
-FILTER_MODPACKAVALIABILITY = Mod Pack Avaliability:
+FILTER_MODPACKAVALIABILITY = Mod Pack Availability:
 FILTER_MCVERSION = Minecraft Version:
 FILTER_RESULUTION = Mod Pack Resolution:
 FILTER_TEXSEARCH = Search Packs
@@ -104,6 +109,8 @@ PASSWORD_PASSLABEL = Password:
 PASSWORD_TITLE = Please Enter Password 
 
 # Profile
+OLDCREDS = Old Setup Login Data Found or Login Data Missing: please update.
+CHANGEDUUID = A change has been detected to the users hardware that prevents the launcher from accessing your credentials, please re-enter them.
 PROFILEADDER_USERNAME = Username:
 PROFILEADDER_PASSWORD = Password:
 PROFILEADDER_NAME = Profile Name:
