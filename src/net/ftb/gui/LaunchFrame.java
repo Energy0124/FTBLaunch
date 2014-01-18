@@ -607,8 +607,7 @@ public class LaunchFrame extends JFrame {
 				try {
 					RESPONSE = new LoginResponse(responseStr);
 				} catch (IllegalArgumentException e) {
-                    RESPONSE = new LoginResponse("0:0:" + username + ":0");
-                    /*if(responseStr.contains(":")) {
+					if(responseStr.contains(":")) {
 						Logger.logError("Received invalid response from server.");
 					} else {
 						if(responseStr.equalsIgnoreCase("bad login")) {
@@ -622,8 +621,8 @@ public class LaunchFrame extends JFrame {
 						}
 					}
 					enableObjects();
-					return;*/
-                }
+					return;
+				}
 				Logger.logInfo("Login complete.");
 				runGameUpdater(RESPONSE);
 			}
@@ -689,7 +688,7 @@ public class LaunchFrame extends JFrame {
 			TextureManager.updateTextures();
 		} catch (Exception e1) { }
 		
-		if (pack.getMcVersion().startsWith("1.6") || pack.getVersion().startsWith("1.7"))
+		if (pack.getMcVersion().startsWith("1.6") || pack.getMcVersion().startsWith("1.7"))
 		{
 		    setupNewStyle(installPath, pack);
 		    return;
