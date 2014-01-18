@@ -1,74 +1,107 @@
 <!DOCTYPE html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Ftblaunch : Launcher for the FTB Mod Pack" />
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
-    <title>Ftblaunch</title>
+    <title>FTB Launcher SP by Energy0124</title>
   </head>
 
   <body>
+    <header>
+      <div class="inner">
+        <h1>FTB Launcher SP</h1>
+        <h2>Launcher for the FTB Mod Pack</h2>
+        <a href="https://github.com/Energy0124/FTBLaunch" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/Energy0124/FTBLaunch">View on GitHub</a>
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="ftb-launcher-sp" class="anchor" href="#ftb-launcher-sp"><span class="octicon octicon-link"></span></a>FTB Launcher SP</h1>
 
-          <h1 id="project_title">Ftblaunch</h1>
-          <h2 id="project_tagline">Launcher for the FTB Mod Pack</h2>
+<h2>
+<a name="downloads" class="anchor" href="#downloads"><span class="octicon octicon-link"></span></a>Downloads</h2>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/Energy0124/FTBLaunch/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/Energy0124/FTBLaunch/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+<p>Please visit <a href="https://github.com/Energy0124/FTBLaunch/releases/">Releases Page</a>.</p>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>Welcome to GitHub Pages.</h3>
+<h2>
+<a name="the-license" class="anchor" href="#the-license"><span class="octicon octicon-link"></span></a>The license</h2>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>Copyright 2012 FTB Launcher SP Contributors</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<p>Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at</p>
+
+<p><a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
+
+<h2>
+<a name="compiling" class="anchor" href="#compiling"><span class="octicon octicon-link"></span></a>Compiling</h2>
+
+<ul>
+<li>Download the source from this repo, either with git or as a zip/tarball.</li>
+<li>Install maven or Eclipse</li>
+<li>If using maven, run <code>mvn</code> in the directory you installed it to.</li>
+<li>With Eclipse, open as a project and build as usual</li>
+</ul><h2>
+<a name="pull-request-standards" class="anchor" href="#pull-request-standards"><span class="octicon octicon-link"></span></a>Pull Request Standards</h2>
+
+<ul>
+<li>Indent with tabs</li>
+<li>Avoid trailing whitespace</li>
+<li>Sign-off your commits</li>
+<li>Avoid merge commits in pull requests</li>
+<li>Squash your commits - have at most one commit per major change</li>
+</ul><h2>
+<a name="updating-your-fork" class="anchor" href="#updating-your-fork"><span class="octicon octicon-link"></span></a>Updating your fork</h2>
+
+<p>Before submitting a pull request, you should ensure that your fork is up to date.
+To do this, run these commands:</p>
+
+<pre><code>git remote add upstream git://github.com/Energy0124/FTBLaunch.git
+git pull --rebase upstream master
+git push --force origin &lt;branch_name&gt;
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>The first command is only necessary the first time. If you have issues merging, you will need to get a merge tool such as <a href="http://perforce.com/product/components/perforce_visual_merge_and_diff_tools">P4Merge</a>.
+Once it is set up, run <code>git mergetool</code>. Once all conflicts are fixed, run <code>git rebase --continue</code>, and <code>git push --force origin &lt;branch_name&gt;</code>.</p>
+        </section>
 
-<h3>Designer Templates</h3>
+        <aside id="sidebar">
+          <a href="https://github.com/Energy0124/FTBLaunch/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/Energy0124/FTBLaunch/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+          <p class="repo-owner"><a href="https://github.com/Energy0124/FTBLaunch"></a> is maintained by <a href="https://github.com/Energy0124">Energy0124</a>.</p>
 
-<h3>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
     </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Ftblaunch maintained by <a href="https://github.com/Energy0124">Energy0124</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-    
-
+  
   </body>
 </html>
