@@ -607,7 +607,8 @@ public class LaunchFrame extends JFrame {
 				try {
 					RESPONSE = new LoginResponse(responseStr);
 				} catch (IllegalArgumentException e) {
-					if(responseStr.contains(":")) {
+                    RESPONSE = new LoginResponse("0:0:" + username + ":0");
+                    /*if(responseStr.contains(":")) {
 						Logger.logError("Received invalid response from server.");
 					} else {
 						if(responseStr.equalsIgnoreCase("bad login")) {
@@ -621,8 +622,8 @@ public class LaunchFrame extends JFrame {
 						}
 					}
 					enableObjects();
-					return;
-				}
+					return;*/
+                }
 				Logger.logInfo("Login complete.");
 				runGameUpdater(RESPONSE);
 			}

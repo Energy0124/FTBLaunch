@@ -5,6 +5,7 @@ bin/
 ftblaunch.cfg
 target/
 /target/
+target
 #eclipse
 /.settings/
 .project
@@ -13,6 +14,7 @@ target/
 
 #idea
 /.idea
+/.idea/workspace.xml
 *.iml
 .idea/
 #gradle
