@@ -97,6 +97,9 @@ public class MinecraftLauncher {
 			arguments.add("-XX:PermSize=" + maxPermSize);
 		}
 
+		// Use IPv4 when possible, only use IPv6 when connecting to IPv6 only addresses
+		arguments.add("-Djava.net.preferIPv4Stack=true");
+
 		arguments.add("-cp");
 		arguments.add(System.getProperty("java.class.path") + cpb.toString());
 		
@@ -145,6 +148,8 @@ public class MinecraftLauncher {
 		String basepath = args[0], animationname = args[1], forgename = args[2], username = args[3], password = args[4], modPackName = args[5], modPackImageName = args[6];
 		Settings.getSettings().save();  //Call so that the settings file is loaded from the correct location.  Would be wrong on OS X and *nix if called after user.home is reset
 
+		basepath = new File(basepath).getAbsoluteFile().toString().replaceAll("[/\\\\]$", "");
+		
 		try {
 			System.out.println("Loading jars...");
 			String[] jarFiles = new String[] {"minecraft.jar", "lwjgl.jar", "lwjgl_util.jar", "jinput.jar" };

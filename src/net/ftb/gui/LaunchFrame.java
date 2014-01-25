@@ -139,7 +139,7 @@ public class LaunchFrame extends JFrame {
 	private static String[] dropdown_ = {"Select Profile", "Create Profile"};
 	private static JComboBox users, tpInstallLocation, mapInstallLocation;
 	private static LaunchFrame instance = null;
-	private static String version = "1.3.4";
+	private static String version = "1.3.5";
 
 	public final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);	
 
@@ -150,7 +150,7 @@ public class LaunchFrame extends JFrame {
 	public TexturepackPane tpPane;
 	public OptionsPane optionsPane;
 
-	public static int buildNumber = 134;
+	public static int buildNumber = 135;
 	public static boolean noConfig = false;
 	public static boolean allowVersionChange = false;
 	public static boolean doVersionBackup = false;
@@ -199,7 +199,9 @@ public class LaunchFrame extends JFrame {
         Logger.logInfo("Launcher Install Dir: " + Settings.getSettings().getInstallPath());
 		Logger.logInfo("System memory: " + OSUtils.getOSFreeMemory() + "M free, " + OSUtils.getOSTotalMemory() + "M total");
     	
-        
+		// Use IPv4 when possible, only use IPv6 when connecting to IPv6 only addresses
+		System.setProperty("java.net.preferIPv4Stack" , "true");
+		
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -633,8 +635,13 @@ public class LaunchFrame extends JFrame {
 
 	private Boolean checkVersion(File verFile, ModPack pack) {
 		String storedVersion = pack.getStoredVersion(verFile);
-		String onlineVersion = pack.getVersion();
-		if(Integer.parseInt(storedVersion.replace(".", "")) != Integer.parseInt(onlineVersion.replace(".",  ""))) {
+		String onlineVersion = (Settings.getSettings().getPackVer().equalsIgnoreCase("recommended version") || Settings.getSettings().getPackVer().equalsIgnoreCase("newest version")) ? pack.getVersion() : Settings.getSettings().getPackVer();
+
+		if(storedVersion == "") {
+			// Always allow updates from a version that isn't installed at all
+			allowVersionChange = true;
+			return true;
+		} else if(Integer.parseInt(storedVersion.replace(".", "")) != Integer.parseInt(onlineVersion.replace(".",  ""))) {
 			ModPackVersionChangeDialog verDialog = new ModPackVersionChangeDialog(this, true, storedVersion, onlineVersion);
 			verDialog.setVisible(true);
 		}

@@ -325,8 +325,8 @@ public class ModManager extends JDialog {
 			requestedVersion = Integer.parseInt(Settings.getSettings().getPackVer().trim().replace(".", ""));
 			if(requestedVersion != currentVersion) {
 				Logger.logInfo("Modpack is out of date.");
-				curVersion = Settings.getSettings().getPackVer().replace(".", "_");
-				return false;
+	            curVersion = (Settings.getSettings().getPackVer().equalsIgnoreCase("recommended version") ? pack.getVersion() : Settings.getSettings().getPackVer()).replace(".", "_");
+	            return false;
 			} else {
 				Logger.logInfo("Modpack is up to date.");
 				return true;
@@ -334,6 +334,7 @@ public class ModManager extends JDialog {
 		} else if(Integer.parseInt(pack.getVersion().replace(".", "")) > currentVersion) {
 			Logger.logInfo("Modpack is out of date.");
 			if(LaunchFrame.allowVersionChange) {
+				curVersion = (Settings.getSettings().getPackVer().equalsIgnoreCase("recommended version") ? pack.getVersion().replace(".", "_") : Settings.getSettings().getPackVer()).replace(".", "_");
 				return false;
 			}
 			ModpackUpdateDialog p = new ModpackUpdateDialog(LaunchFrame.getInstance(), true);
