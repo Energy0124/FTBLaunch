@@ -16,15 +16,10 @@
  */
 package net.ftb.workers;
 
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLEncoder;
-
 import javax.swing.SwingWorker;
 
 import net.ftb.gui.LaunchFrame;
 import net.ftb.log.Logger;
-import net.ftb.util.AppUtils;
 import net.ftb.util.ErrorUtils;
 
 /**
@@ -41,8 +36,9 @@ public class LoginWorker extends SwingWorker<String, Void> {
 
     @Override
     protected String doInBackground () {
-      /*  try {
-           String authlibreturn = new String();
+        /*
+        try {
+            String authlibreturn = new String();
             if (LaunchFrame.canUseAuthlib) {
                 try {
                     authlibreturn = AuthlibHelper.authenticateWithAuthlib(username, password);
@@ -53,16 +49,13 @@ public class LoginWorker extends SwingWorker<String, Void> {
             if (!authlibreturn.equals(null) && !authlibreturn.isEmpty()) {
                 Logger.logInfo("using Authlib authentication data");
                 return "A:" + authlibreturn;
-            } else
-                Logger.logError("Failed to use Mojang's authentication library, falling back on old method.");*/
-            //return "O:"
-            //        + AppUtils
-            //                .downloadString(new URL("https://login.minecraft.net/?user=" + URLEncoder.encode(username, "UTF-8") + "&password=" + URLEncoder.encode(password, "UTF-8") + "&version=13"));
-            return "0:0:0:" + username + ":0:0";
-     /*   } catch (IOException e) {
-            ErrorUtils.tossError("IOException, minecraft servers might be down. Check @ help.mojang.com");
-            return "";
-        }*/
+            }
+        } catch (Exception e) {
+            ErrorUtils.tossError("Exception occurred, minecraft servers might be down. Check @ help.mojang.com");
+        }
+        return "";
+                           */
+        return "0:0:0:" + username + ":0:0";
     }
 
 }

@@ -17,7 +17,9 @@
 package net.ftb.util;
 
 import java.awt.Desktop;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.reflect.Method;
@@ -27,13 +29,25 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.CodeSource;
 import java.util.Enumeration;
+import java.util.Map;
 
+import lombok.Getter;
 import net.ftb.gui.LaunchFrame;
 import net.ftb.log.Logger;
+import net.ftb.util.winreg.JavaFinder;
+
 
 public class OSUtils {
     private static byte[] cachedMacAddress;
     private static String cachedUserHome;
+
+    /**
+     * gets the number of cores for use in DL threading
+     * 
+     * @return number of cores on the system
+     */
+    @Getter
+    private static int numCores;
 
     public static enum OS {
         WINDOWS, UNIX, MACOSX, OTHER,
@@ -41,6 +55,7 @@ public class OSUtils {
 
     static {
         cachedUserHome = System.getProperty("user.home");
+        numCores = Runtime.getRuntime().availableProcessors();
     }
 
     /**
@@ -156,6 +171,86 @@ public class OSUtils {
     }
 
     /**
+     * Used to check if Windows is 64-bit
+     * @return true if 64-bit Windows
+     */
+    public static boolean is64BitWindows() {
+        String arch = System.getenv("PROCESSOR_ARCHITECTURE");
+        String wow64Arch = System.getenv("PROCESSOR_ARCHITEW6432");
+        return (arch.endsWith("64") || (wow64Arch != null && wow64Arch.endsWith("64")));
+    }
+
+    /**
+     * Used to check if a posix OS is 64-bit
+     * @return true if 64-bit Posix OS
+     */
+    public static boolean is64BitPosix () {
+        String line, result="";
+        try {
+            Process command = Runtime.getRuntime().exec("uname -m");
+            BufferedReader in = new BufferedReader(new InputStreamReader(command.getInputStream()));
+            while ((line = in.readLine()) != null) {
+                result += (line + "\n");
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        // 32-bit Intel Linuces, it returns i[3-6]86. For 64-bit Intel, it says x86_64
+        return (result.contains("_64"));
+    }
+
+    /**
+     * Used to check if operating system is 64-bit
+     * @return true if 64-bit operating system
+     */
+    public static boolean is64BitOS() {
+        switch (getCurrentOS()) {
+        case WINDOWS:
+            return is64BitWindows();
+        case UNIX:
+            return is64BitPosix();
+        case MACOSX:
+            return is64BitPosix();
+        case OTHER:
+            return true;
+        default:
+            return true;
+        }
+    }
+
+    /**
+     * Used to get check if JVM is 64-bit
+     * @return true if 64-bit JVM
+     */
+    public static Boolean is64BitVM() {
+        Boolean bits64;
+        if ((getCurrentOS() == OS.WINDOWS || getCurrentOS() == OS.MACOSX) && JavaFinder.parseJavaVersion() != null) {
+            bits64 = JavaFinder.parseJavaVersion().is64bits;
+        } else {
+           bits64 = System.getProperty("sun.arch.data.model").equals("64");
+        }
+        return bits64;
+    }
+
+
+    /**
+     * Used to get the OS name for use in google analytics
+     * @return Linux/OSX/Windows/other/
+     */
+    public static String getOSString () {
+        String osString = System.getProperty("os.name").toLowerCase();
+        if (osString.contains("win")) {
+            return "Windows";
+        } else if (osString.contains("linux")) {
+            return "linux";
+        } else if (osString.contains("mac")) {
+            return "OSX";
+        } else {
+            return osString;
+        }
+    }
+
+    /**
      * sees if the hash of the UUID matches the one stored in the config
      * @return true if UUID matches hash or false if it does not
      */
@@ -231,5 +326,16 @@ public class OSUtils {
         } catch (Exception e) {
             Logger.logError("Could not open file", e);
         }
+    }
+    public static boolean canRun7OnMac(){
+        return getCurrentOS() == OS.MACOSX && !(System.getProperty("os.version").startsWith("10.6") || System.getProperty("os.version").startsWith("10.5"));
+    }
+    /**
+     * Removes environment variables which may cause faulty JVM memory allocations
+     */
+    public static void cleanEnvVars(Map<String, String> environment) {
+        environment.remove("_JAVA_OPTIONS");
+        environment.remove("JAVA_TOOL_OPTIONS");
+        environment.remove("JAVA_OPTIONS");
     }
 }

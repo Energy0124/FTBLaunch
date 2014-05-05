@@ -13,12 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.ftb.log.Logger;
+import net.ftb.util.OSUtils;
+import net.ftb.util.OSUtils.OS;
 
 /**
  * Windows-specific java versions finder
  *****************************************************************************/
 public class JavaFinder {
-
+    public static boolean java8Found = false;
     /**
      * @return: A list of javaExec paths found under this registry key (rooted at HKEY_LOCAL_MACHINE)
      * @param wow64  0 for standard registry access (32-bits for 32-bit app, 64-bits for 64-bits app)
@@ -37,7 +39,7 @@ public class JavaFinder {
                 }
             }
         } catch (Throwable t) {
-            t.printStackTrace();
+            Logger.logError("Error Searching windows registry for java versions", t);
         }
         return result;
     }
@@ -53,8 +55,18 @@ public class JavaFinder {
      *   WINDIR\SysWOW64
      ****************************************************************************/
     public static List<JavaInfo> findJavas () {
+        if(OSUtils.getCurrentOS() == OS.MACOSX)
+            return findMacJavas();
+        
+        if(OSUtils.getCurrentOS() == OS.WINDOWS)
+            return findWinJavas();
+        
+        return new ArrayList<JavaInfo>();
+    }
+    
+    protected static List<JavaInfo> findWinJavas() {
         List<String> javaExecs = new ArrayList<String>();
-
+        
         javaExecs = JavaFinder.searchRegistry("SOFTWARE\\JavaSoft\\Java Runtime Environment", WinRegistry.KEY_WOW64_32KEY, javaExecs);
         javaExecs = JavaFinder.searchRegistry("SOFTWARE\\JavaSoft\\Java Runtime Environment", WinRegistry.KEY_WOW64_64KEY, javaExecs);
         javaExecs = JavaFinder.searchRegistry("SOFTWARE\\JavaSoft\\Java Development Kit", WinRegistry.KEY_WOW64_32KEY, javaExecs);
@@ -72,14 +84,54 @@ public class JavaFinder {
         return result;
     }
 
+    protected static String getMacJavaPath(String javaVersion) {
+        String versionInfo;
+        
+        versionInfo = RuntimeStreamer.execute(new String[] { "/usr/libexec/java_home", "-v " + javaVersion });
+
+        // Unable to find any JVMs matching version "1.7"
+        if(versionInfo.contains("version \"" + javaVersion + "\"")) {    
+            return null;
+        }
+        
+        return versionInfo.trim();
+    }
+    
+    protected static List<JavaInfo> findMacJavas() {
+        List<String> javaExecs = new ArrayList<String>();
+        String javaVersion;
+        
+        javaVersion = getMacJavaPath("1.6");
+        if(javaVersion != null)
+            javaExecs.add(javaVersion + "/bin/java");
+        
+        javaVersion = getMacJavaPath("1.7");
+        if(javaVersion != null)
+            javaExecs.add(javaVersion + "/bin/java");
+
+        javaVersion = getMacJavaPath("1.8");
+        if(javaVersion != null)
+            javaExecs.add(javaVersion + "/bin/java");
+
+        javaExecs.add("/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java");
+        
+        List<JavaInfo> result = new ArrayList<JavaInfo>();
+        for (String javaPath : javaExecs) {
+            File javaFile = new File(javaPath); 
+            if (!javaFile.exists() || !javaFile.canExecute())
+                continue;
+            
+            result.add(new JavaInfo(javaPath));
+        }
+        return result;
+    }
+
     /**
      * @return: The path to a java.exe that has the same bitness as the OS
      * (or null if no matching java is found)
      ****************************************************************************/
     public static String getOSBitnessJava () {
-        String arch = System.getenv("PROCESSOR_ARCHITECTURE");
-        String wow64Arch = System.getenv("PROCESSOR_ARCHITEW6432");
-        boolean isOS64 = arch.endsWith("64") || (wow64Arch != null && wow64Arch.endsWith("64"));
+        boolean isOS64 = OSUtils.is64BitWindows();
 
         List<JavaInfo> javas = JavaFinder.findJavas();
         for (int i = 0; i < javas.size(); i++) {
@@ -94,7 +146,7 @@ public class JavaFinder {
     /**
      * Standalone testing - lists all Javas in the system
      ****************************************************************************/
-    public static JavaInfo parseWinJavaVersion () {
+    public static JavaInfo parseJavaVersion () {
         if (preferred == null) {
             List<JavaInfo> javas = JavaFinder.findJavas();
             List<JavaInfo> java32 = new ArrayList<JavaInfo>();
@@ -103,12 +155,17 @@ public class JavaFinder {
             Logger.logInfo("The FTB Launcher has found the following Java versions installed:");
             for (int i = 0; i < javas.size(); i++) {
                 Logger.logInfo(javas.get(i).toString());
-                if (preferred == null && javas.get(i) != null)
-                    preferred = javas.get(i);
-                if (javas.get(i).is64bits)
-                    java64.add(javas.get(i));
-                else
-                    java32.add(javas.get(i));
+                if(javas.get(i).isJava8()){
+                    java8Found = true;
+                }
+                if(javas.get(i).supportedVersion) { 
+                    if (preferred == null && javas.get(i) != null)
+                        preferred = javas.get(i);
+                    if (javas.get(i).is64bits)
+                        java64.add(javas.get(i));
+                    else
+                        java32.add(javas.get(i));
+                }
             }
 
             if (java64.size() > 0) {
@@ -116,7 +173,7 @@ public class JavaFinder {
                     if (!preferred.is64bits || java64.get(i).compareTo(preferred) == 1)
                         preferred = java64.get(i);
                 }
-                for (int i = 0; i < java64.size(); i++) {
+                for (int i = 0; i < java32.size(); i++) {
                     if (!preferred.is64bits && java32.get(i).compareTo(preferred) == 1)
                         preferred = java32.get(i);
                 }

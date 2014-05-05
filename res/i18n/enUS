@@ -1,7 +1,7 @@
 LOCALE_NAME = English
 LOCALE_LOADED = English language file loaded!
 
-# Footer #
+# Footer
 DONATE_BUTTON = Donate
 
 # Main Tab
@@ -11,9 +11,12 @@ PROFILE_CREATE = Create Profile
 PROFILE_SELECT = Select Profile
 DOWNLOAD_SERVER_PACK = Download Server ModPack
 
-#Console
-CONSOLE_COPYCLIP = Copy log to clipboard
+# Console
+CONSOLE_TITLE = Console
+CONSOLE_COPYCLIP = Copy to clipboard
 CONSOLE_CLIP_CONFIRM = Do you want to copy the full log to your clipboard?
+CONSOLE_PASTEBIN = Paste to pastebin.com
+CONSOLE_SUPPORT = Need support? Click me!
 
 # Map Tab
 INSTALL_MAP = Install Map
@@ -28,10 +31,15 @@ FORCE_UPDATE = Force update?
 RAM_MAX = RAM Maximum (MB)
 LANGUAGE = Language
 SHOW_CONSOLE = Show Console?
+OPT_JAVA_ARGS= Use Optimization Arguments for fast computers?
 REOPEN_LAUNCHER = Reopen launcher after exiting minecraft?
 ADVANCED_OPTIONS = Advanced Options
 INSTALL_FIRSTUSE = Since this is your first time using the launcher, we suggest setting the install directory.
 DOWNLOAD_JAVA64 = Download Java 64-bit
+DOWNLOAD_JAVA64 = Download Java 32-bit
+DOWNLOAD_JAVAGOOD = Download Reccomended Java
+JAVA_OLD_Warning = Your system does not contain a version of Java 7+. 
+JAVA_NEW_Warning = Your system does not contain Java 7(Minecraft does not support java 8 on Mac). 
 JAVA_32BIT_WARNING = Your system is using a 32-bit version of Java. This will limit Minecraft to 1.5gb of RAM.
 
 # Shared strings
@@ -75,6 +83,7 @@ UPDATE_DOWNGRADE = Do you wish to downgrade?
 LUNCHERUPDATE_ISAVAILABLE = of the launcher is available.
 LUNCHERUPDATE_CHANGELOG = View Changelog
 LUNCHERUPDATE_ISAVAILABLETITLE = Launcher Update Available
+LUNCHERUPDATE_CURRENTDEAD = Your Current Launcher Must be updated for one of the following reasons: \n not being able to properly launch/update minecraft or packs!
 
 # Modpack Update
 UPDATEMODPACK_ISAVALIBLE = A new mod pack version is available!
@@ -128,6 +137,12 @@ PROFILEDITOR_TITLE = Profile Editor
 # Map Override
 MAPOVERRIDE_FOUNDERROR = Warning! There is already a map by that name!
 MAPOVERRIDE_WISHOVERRIDE = Do you want to overwrite?
+
+# Force Kill MC
+KILL_MC = Kill Minecraft
+KILL_MC_TITLE = Kill Minecraft?
+KILL_MC_MESSAGE = Warning! This can cause corruption, and should only be used if the game is frozen!
+KILL_MC_CONFIRM = Are you sure you want to Kill the Minecraft Process?
 
 # Main
 MAIN_EXIT = EXIT

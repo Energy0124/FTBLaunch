@@ -19,6 +19,7 @@ package net.ftb.workers;
 import java.net.URL;
 
 import net.ftb.data.TexturePack;
+import net.ftb.gui.LaunchFrame;
 import net.ftb.gui.panes.TexturepackPane;
 import net.ftb.log.Logger;
 import net.ftb.util.AppUtils;
@@ -37,7 +38,7 @@ public class TexturePackLoader extends Thread {
 
     @Override
     public void run () {
-        try {
+        try {//TODO ASAP thread this!!!
             Logger.logInfo("loading texture pack information...");
             TEXTUREPACKFILE = DownloadUtils.getStaticCreeperhostLink("texturepack.xml");
             Document doc = AppUtils.downloadXML(new URL(TEXTUREPACKFILE));
@@ -54,8 +55,9 @@ public class TexturePackLoader extends Thread {
                         textureAttr.getNamedItem("resolution").getTextContent(), i));
             }
             TexturepackPane.loaded = true;
+            LaunchFrame.checkDoneLoading();
         } catch (Exception e) {
-            Logger.logError(e.getMessage(), e);
+            Logger.logError("Error loading Texture packs", e);
         }
     }
 }

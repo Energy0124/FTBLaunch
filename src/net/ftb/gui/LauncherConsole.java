@@ -41,10 +41,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultCaret;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
 import net.ftb.data.Settings;
+import net.ftb.gui.dialogs.YNDialog;
 import net.ftb.locale.I18N;
 import net.ftb.log.ILogListener;
 import net.ftb.log.LogEntry;
@@ -66,6 +68,7 @@ public class LauncherConsole extends JFrame implements ILogListener {
     private LogType logType = LogType.MINIMAL;
     private final JComboBox logSourceComboBox;
     private LogSource logSource = LogSource.ALL;
+    private YNDialog yn;
 
     private class OutputOverride extends PrintStream {
         final LogLevel level;
@@ -100,7 +103,7 @@ public class LauncherConsole extends JFrame implements ILogListener {
     }
 
     public LauncherConsole() {
-        setTitle("Console");
+        setTitle(I18N.getLocaleString("CONSOLE_TITLE"));
         setMinimumSize(new Dimension(800, 400));
         setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/image/logo_ftb.png")));
         getContentPane().setLayout(new BorderLayout(0, 0));
@@ -110,7 +113,7 @@ public class LauncherConsole extends JFrame implements ILogListener {
         getContentPane().add(panel, BorderLayout.SOUTH);
         panel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
-        JButton pastebin = new JButton("Paste my log to pastebin.com");
+        JButton pastebin = new JButton(I18N.getLocaleString("CONSOLE_PASTEBIN"));
         pastebin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed (ActionEvent arg0) {
@@ -179,14 +182,14 @@ public class LauncherConsole extends JFrame implements ILogListener {
         });
         panel.add(logSourceComboBox);
 
-        JButton ircButton = new JButton("Need support? Click me!");
+        JButton ircButton = new JButton(I18N.getLocaleString("CONSOLE_SUPPORT"));
         ircButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed (ActionEvent arg0) {
                 if (Desktop.isDesktopSupported()) {
                     Desktop desktop = Desktop.getDesktop();
                     try {
-                        desktop.browse(new URI("http://desk.feed-the-beast.com/"));
+                        desktop.browse(new URI("http://support.feed-the-beast.com/"));
                     } catch (Exception exc) {
                         Logger.logError("Could not open url: " + exc.getMessage());
                     }
@@ -197,15 +200,42 @@ public class LauncherConsole extends JFrame implements ILogListener {
         });
         panel.add(ircButton);
 
+        JButton killMCButton = new JButton(I18N.getLocaleString("KILL_MC"));
+        killMCButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed (ActionEvent arg0) {
+                //if Mc is running
+                if (LaunchFrame.getInstance().MCRunning) {
+                    //open confirm dialog for closing MC
+                    yn = new YNDialog("KILL_MC_MESSAGE", "KILL_MC_CONFIRM", "KILL_MC_TITLE");
+                    yn.setVisible(true);
+                    yn.toFront();
+                    if (yn.ready && yn.ret && LaunchFrame.getInstance().MCRunning && LaunchFrame.getInstance() != null && LaunchFrame.getInstance().getProcMonitor() != null) {
+                        Logger.logWarn("MC Killed by the user!");
+                        LaunchFrame.getInstance().getProcMonitor().stop();
+                    }
+                    yn.setVisible(false);
+
+                } else {
+                    Logger.logInfo("no Minecraft Process currently running to kill");
+                }
+            }
+        });
+        panel.add(killMCButton);
+
         displayArea = new JEditorPane("text/html", "");
         displayArea.setEditable(false);
         kit = new HTMLEditorKit();
         displayArea.setEditorKit(kit);
 
+        DefaultCaret caret = (DefaultCaret) displayArea.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+
         JScrollPane scrollPane = new JScrollPane(displayArea);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         getContentPane().add(scrollPane);
+        pack();
 
         refreshLogs();
         Logger.addListener(this);
@@ -244,6 +274,10 @@ public class LauncherConsole extends JFrame implements ILogListener {
             }
             displayArea.setCaretPosition(displayArea.getDocument().getLength());
         }
+    }
+
+    public void scrollToBottom () {
+        displayArea.setCaretPosition(displayArea.getDocument().getLength());
     }
 
     private String getMessage (LogEntry entry) {

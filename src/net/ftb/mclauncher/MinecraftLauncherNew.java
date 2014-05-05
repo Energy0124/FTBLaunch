@@ -33,21 +33,20 @@ import java.util.Set;
 import net.feed_the_beast.launcher.json.JsonFactory;
 import net.feed_the_beast.launcher.json.assets.AssetIndex;
 import net.feed_the_beast.launcher.json.assets.AssetIndex.Asset;
-import net.feed_the_beast.launcher.json.versions.OS;
+import net.ftb.data.ModPack;
 import net.ftb.data.Settings;
 import net.ftb.log.LogLevel;
 import net.ftb.log.Logger;
 import net.ftb.util.DownloadUtils;
 import net.ftb.util.FileUtils;
 import net.ftb.util.OSUtils;
-import net.ftb.util.winreg.JavaFinder;
 
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
 public class MinecraftLauncherNew {
-    public static Process launchMinecraft (String javaPath, File gameDir, File assetDir, File nativesDir, List<File> classpath, String username, String password, String mainClass, String args, String assetIndex,
-            String rmax, String maxPermSize, String version, String auth_UUID) throws IOException {
+    public static Process launchMinecraft (String javaPath, File gameDir, File assetDir, File nativesDir, List<File> classpath, String username, String password, String mainClass, String args,
+            String assetIndex, String rmax, String maxPermSize, String version, String auth_UUID) throws IOException {
 
         assetDir = syncAssets(assetDir, assetIndex);
 
@@ -60,14 +59,13 @@ public class MinecraftLauncherNew {
         List<String> arguments = new ArrayList<String>();
 
         Logger.logInfo("Java Path: " + javaPath);
+        Logger.logInfo("Pack: " + ModPack.getSelectedPack().getName() + " " + ModPack.getSelectedPack().getVersion());
         arguments.add(javaPath);
 
         setMemory(arguments, rmax);
 
-        if (OSUtils.getCurrentOS().equals(OS.WINDOWS)) {
-            String arch = System.getenv("PROCESSOR_ARCHITECTURE");
-            String wow64Arch = System.getenv("PROCESSOR_ARCHITEW6432");
-            if (!(arch.endsWith("64") || (wow64Arch != null && wow64Arch.endsWith("64")))) {
+        if (OSUtils.getCurrentOS().equals(OSUtils.OS.WINDOWS)) {
+            if (!OSUtils.is64BitWindows()) {
                 if (maxPermSize == null || maxPermSize.isEmpty()) {
                     if (OSUtils.getOSTotalMemory() > 2046) {
                         maxPermSize = "192m";
@@ -110,7 +108,23 @@ public class MinecraftLauncherNew {
 
         String additionalOptions = Settings.getSettings().getAdditionalJavaOptions();
         if (!additionalOptions.isEmpty()) {
+            Logger.logInfo("Additional java parameters: " + additionalOptions);
             Collections.addAll(arguments, additionalOptions.split("\\s+"));
+        }
+        if (Settings.getSettings().getOptJavaArgs()) {
+            Logger.logInfo("Adding Optimization Arguments");
+            Collections.addAll(arguments, "-XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CICompilerCountPerCPU -XX:+TieredCompilation".split("\\s+"));
+        }
+
+        //Undocumented environment variable to control JVM
+        String additionalEnvVar = System.getenv("_JAVA_OPTIONS");
+        if (additionalEnvVar != null && !additionalEnvVar.isEmpty()) {
+            Logger.logInfo("_JAVA_OPTIONS defined: " + additionalEnvVar);
+        }
+        //Documented environment variable to control JVM
+        additionalEnvVar = System.getenv("JAVA_TOOL_OPTIONS");
+        if (additionalEnvVar != null && !additionalEnvVar.isEmpty()) {
+            Logger.logInfo("JAVA_TOOL_OPTIONS defined: " + additionalEnvVar);
         }
 
         arguments.add(mainClass);
@@ -138,6 +152,7 @@ public class MinecraftLauncherNew {
         //Logger.logInfo("Launching: " + tmp.toString());		
         builder.directory(gameDir);
         builder.redirectErrorStream(true);
+        OSUtils.cleanEnvVars(builder.environment());
         return builder.start();
     }
 

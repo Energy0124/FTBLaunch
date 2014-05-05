@@ -23,7 +23,7 @@ buildscript {
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:0.8'
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.1-SNAPSHOT'
-		classpath 'edu.sc.seis.gradle:macappbundle:1.0.9'
+		classpath 'edu.sc.seis.gradle:macappbundle:2.0.0'
 
     }
 
@@ -42,7 +42,7 @@ project.ext {
 }
 
 group = 'net.ftb'
-version = '1.3.6'
+version = '1.3.9'
 description = "FTB Launcher"
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
@@ -53,9 +53,11 @@ shadow {
 	destinationDir = "${buildDir}/libs/"
 	artifactSet {
         include 'com.google.code.gson'
+		include 'com.google.guava'
 		include 'org.apache.logging.log4j'
 		include 'commons-io'
 		include 'org.apache.commons'
+		include 'commons-codec'
 
     }
 }
@@ -103,9 +105,10 @@ afterEvaluate {
 }
 
 macAppBundle {
-    appName = "Feed The Beast"
     mainClassName = project.mainClass
+    appName = "Feed The Beast"
     icon = "res/app/icon.icns"
+    javaProperties.put("apple.laf.useScreenMenuBar", "true")
 }
 
 //}
@@ -126,9 +129,11 @@ repositories {
 dependencies {
     compile 'org.swinglabs.swingx:swingx-all:1.6.4'
 	compile 'com.google.code.gson:gson:2.2.4'
-	compile 'com.mojang:authlib:1.4.2'
+	compile 'com.mojang:authlib:1.5.5'
     compile 'org.apache.logging.log4j:log4j-api:2.0-beta9'
 	compile 'org.apache.logging.log4j:log4j-core:2.0-beta9'
+	compile 'org.projectlombok:lombok:1.12.6'
+	compile 'com.google.guava:guava:15.0'
 	//commons lang3 via authlib
     //commons io via authlib
 	}

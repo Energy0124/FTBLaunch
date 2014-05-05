@@ -226,7 +226,9 @@ public class ModManager extends JDialog {
                         e.printStackTrace();
                     }
                     String animation = pack.getAnimation();
-                    if (!animation.equalsIgnoreCase("empty")) {
+                    File animationFile = new File(baseDynamic.getPath() + sep + animation);
+                    
+                    if (!animation.equalsIgnoreCase("empty") && !animationFile.exists()) {
                         try {
                             downloadUrl(baseDynamic.getPath() + sep + animation, DownloadUtils.getCreeperhostLink(baseLink + animation));
                         } catch (NoSuchAlgorithmException e) {
@@ -250,10 +252,36 @@ public class ModManager extends JDialog {
                     clearModsFolder(pack);
                     FileUtils.delete(new File(installPath, dir + "/minecraft/coremods"));
                     FileUtils.delete(new File(installPath, dir + "/instMods/"));
+                    boolean saveExists = false;
+                    if (pack.getBundledMap()) {
+                        try {
+                            if (new File(installPath, dir + "/minecraft/saves").exists()) {
+                                saveExists = true;
+                                FileUtils.delete(new File(installPath, dir + "/minecraft/saves.ftbtmp"));
+                                FileUtils.copyFolder(new File(installPath, dir + "/minecraft/saves"), new File(installPath, dir + "/minecraft/saves.ftbtmp"), true);
+                            }
+                        } catch (Exception e) {
+                            Logger.logError("error backing up map", e);
+                        }
+                    }
+
                     if (debugVerbose) {
                         Logger.logInfo(debugTag + "Extracting pack.");
                     }
                     FileUtils.extractZipTo(baseDynamic.getPath() + sep + modPackName, baseDynamic.getPath());
+                    if (pack.getBundledMap() && saveExists) {
+                        try {
+                            if (new File(installPath, dir + "/minecraft/saves").exists() && new File(installPath, dir + "/minecraft/saves.ftbtmp").exists())
+                                FileUtils.delete(new File(installPath, dir + "/minecraft/saves"));
+                            if (new File(installPath, dir + "/minecraft/saves.ftbtmp").exists()) {
+                                FileUtils.copyFolder(new File(installPath, dir + "/minecraft/saves.ftbtmp"), new File(installPath, dir + "/minecraft/saves"), true);
+                                FileUtils.delete(new File(installPath, dir + "/minecraft/saves.ftbtmp"));
+                            }
+                        } catch (Exception e) {
+                            Logger.logError("error restoring map", e);
+                        }
+                    }
+
                     File version = new File(installPath, dir + sep + "version");
                     BufferedWriter out = new BufferedWriter(new FileWriter(version));
                     out.write(curVersion.replace("_", "."));
@@ -340,7 +368,7 @@ public class ModManager extends JDialog {
                 Logger.logInfo("Modpack is up to date.");
                 return true;
             }
-        } else if (Integer.parseInt(pack.getVersion().replace(".", "")) > currentVersion) {
+        } else if (Integer.parseInt(pack.getVersion().replace(".", "")) != currentVersion) {
             Logger.logInfo("Modpack is out of date.");
             if (LaunchFrame.allowVersionChange) {
                 curVersion = (Settings.getSettings().getPackVer().equalsIgnoreCase("recommended version") ? pack.getVersion().replace(".", "_") : Settings.getSettings().getPackVer())

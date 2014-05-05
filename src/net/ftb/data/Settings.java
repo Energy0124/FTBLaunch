@@ -35,17 +35,24 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
-import net.feed_the_beast.launcher.json.versions.OS;
+import lombok.Getter;
+import lombok.Setter;
 import net.ftb.gui.LaunchFrame;
 import net.ftb.log.Logger;
+import net.ftb.util.ErrorUtils;
 import net.ftb.util.OSUtils;
+import net.ftb.util.OSUtils.OS;
 import net.ftb.util.winreg.JavaFinder;
+import net.ftb.util.winreg.JavaInfo;
 
 @SuppressWarnings("serial")
 public class Settings extends Properties {
+    @Getter
     private static Settings settings;
     private File configFile;
-    private boolean forceUpdate = false;
+    @Getter
+    @Setter
+    private boolean forceUpdateEnabled = false;
 
     static {
         try {
@@ -53,10 +60,6 @@ public class Settings extends Properties {
         } catch (IOException e) {
             Logger.logError("Failed to load settings", e);
         }
-    }
-
-    public static Settings getSettings () {
-        return settings;
     }
 
     public Settings(File file) throws IOException {
@@ -70,13 +73,19 @@ public class Settings extends Properties {
 
     public void save () {
         try {
-            store(new FileOutputStream(configFile), "FTBLaunch Config File");
+            FileOutputStream fos = new FileOutputStream(configFile);
+            store(fos, "FTBLaunch Config File");
+            fos.close();
         } catch (IOException e) {
             Logger.logError("Failed to save settings", e);
         }
     }
 
     public String getRamMax () {
+        if (getJavaVersion().is64bits && OSUtils.getOSTotalMemory() > 6144)//6gb or more default to 2gb of ram for MC
+            return getProperty("ramMax", Integer.toString(2048));
+        else if (getJavaVersion().is64bits)//on 64 bit java default to 1.5gb newer pack's need more than a gig
+            return getProperty("ramMax", Integer.toString(1536));
         return getProperty("ramMax", Integer.toString(1024));
     }
 
@@ -101,27 +110,49 @@ public class Settings extends Properties {
     }
 
     public String getJavaPath () {
-        return getProperty("javaPath", getDefaultJavaPath());
+        String javaPath = getProperty("javaPath", getDefaultJavaPath());
+        if (javaPath == null || !new File(javaPath).isFile())
+            ErrorUtils.tossError("Unable to find java; point to java executable file in Advanced Options or game will fail to launch.");
+        return javaPath;
     }
 
-    private String getDefaultJavaPath() {
+    /**
+     * Returns user selected or automatically selected JVM's
+     * JavaInfo object.
+     */
+    public JavaInfo getJavaVersion () {
+        JavaInfo javaVersion = new JavaInfo(getJavaPath());
+        return javaVersion;
+        //return new int[]{javaVersion.getMajor(), javaVersion.getMinor()};
+    }
+
+    private String getDefaultJavaPath () {
         String separator = System.getProperty("file.separator");
         String defaultPath = null;
-        if (OS.CURRENT == OS.WINDOWS && JavaFinder.parseWinJavaVersion().path != null)
-            defaultPath = JavaFinder.parseWinJavaVersion().path.replace(".exe", "w.exe");
-        else
-            defaultPath = System.getProperty("java.home") + ("/bin/java" + (OS.CURRENT == OS.WINDOWS ? "w" : "")).replace("/", separator);
-        return defaultPath;
+        JavaInfo javaVersion;
+
+        if (OSUtils.getCurrentOS() == OS.MACOSX) {
+            javaVersion = JavaFinder.parseJavaVersion();
+
+            if (javaVersion != null && javaVersion.path != null)
+                return javaVersion.path;
+        } else if (OSUtils.getCurrentOS() == OS.WINDOWS) {
+            javaVersion = JavaFinder.parseJavaVersion();
+
+            if (javaVersion != null && javaVersion.path != null)
+                return javaVersion.path.replace(".exe", "w.exe");
+        }
+
+        return System.getProperty("java.home") + ("/bin/java" + (OSUtils.getCurrentOS() == OS.WINDOWS ? "w" : "")).replace("/", separator);
     }
 
     public void setJavaPath (String path) {
-        if( getDefaultJavaPath().equals(path) ) {
+        if (getDefaultJavaPath().equals(path) || path.isEmpty()) {
             remove("javaPath");
         } else {
             setProperty("javaPath", path);
         }
     }
-
 
     public String getStyle () {
         return getProperty("style", "defaultStyle.cfg");
@@ -129,14 +160,6 @@ public class Settings extends Properties {
 
     public void setStyle (String path) {
         setProperty("style", path);
-    }
-
-    public boolean getForceUpdate () {
-        return forceUpdate;
-    }
-
-    public void setForceUpdate (boolean force) {
-        forceUpdate = force;
     }
 
     public void setConfigFile (File path) {
@@ -177,6 +200,14 @@ public class Settings extends Properties {
 
     public boolean getConsoleActive () {
         return Boolean.valueOf(getProperty("consoleActive", "true"));
+    }
+
+    public void setOptJavaArgs (boolean console) {
+        setProperty("optJavaArgs", String.valueOf(console));
+    }
+
+    public boolean getOptJavaArgs () {
+        return Boolean.valueOf(getProperty("optJavaArgs", "false"));
     }
 
     public void setPackVer (String string) {

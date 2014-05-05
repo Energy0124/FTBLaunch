@@ -16,6 +16,7 @@
  */
 package net.ftb.gui.dialogs;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -24,6 +25,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -35,11 +39,12 @@ import javax.swing.JTextField;
 import javax.swing.Spring;
 import javax.swing.SpringLayout;
 
+import net.feed_the_beast.launcher.json.versions.OS;
 import net.ftb.data.Settings;
+import net.ftb.download.Locations;
 import net.ftb.gui.LaunchFrame;
 import net.ftb.locale.I18N;
 import net.ftb.log.Logger;
-import net.ftb.util.DownloadUtils;
 
 public class AdvancedOptionsDialog extends JDialog {
     private JButton exit;
@@ -67,8 +72,8 @@ public class AdvancedOptionsDialog extends JDialog {
         super(LaunchFrame.getInstance(), true);
         setupGui();
 
-        if (DownloadUtils.serversLoaded) {
-            if (DownloadUtils.downloadServers.containsKey(settings.getDownloadServer())) {
+        if (Locations.serversLoaded) {
+            if (Locations.downloadServers.containsKey(settings.getDownloadServer())) {
                 downloadLocation.setSelectedItem(settings.getDownloadServer());
             }
         }
@@ -110,22 +115,22 @@ public class AdvancedOptionsDialog extends JDialog {
     public static void setDownloadServers () {
         String downloadserver = Settings.getSettings().getDownloadServer();
         downloadLocation.removeAllItems();
-        for (String server : DownloadUtils.downloadServers.keySet()) {
+        for (String server : Locations.downloadServers.keySet()) {
             downloadLocation.addItem(server);
         }
-        if (DownloadUtils.downloadServers.containsKey(downloadserver)) {
+        if (Locations.downloadServers.containsKey(downloadserver)) {
             downloadLocation.setSelectedItem(downloadserver);
         }
     }
 
     public String[] getDownloadServerNames () {
-        if (!DownloadUtils.serversLoaded) {
+        if (!Locations.serversLoaded) {
             Logger.logWarn("Servers not loaded yet.");
             return new String[] { "Automatic" };
         } else {
-            String[] out = new String[DownloadUtils.downloadServers.size()];
+            String[] out = new String[Locations.downloadServers.size()];
             for (int i = 0; i < out.length; i++) {
-                out[i] = String.valueOf(DownloadUtils.downloadServers.keySet().toArray()[i]);
+                out[i] = String.valueOf(Locations.downloadServers.keySet().toArray()[i]);
             }
             return out;
         }
@@ -156,7 +161,31 @@ public class AdvancedOptionsDialog extends JDialog {
         downloadLocationLbl = new JLabel(I18N.getLocaleString("ADVANCED_OPTIONS_DLLOCATION"));
         downloadLocation = new JComboBox(getDownloadServerNames());
         javaPathLbl = new JLabel(I18N.getLocaleString("ADVANCED_OPTIONS_JAVA_PATH"));
-        javaPath = new JTextField(settings.getJavaPath());
+        javaPath = new JTextField();
+        String javapath = settings.getJavaPath();
+        if (javapath != null) {
+            javaPath.setText(javapath);
+            if (!new File(javapath).isFile())
+                javaPath.setBackground(Color.RED);
+        }
+        else {
+            // this should not happen ever
+            javaPath.setBackground(Color.RED);
+        }
+
+        javaPath.addKeyListener(new KeyListener(){
+            @Override
+            public void keyTyped (KeyEvent e) {}
+            @Override
+            public void keyPressed (KeyEvent e) {}
+            @Override
+            public void keyReleased (KeyEvent e) {
+                if( !javaPath.getText().equals("") && !new File(javaPath.getText()).isFile())
+                    javaPath.setBackground(Color.RED);
+                else
+                    javaPath.setBackground(new Color(40, 40, 40));
+            }
+        });
         additionalJavaOptionsLbl = new JLabel(I18N.getLocaleString("ADVANCED_OPTIONS_ADDJAVAOPTIONS"));
         additionalJavaOptions = new JTextField(settings.getAdditionalJavaOptions());
         mcWindowSizeLbl = new JLabel(I18N.getLocaleString("ADVANCED_OPTIONS_MCWINDOW_SIZE"));

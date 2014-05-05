@@ -32,6 +32,9 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import com.google.common.collect.Lists;
+import com.google.common.primitives.Ints;
+import lombok.Getter;
 import net.ftb.data.events.ModPackListener;
 import net.ftb.gui.panes.ModpacksPane;
 import net.ftb.log.Logger;
@@ -44,11 +47,12 @@ public class ModPack {
     private String[] mods, oldVersions;
     private Image logo, image;
     private int index;
-    private boolean updated = false;
+    private boolean updated = false, hasCustomTP, hasbundledmap;
     private final static ArrayList<ModPack> packs = new ArrayList<ModPack>();
     private static List<ModPackListener> listeners = new ArrayList<ModPackListener>();
     private boolean privatePack;
-
+    @Getter
+    private int[] minJRE;
     /**
      * Loads the modpack.xml and adds it to the modpack array in this class
      */
@@ -154,11 +158,13 @@ public class ModPack {
      * @param oldVersions - string containing all available old versions of the ModPack
      * @param animation - the animation to display before minecraft launches
      * @param idx - the actual position of the modpack in the index
+     * @param bundledMap - pack has map bundled inside it
+     * @param customTP - pack does not use primary TP's for MC version
      * @throws IOException
      * @throws NoSuchAlgorithmException
      */
     public ModPack(String name, String author, String version, String logo, String url, String image, String dir, String mcVersion, String serverUrl, String info, String mods, String oldVersions,
-            String animation, String maxPermSize, int idx, boolean privatePack, String xml) throws IOException, NoSuchAlgorithmException {
+            String animation, String maxPermSize, int idx, boolean privatePack, String xml, boolean bundledMap, boolean customTP, String minJRE) throws IOException, NoSuchAlgorithmException {
         index = idx;
         this.name = name;
         this.author = author;
@@ -170,6 +176,14 @@ public class ModPack {
         this.privatePack = privatePack;
         this.xml = xml;
         this.maxPermSize = maxPermSize;
+        this.hasbundledmap = bundledMap;
+        this.hasCustomTP = customTP;
+        String[] tempJRE = minJRE.split("\\.");
+        List<Integer> tmpIJre = Lists.newArrayList();
+            for(int i = 0; i<tempJRE.length; i++){
+                tmpIJre.add(Integer.parseInt(tempJRE[i]));
+            }
+        this.minJRE = Ints.toArray(tmpIJre);
         if (!animation.isEmpty()) {
             this.animation = animation;
         } else {
@@ -233,7 +247,7 @@ public class ModPack {
     private boolean upToDate (File verFile) {
         String storedVersion = getStoredVersion(verFile).replace(".", "");
 
-        if (storedVersion == "" || Integer.parseInt(storedVersion) != Integer.parseInt(version.replace(".", ""))) {
+        if (storedVersion.isEmpty() || Integer.parseInt(storedVersion) != Integer.parseInt(version.replace(".", ""))) {
             try {
                 if (!verFile.exists()) {
                     verFile.getParentFile().mkdirs();
@@ -441,5 +455,13 @@ public class ModPack {
 
     public String getMaxPermSize () {
         return maxPermSize;
+    }
+
+    public boolean getBundledMap () {
+        return hasbundledmap;
+    }
+
+    public boolean hasCustomTP () {
+        return hasCustomTP;
     }
 }

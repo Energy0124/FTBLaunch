@@ -28,10 +28,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import lombok.Getter;
 import net.ftb.data.events.TexturePackListener;
 import net.ftb.gui.LaunchFrame;
 import net.ftb.gui.panes.TexturepackPane;
@@ -41,11 +43,20 @@ import net.ftb.util.OSUtils;
 import net.ftb.workers.TexturePackLoader;
 
 public class TexturePack {
-    private String name, author, version, url, mcversion, logoName, imageName, info, resolution, sep = File.separator;
+    @Getter
+    private String name, author, version, url, mcversion, logoName, imageName, info, resolution;
+    private String sep = File.separator;
+    @Getter
     private Image logo, image;
-    private String[] compatible;
+    @Getter
+    private List<String> compatible = new ArrayList<String>();
+    @Getter
+    private List<String> masters = new ArrayList<String>();
+
+    @Getter
     private int index;
-    private final static ArrayList<TexturePack> texturePacks = new ArrayList<TexturePack>();
+    @Getter
+    private final static ArrayList<TexturePack> texturePackArray = new ArrayList<TexturePack>();
     private static List<TexturePackListener> listeners = new ArrayList<TexturePackListener>();
 
     public static void addListener (TexturePackListener listener) {
@@ -58,20 +69,16 @@ public class TexturePack {
     }
 
     public static void addTexturePack (TexturePack texturePack) {
-        synchronized (texturePacks) {
-            texturePacks.add(texturePack);
+        synchronized (texturePackArray) {
+            texturePackArray.add(texturePack);
         }
         for (TexturePackListener listener : listeners) {
             listener.onTexturePackAdded(texturePack);
         }
     }
 
-    public static ArrayList<TexturePack> getTexturePackArray () {
-        return texturePacks;
-    }
-
     public static TexturePack getTexturePack (int i) {
-        return texturePacks.get(i);
+        return texturePackArray.get(i);
     }
 
     /**
@@ -93,9 +100,23 @@ public class TexturePack {
         String installPath = OSUtils.getDynamicStorageLocation();
         logoName = logo;
         imageName = image;
-        this.compatible = compatible.split(",");
+        String[] tmp = compatible.split(",");
+        for (String s : tmp) {
+            this.compatible.add(s);
+        }
         this.info = info;
         this.resolution = resolution;
+        for (Iterator<String> it = this.compatible.iterator(); it.hasNext();) {
+            String s = it.next();
+            if (s.toLowerCase().startsWith("master")) {
+                masters.add(s.replace("master_", ""));
+                it.remove();
+            }
+        }
+        for (ModPack p : ModPack.getPackArray()) {
+            if (!p.hasCustomTP() && !this.compatible.contains(p.getDir()) && masters.contains(p.getMcVersion().replace(".", "_")))
+                this.compatible.add(p.getDir());
+        }
         File tempDir = new File(installPath, "TexturePacks" + sep + name);
         File verFile = new File(tempDir, "version");
         URL url_;
@@ -142,7 +163,7 @@ public class TexturePack {
             }
             BufferedReader in = new BufferedReader(new FileReader(verFile));
             String line;
-            if ((line = in.readLine()) == null || Integer.parseInt(version.replace(".", "")) > Integer.parseInt(line.replace(".", ""))) {
+            if ((line = in.readLine()) == null || Integer.parseInt(version.replace(".", "")) != Integer.parseInt(line.replace(".", ""))) {
                 BufferedWriter out = new BufferedWriter(new FileWriter(verFile));
                 out.write(version);
                 out.flush();
@@ -156,64 +177,12 @@ public class TexturePack {
         return result;
     }
 
-    public int getIndex () {
-        return index;
-    }
-
-    public String getName () {
-        return name;
-    }
-
-    public String getAuthor () {
-        return author;
-    }
-
-    public String getVersion () {
-        return version;
-    }
-
-    public String getUrl () {
-        return url;
-    }
-
-    public Image getLogo () {
-        return logo;
-    }
-
-    public Image getImage () {
-        return image;
-    }
-
-    public String getMcVersion () {
-        return mcversion;
-    }
-
-    public String getInfo () {
-        return info;
-    }
-
-    public String getLogoName () {
-        return logoName;
-    }
-
-    public String getImageName () {
-        return imageName;
-    }
-
-    public String[] getCompatible () {
-        return compatible;
-    }
-
-    public String getResolution () {
-        return resolution;
-    }
-
     /**
      * Used to get the selected mod pack
      * @return - the compatible pack based on the selected texture pack
      */
     public String getSelectedCompatible () {
-        return compatible[LaunchFrame.getSelectedTPInstallIndex()].trim();
+        return compatible.get(LaunchFrame.getSelectedTPInstallIndex()).trim();
     }
 
     public boolean isCompatible (String packName) {
