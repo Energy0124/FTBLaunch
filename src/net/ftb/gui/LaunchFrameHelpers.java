@@ -26,21 +26,28 @@ import java.io.*;
 public class LaunchFrameHelpers {
     public static void printInfo() {
         Logger.logInfo("FTBLaunch starting up (version " + LaunchFrame.getVersion() + ")");
-        Logger.logInfo("Java version: " + System.getProperty("java.version") + " (" + (OSUtils.is64BitOS() ? "64-bit" : "32-bit") + ")");
+        Logger.logInfo("Java version: " + System.getProperty("java.version"));
         Logger.logInfo("Java vendor: " + System.getProperty("java.vendor"));
         Logger.logInfo("Java home: " + System.getProperty("java.home"));
         Logger.logInfo("Java specification: " + System.getProperty("java.vm.specification.name") + " version: " + System.getProperty("java.vm.specification.version") + " by "
                 + System.getProperty("java.vm.specification.vendor"));
         Logger.logInfo("Java vm: " + System.getProperty("java.vm.name") + " version: " + System.getProperty("java.vm.version") + " by " + System.getProperty("java.vm.vendor"));
-        Logger.logInfo("OS: " + (OSUtils.is64BitOS() ? "64-bit" : "32-bit") + " " + System.getProperty("os.name") + " " + System.getProperty("os.version"));
+        Logger.logInfo("OS: " + System.getProperty("os.name") + " " + System.getProperty("os.version") + " (" + (OSUtils.is64BitOS() ? "64-bit" : "32-bit") + ")");
         Logger.logInfo("Launcher Install Dir: " + Settings.getSettings().getInstallPath());
         Logger.logInfo("System memory: " + OSUtils.getOSFreeMemory() + "M free, " + OSUtils.getOSTotalMemory() + "M total");
+
+        //hack: I want to trigger JavaFinder here:
+        String selectedJavaPath = Settings.getSettings().getJavaPath();
+        //then test if preferred and selected java paths differs
+        if (!selectedJavaPath.equals(Settings.getSettings().getDefaultJavaPath())) {
+            Logger.logInfo("Using Java path entered by user: " + selectedJavaPath);
+        }
 
         if (!OSUtils.is64BitOS()) {
             Logger.logWarn("Warning: 32 Bit operating system. 64 Bit is encouraged for most mod packs. If you have issues, please try the FTB Lite 2 pack.");
         }
 
-        if (OSUtils.is64BitOS() && !OSUtils.is64BitVM()) {//unfortunately the easy to find DL links are for 32 bit java
+        if (OSUtils.is64BitOS() && !Settings.getSettings().getCurrentJava().is64bits) {//unfortunately the easy to find DL links are for 32 bit java
             Logger.logWarn("Warning: 32 Bit Java in 64 Bit operating system. 64 Bit Java is encouraged for most mod packs. If you have issues, please try the FTB Lite 2 pack.");
         }
     }
@@ -91,6 +98,7 @@ public class LaunchFrameHelpers {
 
         File stamp = new File(OSUtils.getDynamicStorageLocation(), "stamp");
         long unixTime = System.currentTimeMillis() / 1000L;
+        long unixts=0;
         try {
             if (!stamp.exists()) {
                 FileOutputStream fos = new FileOutputStream(stamp);
@@ -109,7 +117,11 @@ public class LaunchFrameHelpers {
                     timeBuilder.append(String.valueOf(c));
                 }
                 String time = timeBuilder.toString();
-                long unixts = Long.valueOf(time);
+                try {
+                    unixts = Long.valueOf(time);
+                } catch (NumberFormatException e) {
+                    Logger.logWarn("Malformed stamp-file. Will be fixed automatically");
+                }
                 unixts = unixts + (24 * 60 * 60);
                 if (unixts < unixTime) {
                     FileOutputStream fos = new FileOutputStream(stamp);
