@@ -5,10 +5,6 @@ bin/
 ftblaunch.cfg
 target/
 /target/
-target
-
-dependency-reduced-pom.xml
-
 #eclipse
 /.settings/
 .project

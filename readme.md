@@ -1,8 +1,11 @@
-FTB Launcher SP
+FTB Launcher
 ====
 
+Note: some classes used in this project come from the community, and as such are under other open source licenses.
+please see the links in the headers of those java files for more information about the source & the open source license used.
+FTB's code uses the following license:
 ##The license
-Copyright 2012 FTB Launcher SP Contributors
+Copyright 2012-2014 FTB Launcher Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -29,6 +32,7 @@ limitations under the License.
 * Indent with spaces(4)
 * Avoid trailing whitespace
 * If using eclipse: Use formatter located at eclipse_formatter.xml
+* If using Intellij IDEA use the eclipse formatter(there is a plugin for this)
 * Sign-off your commits
 * Avoid merge commits in pull requests
 * Squash your commits - have at most one commit per major change
@@ -37,7 +41,7 @@ limitations under the License.
 Before submitting a pull request, you should ensure that your fork is up to date.
 To do this, run these commands:
 
-    git remote add upstream git://github.com/Energy0124/FTBLaunch.git
+    git remote add upstream git://github.com/Slowpoke101/FTBLaunch.git
     git pull --rebase upstream master
     git push --force origin <branch_name>
 
